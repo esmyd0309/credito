@@ -514,7 +514,7 @@ export default  {
             showarchivo: null,
             dismissSecs: 10,
             dismissCountDown: 0,
-            enlace: 'http://www.siglotecnologico.com/',
+            enlace: 'http://23.236.49.200/',
             file: '',
             success: '',
             image: '',
@@ -758,7 +758,7 @@ export default  {
                
             });
             if(selectedRowsString!='null'){
-                this.showarchivo = "http://www.siglotecnologico.com/"+selectedRowsString
+                this.showarchivo = "http://23.236.49.200/"+selectedRowsString
             }
             this.showDocumento = selectedRows
             if (selectedRows.length > maxToShow) {
