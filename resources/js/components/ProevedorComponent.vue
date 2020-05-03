@@ -207,7 +207,7 @@ export default {
             bodyTextVariant: 'dark',
             footerBgVariant: 'warning',
             footerTextVariant: 'dark',
-            enlace: 'http://www.siglotecnologico.com',
+            enlace: 'http://www.siglotecnologico.com/',
             enter: false,
             proevedores: []
 
