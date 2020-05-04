@@ -83,7 +83,7 @@
                 <b-row>
                     <b-col md="4">
                         <b-input-group prepend="Peso" class="mb-2 mr-sm-2 mb-sm-0">
-                            <input type="number" v-model.number="form.peso" v-model="form.peso" @input="handleInput">
+                            <input  v-model.number="form.peso" v-model="form.peso" >
                         </b-input-group>
                         
                     </b-col>
@@ -91,14 +91,14 @@
                 
                     <b-col md="4">
                         <b-input-group prepend="Tamaño" class="mb-2 mr-sm-2 mb-sm-0">
-                            <input type="number" v-model.number="form.tamano" v-model="form.tamano" @input="handleInput">
+                            <input  v-model.number="form.tamano" v-model="form.tamano">
                         </b-input-group>
                        
                     </b-col>
 
                     <b-col md="4">
                         <b-input-group prepend="Cantidad" class="mb-2 mr-sm-2 mb-sm-0">
-                            <input type="number" v-model.number="form.cantidad" v-model="form.cantidad" @input="handleInput">
+                            <input  v-model.number="form.cantidad" v-model="form.cantidad">
                         </b-input-group>
                        
                     </b-col>
@@ -153,7 +153,7 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text">Categoria </label>
                             </div>
-                                <select  v-model="form.categoria" class="form-control mb-2" >
+                                <select  v-model="form.categoria" class="form-control mb-2" required >
                                     <option disabled>Seleccione la Categoria</option>
                                     <option v-for="(item, index) in categoria" :key="index" v-bind:value="item.id">{{ item.nombre }}</option>
                                 </select>
@@ -164,7 +164,7 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text">Proeevedor </label>
                             </div>
-                                <select v-model="form.proeevedor"  class="form-control mb-2" >
+                                <select v-model="form.proeevedor"  class="form-control mb-2" required>
                                     <option  disabled>Seleccione el Proeevedor</option>
                                     <option v-for="(item, index) in proevedores" :key="index" v-bind:value="item.id">{{ item.nombre }}</option>
                                 </select>
@@ -258,7 +258,7 @@
             v-model="show"  
             id="modal-xl" 
             size="xl" 
-            title="Gestion de Recaudación"
+            title="Detalle del Producto"
         >
     
         
@@ -288,7 +288,7 @@
                 
             </b-col>
             <b-col md="4">
-                <b-card-body title="Detalle de la Recaudación">
+                <b-card-body title="Detalle del Producto">
                 <b-card-text v-for="(item, index) in showDocumento" :key="index"><br/>
                     <strong>Id: </strong> # {{item.id}} <br/>
                     <strong>Producto: </strong> {{item.nombre}}<br/>

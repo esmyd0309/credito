@@ -201,4 +201,7 @@ Route::delete('/deleteproducto/{id}', 'Proceso\ProductoController@destroy');
 Route::post('addimagen', 'Proceso\ProductoController@addimagen');
 
 Route::resource('clientes', 'Proceso\ClientesController');
+Route::post('adddocumento', 'Proceso\ClientesController@adddocumento');
+Route::delete('/deletecliente/{id}', 'Proceso\ClientesController@destroy');
+
 Route::get('getclientes', 'Proceso\ApiController@getclientes');

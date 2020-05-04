@@ -52,9 +52,79 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-        dd( $request);
+        //dd( $request);
+
+        
+        $date = Carbon::now();
+        $fecha= $date->format('Y-m-d H:i');
+        $ano= $date->format('Y');
+        $mes= $date->format('m');
+        $dia= $date->format('d');
+  
+  
+              $clientes = new Clientes();
+              $clientes->cedula = $request->cedula;
+              $clientes->nombre1 = $request->nombre1;
+              $clientes->nombre2 = $request->nombre2;
+              $clientes->apellidoPaterno = $request->apellidoPaterno;
+              $clientes->apellidoMaterno = $request->apellidoMaterno;
+              $clientes->fechaNacimiento = $request->fechaNacimiento;
+              $clientes->prefijo = $request->prefijo;
+              $clientes->numero = $clientes->prefijo.$request->numero;
+              $clientes->salario = $request->salario;
+              $clientes->email = $request->email;
+              $clientes->nombreDocumento = $request->nombreDocumento;
+              // $clientes->telefonoConvencional =  $request->telefonoConvencional;
+              $clientes->prefijotrabajo =  $request->prefijotrabajo;
+              $clientes->telefonoTrabajo =  $clientes->prefijotrabajo.$request->telefonoTrabajo;
+              $clientes->extension =  $request->extension;
+              $clientes->direccionDomicilio =  $request->direccionDomicilio;
+              $clientes->direccionTrabajo =  $request->direccionTrabajo;
+              $clientes->nombreEmpresa =  $request->nombreEmpresa;
+              $clientes->cargo =  $request->cargo;
+              $clientes->usuario = \Auth::user()->usuario;
+           
+  
+          
+              $clientes->save();
+  
+            
+  
+              return redirect()
+                              ->back()
+                              ->with('info', 'Cliente Agregada Correctamente..!');  
     }
 
+    public function adddocumento(Request $request )
+    {   
+      $id = $request->id;
+
+      $datos =  Clientes::where('id',$id)->first();
+
+      $date = Carbon::now();
+      $fecha= $date->format('Y-m-d H:i');
+      $ano= $date->format('Y');
+      $mes= $date->format('m');
+      $dia= $date->format('d');
+
+
+      if ($request->file) {
+        $nombre = time().'_'.$request->file->getClientOriginalName();
+       
+        
+        $destination = base_path() . '/public/ducumentos/clientes/'.$ano.'/'.$mes.'/'.$dia;//armo la ruta para la imagen
+        $subirarchivo = $request->file('file')->move($destination, $nombre);//subo la imagen a la carpeta
+
+        $documento        = Clientes::where('id',$id)->update(['documento' => 'ducumentos/clientes/'.$ano.'/'.$mes.'/'.$dia.'/'.$nombre]);// 
+        $nombreDocumento  = Clientes::where('id',$id)->update(['nombreDocumento' => $nombre]);// 
+        $agenteDocumetno   = Clientes::where('id',$id)->update(['agenteDocumetno' => \Auth::user()->usuario]);// 
+        $fechadocumento  = Clientes::where('id',$id)->update(['fechadocumento' => $fecha]);// 
+        
+        return response()->json(['success' => 'Documento Cargado Correctamente'], 200);
+
+
+      }
+    }
     /**
      * Display the specified resource.
      *
@@ -97,6 +167,9 @@ class ClientesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cliente = Clientes::findOrFail($id);
+        $cliente->delete();
+        return response()->json(['success' => 'Se ha eliminado el Cliente!!']);
+       
     }
 }

@@ -29,6 +29,8 @@
                                 v-model="form.cedula" 
                                 placeholder="Cedula"
                                 required
+                                maxlength="10"
+                                minlength="10"
                             >
                             </b-input>
                         </b-input-group>
@@ -118,7 +120,7 @@
                             </div>
                             <b-form-input  
                                 class="form-control"
-                                id="input-valid" 
+                                
                                 placeholder="Numero Convencional solo 7 caracteres..."  
                                 v-model="form.numero"
                                 maxlength="7"
@@ -135,12 +137,12 @@
                             </div>
                             <b-form-input  
                                 class="form-control"
-                                id="input-valid" 
+                               
                                 placeholder="Numero Celular solo 8 caracteres..."  
                                 v-model="form.numero"
                                 maxlength="8"
                                 minlength="8"
-                                required
+                                
                             >
                             </b-form-input>
                         </div>
@@ -150,6 +152,23 @@
                             {{form.prefijo}} 
                             {{form.numero}}
                         </strong> 
+                    </b-col>
+                </b-row>
+                <br>
+                <b-row>
+                    <b-col md="4">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" >Email</label>
+                                </div>
+                                <b-form-input  
+                                    class="form-control"
+                                    placeholder="ejemplo@gmail.com..."  
+                                    v-model="form.email"
+                                    
+                                >
+                                </b-form-input>
+                            </div>
                     </b-col>
                 </b-row>
                 <br>
@@ -191,7 +210,11 @@
                             </b-form-input>
                         </div>
                     </b-col>
-                    <b-col md="4">
+                    
+                </b-row>
+                <br>
+                <b-row>
+                    <b-col md="6">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <label class="input-group-text" >Cargo</label>
@@ -201,6 +224,22 @@
                                 id="input-valid" 
                                 placeholder="Cargo..."  
                                 v-model="form.cargo"
+                               
+                            >
+                            </b-form-input>
+                        </div>
+                    </b-col>
+                    
+                     <b-col md="6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" >Salario</label>
+                            </div>
+                            <b-form-input  
+                                class="form-control"
+                                id="input-valid" 
+                                placeholder="Salario..."  
+                                v-model="form.salario"
                                
                             >
                             </b-form-input>
@@ -230,7 +269,7 @@
                                 class="form-control"
                                 id="input-valid" 
                                 placeholder="Numero Convencional solo 7 caracteres..."  
-                                v-model="form.numero"
+                                v-model="form.telefonoTrabajo"
                                 maxlength="7"
                                 minlength="7"
                                 required
@@ -258,7 +297,7 @@
                     <b-col md="3" >
                         <strong > 
                             {{form.prefijotrabajo}} 
-                            {{form.numero}}
+                            {{form.telefonoTrabajo}}
                         </strong> 
                     </b-col>
                 </b-row>
@@ -323,7 +362,7 @@
             @dismissed="dismissCountDown=0"
             @dismiss-count-down="countDownChanged"
         >
-        <strong>Para ver el detalle de cada registro, ejecute doble click  {{ dismissCountDown }} segundos...</strong> 
+            <strong>Para ver el detalle de cada registro, ejecute doble click  {{ dismissCountDown }} segundos...</strong> 
         </b-alert>
         <div class="test-header" hidden>
             Selecionado:
@@ -340,7 +379,7 @@
             <b-col md="12">
                 <ag-grid-vue 
                     style="width: 100%; height: 100%;"
-                    class="ag-theme-balham-dark"
+                    class="ag-theme-blue"
                     id="myGrid"
                     :gridOptions="gridOptions"
                     :columnDefs="columnDefs"
@@ -367,14 +406,14 @@
             v-model="show"  
             id="modal-xl" 
             size="xl" 
-            title="Gestion de Recaudación"
+            title="Detalle del Cliente"
         >
     
         
         <b-card no-body class="overflow-hidden" >
             <b-row no-gutters>
                 
-            <b-col md="8" v-if="!showarchivo">
+            <b-col md="6" v-if="!showarchivo">
                 <div v-if="success != ''" class="alert alert-success" role="alert">
                    <center>{{success}}</center>
                 </div>
@@ -382,40 +421,49 @@
                 <form @submit="formSubmit" enctype="multipart/form-data">
                     <b-form-file
                         v-model="file"
-                        placeholder="Subir la Imagen..."
+                        placeholder="Subir la Documento... JPG, PNG, TEXT,XLS,PDF,DOC"
                         v-on:change="onFileChange"
                     ></b-form-file>
                     <div class="col-md-3" v-if="image">
                         <img :src="image" class="img-responsive">
                     </div>
-                    <b-button type="submit"  class="mt-3" variant="outline-success" block >Cargar Imagen</b-button>
+                    <b-button type="submit"  class="mt-3" variant="outline-success" block >Cargar Documento</b-button>
                 </form>
             </b-col>
-            <b-col md="8" v-else>
+            <b-col md="6" v-else>
                 
                 <b-card-img :src="showarchivo" class="rounded-0"></b-card-img>
-                
+                <br>
+                <hr>
+                <center><a class="btn btn-success" :href="showarchivo"><i class="fas fa-download"></i> Documento</a></center>
             </b-col>
-            <b-col md="4">
-                <b-card-body title="Detalle de la Recaudación">
+            <b-col md="6">
+                <b-card-body title="Detalle del Cliente">
                 <b-card-text v-for="(item, index) in showDocumento" :key="index"><br/>
                     <strong>Id: </strong> # {{item.id}} <br/>
-                    <strong>Producto: </strong> {{item.nombre}}<br/>
-                    <strong>Descripcion:</strong> {{item.descripcion}}<br/>
-                    <strong>Valor: </strong> $ {{item.precio}}<br/>
-                    <strong>Iva: </strong> $ {{item.iva}}<br/>
-                    <strong>Ice: </strong> $ {{item.ice}}<br/>
-                    <strong>Marca: </strong> {{item.marca}}<br/>
-                    <strong>Modelo: </strong> {{item.modelo}}<br/>
-                    <strong>Color: </strong>   <b-badge v-bind:style="{ color: activeColor }" variant="light">{{ activeColor }} <span class="sr-only"></span></b-badge><br/>
-                    <strong>Peso: </strong> {{item.peso}} kg.<br/>
-                    <strong>Tamaño: </strong> {{item.tamano}} cm.<br/>
-                    <strong>Nota: </strong> {{item.nota}}<br/>
+                    <strong>Cedula: </strong> {{item.cedula}}<br/>
+                    <strong>Nombres:</strong> {{item.nombre1}} {{item.nombre2}}  {{item.apellidoPaterno}}  {{item.apellidoMaterno}} <br/>
+                    <strong>Fecha Nacimiento: </strong>  {{item.fechaNacimiento}}<br/>
+                    <strong>Telefono Celular: </strong>  {{item.numero}}<br/>
+                    <strong>Telefono Convenciona: </strong>  {{item.telefonoConvencional}}<br/>
+                    <strong>Telefono Laboral: </strong> {{item.telefonoTrabajo}}<br/>
+                    <strong>Telefono Laboral: </strong> {{item.extension}}<br/>
+                    <strong>Email: </strong> {{item.email}}<br/>
+                    <strong>Direccion Casa: </strong> {{item.direccionDomicilio}}<br/>
+                    <strong>Nombre Empresa: </strong> {{item.nombreEmpresa}} <br/>
+                    <strong>Cargo: </strong> {{item.cargo}} <br/>
+                    <strong>Salario: </strong> $ {{item.salario}} <br/>
+                    <strong>Direccion Laboral: </strong> {{item.direccionTrabajo}}<br/>
+                    <hr>
+                    <strong>Nombre Documento: </strong> {{item.nombreDocumento}}<br/>
+                    <strong>Documento: </strong> {{item.documento}}<br/>
+                    <strong>Agente Documento: </strong> {{item.agenteDocumetno}}<br/>
+                    <strong>Fecha Documento: </strong> {{item.fechadocumento}}<br/>
                     <strong>Registrado: </strong> {{item.usuario}}<br/>
                     <strong>Fecha de Registrado: </strong> {{item.created_at}}<br/>
                     <br>
                     <hr>
-                     <button type="button" @click="deleteProducto(item.id)" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>
+                     <button type="button" @click="deleteCliente(item.id)" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>
                 </b-card-text>
                 </b-card-body>
             </b-col>
@@ -477,6 +525,8 @@ export default  {
                     prefijotrabajo: '',
                     telefonoTrabajo: '',
                     extension: '',
+                    salario: '',
+                    email: '',
                     ciudad_id: '',
                     provincia_id: '',
                     municipio_id: '',
@@ -541,6 +591,7 @@ export default  {
                 { text: '08', value: '08' },
                 { text: '09', value: '09' },
             ],
+            clientes: []
         }
     },
     components: {
@@ -591,9 +642,11 @@ export default  {
             {headerName: 'Telefono Trabajo', field: 'telefonoTrabajo'},
             {headerName: 'Extension', field: 'extension'},
             {headerName: 'Direccion Domicilio', field: 'direccionDomicilio'},
+            {headerName: 'Email', field: 'email'},
             {headerName: 'Direccion Trabajo', field: 'direccionTrabajo'},
             {headerName: 'Nombre Empresa', field: 'nombreEmpresa'},
             {headerName: 'Cargo', field: 'cargo'},
+            {headerName: 'Salario', field: 'salario'},
            
         ];
         this.defaultColDef = {
@@ -641,8 +694,8 @@ export default  {
         agregar(){
             const parametros  = {
                                     cedula:                 this.form.cedula,
-                                    nombre1:               this.form.nombre1,
-                                    nombre2:               this.form.nombre2,
+                                    nombre1:                this.form.nombre1,
+                                    nombre2:                this.form.nombre2,
                                     apellidoPaterno:        this.form.apellidoPaterno,                                      
                                     apellidoMaterno:        this.form.apellidoMaterno,
                                     fechaNacimiento:        this.form.fechaNacimiento,
@@ -650,7 +703,8 @@ export default  {
                                     numero:                 this.form.numero,
                                     telefonoConvencional:   this.form.telefonoConvencional,
                                     prefijotrabajo:         this.form.prefijotrabajo,
-                                    
+                                    email:                  this.form.email,
+                                    salario:                this.form.salario,
                                     telefonoTrabajo:        this.form.telefonoTrabajo,
                                     extension:              this.form.extension,
                                     direccionDomicilio:     this.form.direccionDomicilio,
@@ -671,7 +725,8 @@ export default  {
                                 this.form.numero='';
                                 this.form.telefonoConvencional='';
                                 this.form.prefijotrabajo='';
-                                    
+                                this.form.email='';
+                                this.form.salario='';    
                                 this.form.telefonoTrabajo='';
                                 this.form.extension='';
                                 this.form.direccionDomicilio='';
@@ -681,7 +736,7 @@ export default  {
 
                 axios.post(this.enlace+'clientes',parametros)
                 .then(res => {
-                    this.productos.push(res.data),
+                    this.clientes.push(res.data),
                     this.getrow()
                     swal(
                             'Cliente Registrado con Exito,',
@@ -752,7 +807,7 @@ export default  {
                 if (index > 0) {
                 selectedRowsString += ', ';
                 }
-                selectedRowsString += selectedRow.archivo;
+                selectedRowsString += selectedRow.documento;
               
                 colorproducto = selectedRow.color;
                
@@ -792,12 +847,12 @@ export default  {
             formData.append('file', this.file);
             formData.append('id',this.idc);
             
-            axios.post(this.enlace+'addimagen', formData, config)
+            axios.post(this.enlace+'adddocumento', formData, config)
             .then(function (response) {
                 if (response) 
                     {
                         swal(
-                            'Imagen!',
+                            'Documento!',
                             'Cargada Correctamente.',
                             'success'
                         )
@@ -831,10 +886,10 @@ export default  {
             .then(rowData => this.rowData = rowData);
         
         },
-        deleteProducto(value){
+        deleteCliente(value){
            
           swal({
-                    title: '¿Seguro que quieres eliminar el Producto?',
+                    title: '¿Seguro que quieres eliminar el Cliente?',
                     text: "No podrás revertir esta acción luego",
                     type: 'warning',
                     showCancelButton: true,
@@ -846,13 +901,13 @@ export default  {
                     if (result.value) 
                     {
                         let me = this
-                        axios.delete(this.enlace+'deleteproducto/'+value)
+                        axios.delete(this.enlace+'deletecliente/'+value)
                         .then( res => {
                             this.show=false
                             this.getrow()
                             swal(
                             'Borrarlo!',
-                            'Producto eliminado.',
+                            'Cliente eliminado.',
                             'success'
                             )
                         })

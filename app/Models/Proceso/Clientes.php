@@ -9,8 +9,8 @@ class Clientes extends Model
     protected $table = "_clientes";
     protected $fillable = [
                             'cedula', 
-                            'nombre_1',
-                            'nombre_2',
+                            'nombre1',
+                            'nombre2',
                             'apellidoPaterno',
                             'apellidoMaterno', 
                             'fechaNacimiento',
@@ -23,6 +23,11 @@ class Clientes extends Model
                             'direccionDomicilio',
                             'direccionTrabajo',
                             'nombreEmpresa',
+                            'salario',
+                            'email',
+                            'nombreDocumento',
+                            'documento',
+                            'usuario',
                             'cargo',
                             'created_at', 
                             'updated_at'
