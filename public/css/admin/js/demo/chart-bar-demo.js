@@ -30,7 +30,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 // Bar Chart Example
 
 $.ajax({
-  url: "http://localhost/credito/public/getVentaschart",
+  url: "http://23.236.49.200/getVentaschart",
   method: "GET",
   success: function(data){
       
