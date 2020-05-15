@@ -4,18 +4,27 @@ namespace App\Http\Controllers\Proceso;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Proceso\Ventas;
+use App\Models\Proceso\Productos;
+use App\Models\Proceso\Proevedor;
 
 class VentasController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    } 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+       
+        return view('proceso.ventas.index');
     }
+
 
     /**
      * Show the form for creating a new resource.

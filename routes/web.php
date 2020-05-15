@@ -205,3 +205,41 @@ Route::post('adddocumento', 'Proceso\ClientesController@adddocumento');
 Route::delete('/deletecliente/{id}', 'Proceso\ClientesController@destroy');
 
 Route::get('getclientes', 'Proceso\ApiController@getclientes');
+Route::get('getclientesVentas', 'Proceso\ApiController@getclientesVentas');
+Route::get('getProductosVentas', 'Proceso\ApiController@getProductosVentas');
+
+Route::get('gettipoventa', 'Proceso\ApiController@gettipoventa');
+Route::get('getventas', 'Proceso\ApiController@getventas');
+Route::get('getventasid/{id}', 'Proceso\ApiController@getventasid');
+
+Route::get('amortizaciondetalle/{id}', 'Proceso\ApiController@amortizaciondetalle');
+Route::get('cuotaid/{id}', 'Proceso\ApiController@cuotaid');
+
+
+Route::get('getProductosVentasPrecio/{id}', 'Proceso\ApiController@getProductosVentasPrecio');
+
+Route::resource('ventas', 'Proceso\VentasController');
+Route::get('getVentastt', 'Proceso\ApiController@getVentastt');
+
+Route::resource('cuotas', 'Proceso\CuotasController');
+
+Route::resource('pagos', 'Proceso\PagosController');
+Route::get('getPagos', 'Proceso\PagosController@getPagos');
+Route::get('getProductosCliente/{id}', 'Proceso\PagosController@getProductosCliente');
+
+Route::get('getBancos', 'Proceso\ApiController@getBancos');
+Route::get('getBancosdestino', 'Proceso\ApiController@getBancosdestino');
+Route::post('addrecibo', 'Proceso\PagosController@addrecibo');
+
+////// Reporte
+
+Route::get('ttcreditos', 'Proceso\ApiController@ttcreditos');
+Route::get('ttdecontado', 'Proceso\ApiController@ttdecontado');
+
+Route::get('reporteVentas', 'Proceso\ApiController@reporteVentas');
+Route::get('getPagoschart', 'Proceso\ApiController@getPagoschart');
+Route::get('getFormaspagochart', 'Proceso\ApiController@getFormaspagochart');
+Route::get('getVentaschart', 'Proceso\ApiController@getVentaschart');
+Route::get('getpagosTT', 'Proceso\ApiController@getpagosTT');
+
+Route::get('getCliente/{cedula}', 'Proceso\ApiController@getCliente');

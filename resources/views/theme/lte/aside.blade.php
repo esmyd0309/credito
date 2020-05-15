@@ -16,7 +16,7 @@
 
   <!-- Nav Item - Dashboard -->
   <li class="nav-item active">
-    <a class="nav-link" href="#">
+    <a class="nav-link" href="{{ route('inicio') }}">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Tablero</span></a>
   </li>
@@ -38,16 +38,27 @@
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Utilidades</h6>
-        <a class="collapse-item" href="#">Listado</a>
+        <a class="collapse-item" href="{{ route('ventas.index') }}">Listado</a>
         <a class="collapse-item" href="#">Reportes</a>
-        <a class="collapse-item" href="#">Pagos </a>
-        <a class="collapse-item" href="#">Recaudaciones </a>
-        <a class="collapse-item" href="#">Pedidos Pendientes </a>
-
-
       </div>
     </div>
   </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo2" aria-expanded="true" aria-controls="collapseTwo2">
+        <i class="fas fa-credit-card"></i>
+            <span>Pagos</span>
+      </a>
+      <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">Utilidades</h6>
+          <a class="collapse-item" href="{{ route('pagos.index') }}">Listado</a>
+  
+  
+        </div>
+      </div>
+    </li>
 
   <!-- Nav Item - Utilities Collapse Menu -->
   <li class="nav-item">
@@ -109,20 +120,7 @@
         </div>
       </div>
     </li>
-  <!-- Nav Item - Charts -->
-  <li class="nav-item">
-    <a class="nav-link" href="#">
-      <i class="fas fa-fw fa-chart-area"></i>
-      <span>Estadisticas</span></a>
-  </li>
-
-  <!-- Nav Item - Tables -->
-  <li class="nav-item">
-    <a class="nav-link" href="#">
-      <i class="fas fa-fw fa-table"></i>
-      <span>Tablas</span></a>
-  </li>
-
+ 
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">
 

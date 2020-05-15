@@ -21,7 +21,7 @@
                     </b-alert>
                   
                  </b-row>
-                                 <b-row>
+                <b-row>
                     <b-col md="6">
                         <b-input-group prepend=" Cedula *" class="mb-2 mr-sm-2 mb-sm-0">
                             <b-input 
@@ -31,322 +31,344 @@
                                 required
                                 maxlength="10"
                                 minlength="10"
+                                @input="clienteinput"
                             >
                             </b-input>
                         </b-input-group>
                          <small v-if="!comprobar.cedula">Es Obligatorio y un minimo de 10 Caracteres</small>
                     </b-col>
+                </b-row>
                     
-                </b-row>
-                <br>
-                <b-row>
-                    <b-col md="6">
-                        <b-input-group prepend=" Primer Nombre *" class="mb-2 mr-sm-2 mb-sm-0">
-                            <b-input 
-                                :state="comprobar.nombre1"
-                                v-model="form.nombre1" 
-                                placeholder="Primer Nombre"
-                                required
-                            >
-                            </b-input>
-                        </b-input-group>
-                         <small v-if="!comprobar.nombre1">Es Obligatorio y un minimo de 7 Caracteres</small>
-                    </b-col>
-                    <b-col md="6">
-                        <b-input-group prepend=" Segundo Nombre" class="mb-2 mr-sm-2 mb-sm-0">
-                            <b-input 
-                                v-model="form.nombre2" 
-                                placeholder="Segundo Nombre"
-                                
-                            >
-                            </b-input>
-                        </b-input-group>
-                    </b-col>
-                </b-row>
-                <br>
-                <b-row>
-                    <b-col md="6">
-                        <b-input-group prepend=" Apellido Paterno *" class="mb-2 mr-sm-2 mb-sm-0">
-                            <b-input 
-                                :state="comprobar.apellidoPaterno"
-                                v-model="form.apellidoPaterno" 
-                                placeholder="Apellido Paterno"
-                                required
-                            >
-                            </b-input>
-                        </b-input-group>
-                        <small v-if="!comprobar.apellidoPaterno">Es Obligatorio y un minimo de 7 Caracteres</small>
+                    
+                        
+                        <div  v-if="getCliente">
+                            <hr>
+                                <b-alert show variant="success"  v-for="(cliente, index) in getCliente" :key="index">
+                                  
+                                    <h4 class="alert-heading">Cliente Existente!</h4>
+                                    <p >
+                                    El cliente que esta tratando de registrar con numero de identidad <strong>{{ cliente.cedula }}</strong>, 
+                                    ya se encuentra registrado en la base de datos con el nombre <strong>{{ cliente.apellidoPaterno }} {{ cliente.nombre1 }}</strong>
+                                    </p>
+                                    <hr>
+                                    <p class="mb-0">
+                                    Se recomienda Verificar esta informacion y prosiga con el siguiente cliente.
+                                    </p>
+                                </b-alert>
+                        
+                        </div>
+                   
+                  
+                        <b-row>
+                            <b-col md="6">
+                                <b-input-group prepend=" Primer Nombre *" class="mb-2 mr-sm-2 mb-sm-0">
+                                    <b-input 
+                                        :state="comprobar.nombre1"
+                                        v-model="form.nombre1" 
+                                        placeholder="Primer Nombre"
+                                        required
+                                    >
+                                    </b-input>
+                                </b-input-group>
+                                <small v-if="!comprobar.nombre1">Es Obligatorio y un minimo de 7 Caracteres</small>
+                            </b-col>
+                            <b-col md="6">
+                                <b-input-group prepend=" Segundo Nombre" class="mb-2 mr-sm-2 mb-sm-0">
+                                    <b-input 
+                                        v-model="form.nombre2" 
+                                        placeholder="Segundo Nombre"
+                                        
+                                    >
+                                    </b-input>
+                                </b-input-group>
+                            </b-col>
+                        </b-row>
+                        <br>
+                        <b-row>
+                            <b-col md="6">
+                                <b-input-group prepend=" Apellido Paterno *" class="mb-2 mr-sm-2 mb-sm-0">
+                                    <b-input 
+                                        :state="comprobar.apellidoPaterno"
+                                        v-model="form.apellidoPaterno" 
+                                        placeholder="Apellido Paterno"
+                                        required
+                                    >
+                                    </b-input>
+                                </b-input-group>
+                                <small v-if="!comprobar.apellidoPaterno">Es Obligatorio y un minimo de 7 Caracteres</small>
 
-                    </b-col>
-                    <b-col md="6">
-                        <b-input-group prepend=" Apellido Materno" class="mb-2 mr-sm-2 mb-sm-0">
-                            <b-input 
-                                v-model="form.apellidoMaterno" 
-                                placeholder="Apellido Materno"
-                                
-                            >
-                            </b-input>
-                        </b-input-group>
-                    </b-col>
-                </b-row>
-                <br>
-                <b-row>
-                    <b-col md="6">
-                        <div class="form-group">
-                            <label for="fechaNacimiento">Fecha Nacimiento *</label>
-                            <b-form-datepicker v-model="form.fechaNacimiento"  locale="en"></b-form-datepicker>
-                        </div>
-
-                    </b-col>
-                </b-row>
-                <br>
-                <b-row>
-                    <b-col md="4">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" >Prefijo Telefono</label>
-                            </div>
-                            <select v-model="form.prefijo" class="form-control" required>
-                                <option v-for="(item, index) in prefijo" :key="index"  v-bind:value="item.value " >
-                                    {{ item.text }}
-                                </option>
-                            </select>
-                        </div>
-                    </b-col>
-                    <b-col md="4" v-if="form.prefijo!='09'">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" >Convencional casa</label>
-                            </div>
-                            <b-form-input  
-                                class="form-control"
-                                
-                                placeholder="Numero Convencional solo 7 caracteres..."  
-                                v-model="form.numero"
-                                maxlength="7"
-                                minlength="7"
-                                required
-                            >
-                            </b-form-input>
-                        </div>
-                    </b-col>
-                    <b-col md="4" v-if="form.prefijo=='09'">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" >Celular Personal</label>
-                            </div>
-                            <b-form-input  
-                                class="form-control"
-                               
-                                placeholder="Numero Celular solo 8 caracteres..."  
-                                v-model="form.numero"
-                                maxlength="8"
-                                minlength="8"
-                                
-                            >
-                            </b-form-input>
-                        </div>
-                    </b-col>
-                    <b-col md="3" >
-                        <strong > 
-                            {{form.prefijo}} 
-                            {{form.numero}}
-                        </strong> 
-                    </b-col>
-                </b-row>
-                <br>
-                <b-row>
-                    <b-col md="4">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" >Email</label>
+                            </b-col>
+                            <b-col md="6">
+                                <b-input-group prepend=" Apellido Materno" class="mb-2 mr-sm-2 mb-sm-0">
+                                    <b-input 
+                                        v-model="form.apellidoMaterno" 
+                                        placeholder="Apellido Materno"
+                                        
+                                    >
+                                    </b-input>
+                                </b-input-group>
+                            </b-col>
+                        </b-row>
+                        <br>
+                        <b-row>
+                            <b-col md="6">
+                                <div class="form-group">
+                                    <label for="fechaNacimiento">Fecha Nacimiento *</label>
+                                    <b-form-datepicker v-model="form.fechaNacimiento"  locale="en"></b-form-datepicker>
                                 </div>
-                                <b-form-input  
-                                    class="form-control"
-                                    placeholder="ejemplo@gmail.com..."  
-                                    v-model="form.email"
+
+                            </b-col>
+                        </b-row>
+                        <br>
+                        <b-row>
+                            <b-col md="4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" >Prefijo Telefono</label>
+                                    </div>
+                                    <select v-model="form.prefijo" class="form-control" required>
+                                        <option v-for="(item, index) in prefijo" :key="index"  v-bind:value="item.value " >
+                                            {{ item.text }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </b-col>
+                            <b-col md="4" v-if="form.prefijo!='09'">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" >Convencional casa</label>
+                                    </div>
+                                    <b-form-input  
+                                        class="form-control"
+                                        
+                                        placeholder="Numero Convencional solo 7 caracteres..."  
+                                        v-model="form.numero"
+                                        maxlength="7"
+                                        minlength="7"
+                                        required
+                                    >
+                                    </b-form-input>
+                                </div>
+                            </b-col>
+                            <b-col md="4" v-if="form.prefijo=='09'">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" >Celular Personal</label>
+                                    </div>
+                                    <b-form-input  
+                                        class="form-control"
                                     
-                                >
-                                </b-form-input>
-                            </div>
-                    </b-col>
-                </b-row>
-                <br>
-                <b-row>
-                    <b-col md="12">
-                        <b-form-textarea
-                            id="textarea"
-                            :state="comprobar.direccionDomicilio"
-                            v-model="form.direccionDomicilio"
-                            placeholder="Direccion de Domicilio..."
-                            rows="3"
-                            max-rows="6"
-                            required
-                        ></b-form-textarea>
-                        <small v-if="!comprobar.direccionDomicilio">Es Obligatorio y un minimo de 10 Caracteres</small>
+                                        placeholder="Numero Celular solo 8 caracteres..."  
+                                        v-model="form.numero"
+                                        maxlength="8"
+                                        minlength="8"
+                                        
+                                    >
+                                    </b-form-input>
+                                </div>
+                            </b-col>
+                            <b-col md="3" >
+                                <strong > 
+                                    {{form.prefijo}} 
+                                    {{form.numero}}
+                                </strong> 
+                            </b-col>
+                        </b-row>
+                        <br>
+                        <b-row>
+                            <b-col md="4">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" >Email</label>
+                                        </div>
+                                        <b-form-input  
+                                            class="form-control"
+                                            placeholder="ejemplo@gmail.com..."  
+                                            v-model="form.email"
+                                            
+                                        >
+                                        </b-form-input>
+                                    </div>
+                            </b-col>
+                        </b-row>
+                        <br>
+                        <b-row>
+                            <b-col md="12">
+                                <b-form-textarea
+                                    id="textarea"
+                                    :state="comprobar.direccionDomicilio"
+                                    v-model="form.direccionDomicilio"
+                                    placeholder="Direccion de Domicilio..."
+                                    rows="3"
+                                    max-rows="6"
+                                    required
+                                ></b-form-textarea>
+                                <small v-if="!comprobar.direccionDomicilio">Es Obligatorio y un minimo de 10 Caracteres</small>
 
-                    </b-col>
-                </b-row >
-                <hr>
-                <b-row>
-                    <b-alert show>
-                        <strong>Datos Laborales</strong> 
-                    </b-alert>
-                </b-row>
-                <br>
-                <b-row>
-                    <b-col md="6">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" >Nombre Empresa</label>
-                            </div>
-                            <b-form-input  
-                                class="form-control"
-                                id="input-valid" 
-                                placeholder="Nombre Empresa..."  
-                                v-model="form.nombreEmpresa"
-                               
-                            >
-                            </b-form-input>
-                        </div>
-                    </b-col>
+                            </b-col>
+                        </b-row >
+                        <hr>
+                        <b-row>
+                            <b-alert show>
+                                <strong>Datos Laborales</strong> 
+                            </b-alert>
+                        </b-row>
+                        <br>
+                        <b-row>
+                            <b-col md="6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" >Nombre Empresa</label>
+                                    </div>
+                                    <b-form-input  
+                                        class="form-control"
+                                        id="input-valid" 
+                                        placeholder="Nombre Empresa..."  
+                                        v-model="form.nombreEmpresa"
+                                    
+                                    >
+                                    </b-form-input>
+                                </div>
+                            </b-col>
+                            
+                        </b-row>
+                        <br>
+                        <b-row>
+                            <b-col md="6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" >Cargo</label>
+                                    </div>
+                                    <b-form-input  
+                                        class="form-control"
+                                        id="input-valid" 
+                                        placeholder="Cargo..."  
+                                        v-model="form.cargo"
+                                    
+                                    >
+                                    </b-form-input>
+                                </div>
+                            </b-col>
+                            
+                            <b-col md="6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" >Salario</label>
+                                    </div>
+                                    <b-form-input  
+                                        class="form-control"
+                                        id="input-valid" 
+                                        placeholder="Salario..."  
+                                        v-model="form.salario"
+                                    
+                                    >
+                                    </b-form-input>
+                                </div>
+                            </b-col>
+                        </b-row>
+                        <br>
+                        <b-row>
+                            <b-col md="4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" >Prefijo </label>
+                                    </div>
+                                    <select v-model="form.prefijotrabajo" class="form-control" required>
+                                        <option v-for="(item, index) in prefijotrabajo" :key="index"  v-bind:value="item.value " >
+                                            {{ item.text }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </b-col>
+                            <b-col md="4" v-if="form.prefijotrabajo!='09'">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" >Numero Convencional</label>
+                                    </div>
+                                    <b-form-input  
+                                        class="form-control"
+                                        id="input-valid" 
+                                        placeholder="Numero Convencional solo 7 caracteres..."  
+                                        v-model="form.telefonoTrabajo"
+                                        maxlength="7"
+                                        minlength="7"
+                                        required
+                                    >
+                                    </b-form-input>
+                                </div>
+                            </b-col>
+                            <b-col md="4" v-if="form.prefijotrabajo=='09'">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" >Numero Celular </label>
+                                    </div>
+                                    <b-form-input  
+                                        class="form-control"
+                                        id="input-valid" 
+                                        placeholder="Numero Celular solo 8 caracteres..."  
+                                        v-model="form.telefonoTrabajo"
+                                        maxlength="8"
+                                        minlength="8"
+                                        required
+                                    >
+                                    </b-form-input>
+                                </div>
+                            </b-col>
+                            <b-col md="3" >
+                                <strong > 
+                                    {{form.prefijotrabajo}} 
+                                    {{form.telefonoTrabajo}}
+                                </strong> 
+                            </b-col>
+                        </b-row>
+                        <br>
+                        <b-row>
+                            <b-col md="4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" >Extension</label>
+                                    </div>
+                                    <b-form-input  
+                                        class="form-control"
+                                        id="input-valid" 
+                                        placeholder="Extension oficina laboral..."  
+                                        v-model="form.extension"
+                                    >
+                                    </b-form-input>
+                                </div>
+                            </b-col>
+                        </b-row>
+                        <br>
+                        <b-row>
+                            <b-col md="12">
+                                <b-form-textarea
+                                    id="textarea"
+                                    v-model="form.direccionTrabajo"
+                                    placeholder="Direccion de Laboral..."
+                                    rows="3"
+                                    max-rows="6"
+                                ></b-form-textarea>
+                            </b-col>
+                        </b-row >
+                        <br>
+                        
                     
-                </b-row>
-                <br>
-                <b-row>
-                    <b-col md="6">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" >Cargo</label>
-                            </div>
-                            <b-form-input  
-                                class="form-control"
-                                id="input-valid" 
-                                placeholder="Cargo..."  
-                                v-model="form.cargo"
-                               
-                            >
-                            </b-form-input>
-                        </div>
-                    </b-col>
-                    
-                     <b-col md="6">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" >Salario</label>
-                            </div>
-                            <b-form-input  
-                                class="form-control"
-                                id="input-valid" 
-                                placeholder="Salario..."  
-                                v-model="form.salario"
-                               
-                            >
-                            </b-form-input>
-                        </div>
-                    </b-col>
-                </b-row>
-                <br>
-                <b-row>
-                    <b-col md="4">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" >Prefijo </label>
-                            </div>
-                            <select v-model="form.prefijotrabajo" class="form-control" required>
-                                <option v-for="(item, index) in prefijotrabajo" :key="index"  v-bind:value="item.value " >
-                                    {{ item.text }}
-                                </option>
-                            </select>
-                        </div>
-                    </b-col>
-                    <b-col md="4" v-if="form.prefijotrabajo!='09'">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" >Numero Convencional</label>
-                            </div>
-                            <b-form-input  
-                                class="form-control"
-                                id="input-valid" 
-                                placeholder="Numero Convencional solo 7 caracteres..."  
-                                v-model="form.telefonoTrabajo"
-                                maxlength="7"
-                                minlength="7"
-                                required
-                            >
-                            </b-form-input>
-                        </div>
-                    </b-col>
-                    <b-col md="4" v-if="form.prefijotrabajo=='09'">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" >Numero Celular </label>
-                            </div>
-                            <b-form-input  
-                                class="form-control"
-                                id="input-valid" 
-                                placeholder="Numero Celular solo 8 caracteres..."  
-                                v-model="form.telefonoTrabajo"
-                                maxlength="8"
-                                minlength="8"
-                                required
-                            >
-                            </b-form-input>
-                        </div>
-                    </b-col>
-                    <b-col md="3" >
-                        <strong > 
-                            {{form.prefijotrabajo}} 
-                            {{form.telefonoTrabajo}}
-                        </strong> 
-                    </b-col>
-                </b-row>
-                <br>
-                <b-row>
-                    <b-col md="4">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" >Extension</label>
-                            </div>
-                            <b-form-input  
-                                class="form-control"
-                                id="input-valid" 
-                                placeholder="Extension oficina laboral..."  
-                                v-model="form.extension"
-                            >
-                            </b-form-input>
-                        </div>
-                    </b-col>
-                </b-row>
-                <br>
-                <b-row>
-                    <b-col md="12">
-                        <b-form-textarea
-                            id="textarea"
-                            v-model="form.direccionTrabajo"
-                            placeholder="Direccion de Laboral..."
-                            rows="3"
-                            max-rows="6"
-                        ></b-form-textarea>
-                    </b-col>
-                </b-row >
-                <br>
+                        <b-row>
+                            <b-col md="2">
+                            </b-col>
+
+                            <b-col md="4">
+                                <b-button type="submit"  class="mt-3" variant="outline-success" block >Guardar</b-button>
+                            </b-col>
+
+                            <b-col md="4">
+                                <b-button class="mt-3" variant="outline-danger" block @click="showgestion=false">Cerrar</b-button>
+                            </b-col>
+                            <b-col md="2">
+                            </b-col>
+                        </b-row>
+                 
                 
-               
-                <b-row>
-                    <b-col md="2">
-                    </b-col>
-
-                    <b-col md="4">
-                        <b-button type="submit"  class="mt-3" variant="outline-success" block >Guardar</b-button>
-                    </b-col>
-
-                    <b-col md="4">
-                         <b-button class="mt-3" variant="outline-danger" block @click="showgestion=false">Cerrar</b-button>
-                    </b-col>
-                    <b-col md="2">
-                    </b-col>
-                </b-row>
             </form>
             
             <template v-slot:modal-footer>
@@ -591,7 +613,8 @@ export default  {
                 { text: '08', value: '08' },
                 { text: '09', value: '09' },
             ],
-            clientes: []
+            clientes: [],
+            getCliente: null
         }
     },
     components: {
@@ -608,7 +631,7 @@ export default  {
 
                 nombre1:            this.form.nombre1.length > 5 ? true : false,
                 apellidoPaterno:    this.form.apellidoPaterno.length > 5  ? true : false,
-                cedula:             this.form.cedula.length > 10 ? true : false,
+                cedula:             this.form.cedula.length >= 10 ? true : false,
                 direccionDomicilio: this.form.direccionDomicilio.length >= 10 ? true : false
                 
                
@@ -689,9 +712,38 @@ export default  {
               }
               
         },
+        clienteinput(value){
+          
+            this.getCliente = null
+            if (value.length == 10) {
+                
+               
+            axios.get(this.enlace+'getCliente/'+value)
+                    .then(res => {
+                    this.getCliente = res.data;
+                   
+                      
+                  
+            }).catch(err => 
+                    {
+                        console.log(err.response.data)
+                     
+                        swal(
+                            'Error',
+                            err.response.data,
+                            'error'
+                        )
+                    });
+            }
            
+            
+            console.log( this.getCliente)
+                     
+      
+        },    
     
         agregar(){
+            
             const parametros  = {
                                     cedula:                 this.form.cedula,
                                     nombre1:                this.form.nombre1,

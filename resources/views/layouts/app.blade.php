@@ -29,7 +29,7 @@
                 <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
                     @include("theme.lte.header")
-                    <div class="container-fluid" id="app">
+                    <div class="container-fluid">
                         @yield("content")
                     </div>
                 </div>
@@ -57,19 +57,16 @@
         <!-- Custom scripts for all pages-->
         <script src="{{ asset('css/admin/js/sb-admin-2.min.js') }}"></script>
 
-        <!-- Page level plugins -->
-        <script src="{{ asset('css/admin/vendor1/chart.js/Chart.min.js') }}"></script>
-
-        <!-- Page level custom scripts -->
-        <script src="{{ asset('css/admin/js/demo/chart-area-demo.js') }}"></script>
-        <script src="{{ asset('css/admin/js/demo/chart-pie-demo.js') }}"></script> 
     
         <!-- Page level plugins -->
         <script src="{{ asset('css/admin/vendor1/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('css/admin/vendor1/datatables/dataTables.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('css/admin/js/demo/datatables-demo.js') }}"></script>
- 
-
+        <script src="{{ asset('css/admin/vendor1/chart.js/Chart.min.js') }}"></script>
+        <script src="{{ asset('css/admin/js/demo/chart-area-demo.js') }}"></script>
+        <script src="{{ asset('css/admin/js/demo/chart-pie-demo.js') }}"></script>
+        <script src="{{ asset('css/admin/js/demo/chart-bar-demo.js') }}"></script>
+       
 
     </body>
 </html>

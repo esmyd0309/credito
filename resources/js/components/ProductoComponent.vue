@@ -262,58 +262,58 @@
         >
     
         
-        <b-card no-body class="overflow-hidden" >
-            <b-row no-gutters>
-                
-            <b-col md="8" v-if="!showarchivo">
-                <div v-if="success != ''" class="alert alert-success" role="alert">
-                   <center>{{success}}</center>
-                </div>
-
-                <form @submit="formSubmit" enctype="multipart/form-data">
-                    <b-form-file
-                        v-model="file"
-                        placeholder="Subir la Imagen..."
-                        v-on:change="onFileChange"
-                    ></b-form-file>
-                    <div class="col-md-3" v-if="image">
-                        <img :src="image" class="img-responsive">
+            <b-card no-body class="overflow-hidden" >
+                <b-row no-gutters>
+                    
+                <b-col md="8" v-if="!showarchivo">
+                    <div v-if="success != ''" class="alert alert-success" role="alert">
+                    <center>{{success}}</center>
                     </div>
-                    <b-button type="submit"  class="mt-3" variant="outline-success" block >Cargar Imagen</b-button>
-                </form>
-            </b-col>
-            <b-col md="8" v-else>
-                
-                <b-card-img :src="showarchivo" class="rounded-0"></b-card-img>
-                
-            </b-col>
-            <b-col md="4">
-                <b-card-body title="Detalle del Producto">
-                <b-card-text v-for="(item, index) in showDocumento" :key="index"><br/>
-                    <strong>Id: </strong> # {{item.id}} <br/>
-                    <strong>Producto: </strong> {{item.nombre}}<br/>
-                    <strong>Descripcion:</strong> {{item.descripcion}}<br/>
-                    <strong>Valor: </strong> $ {{item.precio}}<br/>
-                    <strong>Iva: </strong> $ {{item.iva}}<br/>
-                    <strong>Ice: </strong> $ {{item.ice}}<br/>
-                    <strong>Marca: </strong> {{item.marca}}<br/>
-                    <strong>Modelo: </strong> {{item.modelo}}<br/>
-                    <strong>Color: </strong>   <b-badge v-bind:style="{ color: activeColor }" variant="light">{{ activeColor }} <span class="sr-only"></span></b-badge><br/>
-                    <strong>Peso: </strong> {{item.peso}} kg.<br/>
-                    <strong>Tamaño: </strong> {{item.tamano}} cm.<br/>
-                    <strong>Nota: </strong> {{item.nota}}<br/>
-                    <strong>Registrado: </strong> {{item.usuario}}<br/>
-                    <strong>Fecha de Registrado: </strong> {{item.created_at}}<br/>
-                    <br>
-                    <hr>
-                     <button type="button" @click="deleteProducto(item.id)" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>
-                </b-card-text>
-                </b-card-body>
-            </b-col>
-            </b-row>
-        </b-card>
 
-    </b-modal>
+                    <form @submit="formSubmit" enctype="multipart/form-data">
+                        <b-form-file
+                            v-model="file"
+                            placeholder="Subir la Imagen..."
+                            v-on:change="onFileChange"
+                        ></b-form-file>
+                        <div class="col-md-3" v-if="image">
+                            <img :src="image" class="img-responsive">
+                        </div>
+                        <b-button type="submit"  class="mt-3" variant="outline-success" block >Cargar Imagen</b-button>
+                    </form>
+                </b-col>
+                <b-col md="8" v-else>
+                    
+                    <b-card-img :src="showarchivo" class="rounded-0"></b-card-img>
+                    
+                </b-col>
+                <b-col md="4">
+                    <b-card-body title="Detalle del Producto">
+                    <b-card-text v-for="(item, index) in showDocumento" :key="index"><br/>
+                        <strong>Id: </strong> # {{item.id}} <br/>
+                        <strong>Producto: </strong> {{item.nombre}}<br/>
+                        <strong>Descripcion:</strong> {{item.descripcion}}<br/>
+                        <strong>Valor: </strong> $ {{item.precio}}<br/>
+                        <strong>Iva: </strong> $ {{item.iva}}<br/>
+                        <strong>Ice: </strong> $ {{item.ice}}<br/>
+                        <strong>Marca: </strong> {{item.marca}}<br/>
+                        <strong>Modelo: </strong> {{item.modelo}}<br/>
+                        <strong>Color: </strong>   <b-badge v-bind:style="{ color: activeColor }" variant="light">{{ activeColor }} <span class="sr-only"></span></b-badge><br/>
+                        <strong>Peso: </strong> {{item.peso}} kg.<br/>
+                        <strong>Tamaño: </strong> {{item.tamano}} cm.<br/>
+                        <strong>Nota: </strong> {{item.nota}}<br/>
+                        <strong>Registrado: </strong> {{item.usuario}}<br/>
+                        <strong>Fecha de Registrado: </strong> {{item.created_at}}<br/>
+                        <br>
+                        <hr>
+                        <button type="button" @click="deleteProducto(item.id)" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>
+                    </b-card-text>
+                    </b-card-body>
+                </b-col>
+                </b-row>
+            </b-card>
+
+        </b-modal>
 
 
    </div>

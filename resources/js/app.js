@@ -18,7 +18,8 @@ require('../../node_modules/ag-grid-community/dist/styles/ag-theme-balham-dark.c
 require('../../node_modules/ag-grid-community/dist/styles/webfont/agGridClassicFont.scss');
 require('../../node_modules/ag-grid-community/dist/styles/webfont/agGridBalhamFont.scss');
 require('../../node_modules/ag-grid-community/dist/styles/webfont/agGridMaterialFont.scss');
-
+require('../../node_modules/vue-select/dist/vue-select.css');
+require('../../node_modules/vue-multiselect/dist/vue-multiselect.min.css');
 
 
 import VueSimpleAlert from "vue-simple-alert";
@@ -29,6 +30,7 @@ import BootstrapVue from "bootstrap-vue" //Importing
 import VueCurrencyInput from 'vue-currency-input'
 
 Vue.use(BootstrapVue) // Teslling Vue to use this whole application
+Vue.use(VueSimpleAlert);
 Vue.use(VueSimpleAlert);
 Vue.use(VueSweetalert2);
 Vue.use(VueCurrencyInput)
@@ -48,6 +50,10 @@ Vue.use(VueCurrencyInput)
 Vue.component('cliente-component', require('./components/ClienteComponent.vue').default);
 Vue.component('proevedor-component', require('./components/ProevedorComponent.vue').default);
 Vue.component('producto-component', require('./components/ProductoComponent.vue').default);
+
+Vue.component('ventas-component', require('./components/VentasComponent.vue').default);
+Vue.component('simulador-component', require('./components/SimuladorComponent.vue').default);
+Vue.component('pagos-component', require('./components/PagosComponent.vue').default);
 
 
 
