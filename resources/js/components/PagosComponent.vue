@@ -84,15 +84,15 @@
             :footer-text-variant="footerTextVariant"            
         >
         <template v-if="errorMostrarMsgPago.length > 0">
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" @click="resetError()" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-exclamation-triangle"></i>Error</h5>  
-                        <ul>
-                            <li v-for="error in errorMostrarMsgPago" :key="error" v-text="error"></li>
-                        </ul>
-                    </div>
-                </template>
-                 <br>
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" @click="resetError()" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h5><i class="icon fas fa-exclamation-triangle"></i>Error</h5>  
+                <ul>
+                    <li v-for="error in errorMostrarMsgPago" :key="error" v-text="error"></li>
+                </ul>
+            </div>
+        </template>
+        <br>
             <form @submit="formSubmit" enctype="multipart/form-data" >
 
                 <b-row>

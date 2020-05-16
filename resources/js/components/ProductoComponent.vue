@@ -14,8 +14,17 @@
             :footer-bg-variant="footerBgVariant"
             :footer-text-variant="footerTextVariant"            
         >
-        
-            <form  v-on:submit.prevent="checkForm" >
+        <template v-if="errorMostrarMsgPago.length > 0">
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" @click="resetError()" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h5><i class="icon fas fa-exclamation-triangle"></i>Error</h5>  
+                <ul>
+                    <li v-for="error in errorMostrarMsgPago" :key="error" v-text="error"></li>
+                </ul>
+            </div>
+        </template>
+        <br>
+            <form @submit="formSubmit"  >
                 <b-row>
                     <b-col md="12">
                         
@@ -82,8 +91,9 @@
                 <br>
                 <b-row>
                     <b-col md="4">
-                        <b-input-group prepend="Peso" class="mb-2 mr-sm-2 mb-sm-0">
-                            <input  v-model.number="form.peso" v-model="form.peso" >
+                        
+                        <b-input-group prepend=" Peso *" class="mb-2 mr-sm-2 mb-sm-0">
+                            <input type="text" class="form-control" @keyup="validardePesoNumerico()" v-model="form.peso"   required="required" placeholder="Ingrese un a peso">
                         </b-input-group>
                         
                     </b-col>
@@ -91,14 +101,14 @@
                 
                     <b-col md="4">
                         <b-input-group prepend="Tamaño" class="mb-2 mr-sm-2 mb-sm-0">
-                            <input  v-model.number="form.tamano" v-model="form.tamano">
+                            <input  type="text" class="form-control" @keyup="validardeTamanoNumerico()" v-model="form.tamano">
                         </b-input-group>
                        
                     </b-col>
 
                     <b-col md="4">
                         <b-input-group prepend="Cantidad" class="mb-2 mr-sm-2 mb-sm-0">
-                            <input  v-model.number="form.cantidad" v-model="form.cantidad">
+                            <input  type="text" class="form-control" @keyup="validardeCantidadNumerico()" v-model="form.cantidad">
                         </b-input-group>
                        
                     </b-col>
@@ -108,7 +118,7 @@
                     <b-col md="6">
                         
                         <b-input-group prepend="Precio" class="mb-2 mr-sm-2 mb-sm-0">
-                            <input type="number" v-model.number="form.precio" v-model="form.precio" @input="handleInput">
+                            <input type="text" class="form-control" v-model="form.precio" @keyup="validardePrecioNumerico()">
                         </b-input-group>
                     </b-col>
                 
@@ -153,7 +163,7 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text">Categoria </label>
                             </div>
-                                <select  v-model="form.categoria" class="form-control mb-2" required >
+                                <select  v-model="form.categoria" class="form-control mb-2"  >
                                     <option disabled>Seleccione la Categoria</option>
                                     <option v-for="(item, index) in categoria" :key="index" v-bind:value="item.id">{{ item.nombre }}</option>
                                 </select>
@@ -164,7 +174,7 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text">Proeevedor </label>
                             </div>
-                                <select v-model="form.proeevedor"  class="form-control mb-2" required>
+                                <select v-model="form.proeevedor"  class="form-control mb-2" >
                                     <option  disabled>Seleccione el Proeevedor</option>
                                     <option v-for="(item, index) in proevedores" :key="index" v-bind:value="item.id">{{ item.nombre }}</option>
                                 </select>
@@ -190,7 +200,7 @@
                     </b-col>
 
                     <b-col md="4">
-                        <b-button type="submit"  class="mt-3" variant="outline-success" block >Guardar</b-button>
+                        <b-button @click="agregar"  class="mt-3" variant="outline-success" block >Guardar</b-button>
                     </b-col>
 
                     <b-col md="4">
@@ -354,17 +364,17 @@ export default  {
                 form: {
                 nombre: '',
                 descripcion: '',
-                precio: '',
-                iva: '',
+                precio: 0.0,
+                iva: 0.0,
                 getIva: false,
-                ice: '',
+                ice: 0.0,
                 total: 0.0,
                 marca: '',
                 modelo: '',
                 color: '#ff7674',
                 peso: '',
-                tamano: '',
-                cantidad: '',
+                tamano: 0.0,
+                cantidad: 0.0,
                 nota: '',
                 proveedor_id: '',
                 categoria_id: ''
@@ -403,6 +413,8 @@ export default  {
             image: '',
             idc: null,
             activeColor: '',
+            errorPago: 0,
+            errorMostrarMsgPago: [],
         }
     },
     components: {
@@ -436,16 +448,7 @@ export default  {
         
     },
     beforeMount() {
-        axios.get(this.enlace+'getproeevedores')
-                    .then(res => {
-                    this.proevedores = res.data;
-            });
-            
-
-            axios.get(this.enlace+'getcategoria')
-                    .then(res => {
-                    this.categoria = res.data;
-            });
+        
         this.showAlert()
         this.gridOptions = {};
         this.columnDefs = [
@@ -471,114 +474,170 @@ export default  {
         fetch('getproductos')
             .then(result => result.json())
             .then(rowData => this.rowData = rowData);
-        },
+
+            axios.get(this.enlace+'getproeevedores')
+                    .then(res => {
+                    this.proevedores = res.data;
+            });
+            
+
+            axios.get(this.enlace+'getcategoria')
+                    .then(res => {
+                    this.categoria = res.data;
+            });
+    },
     mounted() {
         this.gridApi = this.gridOptions.api;
         this.gridColumnApi = this.gridOptions.columnApi;
     },
     methods: {
-         handleInput (e) {
-            this.form.iva = false
-            let stringValue = e.target.value.toString()
-            let regex = /^\d*(\.\d{1,2})?$/
-            if(!stringValue.match(regex) && this.form.precio!== '') {
-                this.form.precio = this.previousPrice
-            }
-            this.previousPrice = this.form.precio
-            
-        },
+        
         getIva(event){
-              
               if(event){
                 this.form.iva = parseFloat(this.previousPrice) *12/100
                 this.form.total = parseFloat(this.form.iva)+parseFloat(this.form.precio)
-                this.form.iva = parseFloat(this.form.iva).toFixed(2)
-                this.form.total = parseFloat(this.form.total).toFixed(2)
+                //this.form.iva = parseFloat(this.form.iva).toFixed(2)
+                //this.form.total = parseFloat(this.form.total).toFixed(2)
               }else{
                    this.form.total = parseFloat(this.form.precio).toFixed(2)
                    
               }
-              
+          
         },
            
     
         agregar(){
-            const parametros  = {
-                                    nombre:                 this.form.nombre,
-                                    descripcion:            this.form.descripcion,
-                                    precio:                 this.form.precio,
-                                    iva:                    this.form.iva,                                      
-                                    total:                  this.form.total,
-                                    marca:                  this.form.marca,
-                                    modelo:                 this.form.modelo,
-                                    color:                  this.form.color,
-                                    peso:                   this.form.peso,
-                                    cantidad:               this.form.cantidad,
-                                    
-                                    nota:                   this.form.nota,
-                                    tamano:                 this.form.tamano,
-                                    proveedor_id:           this.form.proeevedor,
-                                    categoria_id:           this.form.categoria,
-                                    
-                                    
-                                }
-        
-                                this.form.nombre = '';
-                                this.form.descripcion = '';
-                                this.form.precio = '';
-                                this.form.iva = '';                                      
-                                this.form.total = '';
-                                this.form.marca = '';
-                                this.form.modelo = '';
-                                this.form.color = '';
-                                this.form.peso = '';
-                                this.form.cantidad = '';
-                                this.form.image = '';
-                                this.form.nota = '';
-                                this.form.proeevedor = '';
-                                this.form.categoria = '';
+            if (this.form.total < 1) {
+                this.form.total = parseFloat(this.form.precio).toFixed(2)
+            }
+            if(this.validate())
+            {
+                return
+            }
+            else
+            {
 
-            axios.post(this.enlace+'productos',parametros)
-                .then(res => {
-                    this.productos.push(res.data),
-                    this.getrow()
-                    swal(
-                            'Producto Registrado con Exito,',
-                            res.data.success,
-                            'success'
-                        )
-                })
-                .catch(err => {
-                        console.log(err.response.data)
-                        swal(
-                            'Error',
-                            err.response.data,
-                            'error'
-                        )
-                });
+                        
+                        const parametros  = {
+                                                nombre:                 this.form.nombre,
+                                                descripcion:            this.form.descripcion,
+                                                precio:                 this.form.precio,
+                                                iva:                    this.form.iva,                                      
+                                                total:                  this.form.total,
+                                                marca:                  this.form.marca,
+                                                modelo:                 this.form.modelo,
+                                                color:                  this.form.color,
+                                                peso:                   this.form.peso,
+                                                cantidad:               this.form.cantidad,
+                                                
+                                                nota:                   this.form.nota,
+                                                tamano:                 this.form.tamano,
+                                                proveedor_id:           this.form.proeevedor,
+                                                categoria_id:           this.form.categoria,
+                                                
+                                                
+                                            }
+                    
+                                            this.form.nombre = '';
+                                            this.form.descripcion = '';
+                                            this.form.precio = '';
+                                            this.form.iva = '';                                      
+                                            this.form.total = '';
+                                            this.form.marca = '';
+                                            this.form.modelo = '';
+                                            this.form.color = '';
+                                            this.form.peso = '';
+                                            this.form.cantidad = '';
+                                            this.form.image = '';
+                                            this.form.nota = '';
+                                            this.form.proeevedor = '';
+                                            this.form.categoria = '';
 
-            this.showgestion=false
+                        axios.post(this.enlace+'productos',parametros)
+                            .then(res => {
+                                this.productos.push(res.data),
+                                this.getrow()
+                                swal(
+                                        'Producto Registrado con Exito,',
+                                        res.data.success,
+                                        'success'
+                                    )
+                            })
+                            .catch(err => {
+                                    console.log(err.response.data)
+                                    swal(
+                                        'Error',
+                                        err.response.data,
+                                        'error'
+                                    )
+                            });
+
+                        this.showgestion=false
+            }
                  
             
         },
-        checkForm: function(){
-            this.errors = [];
+        validate () 
+        {
             
-            if(!this.form.nombre){
-                this.errors.push('El nombre es Obligatorio');
-            }
-            if(!this.form.descripcion){
-                this.errors.push('El apellido es Obligatorio');
-            }
-            
-            
+            this.errorPago = 0
+            this.errorMostrarMsgPago = []
+            if(!this.form.nombre) this.errorMostrarMsgPago.push("Ingrese un  nombre")
+            if(!this.form.precio) this.errorMostrarMsgPago.push("Ingrese un precio")
+            if(!this.form.marca) this.errorMostrarMsgPago.push("Igrese una marca ")
 
+            if(!this.form.modelo) this.errorMostrarMsgPago.push("Igrese el modelo")
+            if(!this.form.color) this.errorMostrarMsgPago.push("Igrese el  color")
+            if(!this.form.nota) this.errorMostrarMsgPago.push("Igrese un comentario")
+           
+            return this.errorPago
+        },
+        resetError()
+        {
+            this.errorMostrarMsgPago = []
+            this.errorPago = 0
+        },
+        validardePesoNumerico()
+        {
+            let out = ''
+            let filtro = '1234567890.'
             
+            for (let i=0; i < this.form.peso.length; i++)
+            if (filtro.indexOf(this.form.peso.charAt(i)) != -1) 
+                out += this.form.peso.charAt(i)
+            this.form.peso = out
+        },
+        validardeTamanoNumerico()
+        {
+            let out = ''
+            let filtro = '1234567890.'
             
-            if(this.form.nombre && this.form.descripcion ){
-                this.agregar();
-          
-            }
+            for (let i=0; i < this.form.tamano.length; i++)
+            if (filtro.indexOf(this.form.tamano.charAt(i)) != -1) 
+                out += this.form.tamano.charAt(i)
+            this.form.tamano = out
+        },
+        validardeCantidadNumerico()
+        {
+            let out = ''
+            let filtro = '1234567890.'
+            
+            for (let i=0; i < this.form.cantidad.length; i++)
+            if (filtro.indexOf(this.form.cantidad.charAt(i)) != -1) 
+                out += this.form.cantidad.charAt(i)
+            this.form.cantidad = out
+        },
+        validardePrecioNumerico()
+        {
+            let out = ''
+            let filtro = '1234567890.'
+            
+            for (let i=0; i < this.form.precio.length; i++)
+            if (filtro.indexOf(this.form.precio.charAt(i)) != -1) 
+                out += this.form.precio.charAt(i)
+            this.form.precio = out
+
+            this.previousPrice = this.form.precio
             
         },
         countDownChanged(dismissCountDown) {
