@@ -636,6 +636,8 @@
 import axios from 'axios'
 import Vue from "vue";
 import 'whatwg-fetch';
+    import jsPDF from 'jspdf';
+    import autoTable from 'jspdf-autotable';
 import MagicVueInput from 'magic-vue-input'
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
@@ -672,7 +674,7 @@ export default  {
             form: {
                 cliente: '',
                 producto: '',
-                tipoventa: '',
+                tipoventa: 1,
                 contrato: '',  
                 
             },
@@ -703,11 +705,11 @@ export default  {
                 descuento: 0.0,
                 cantidadproducto: 1,
                 SaldoDeuda: 0.0,
-                abono: 0.0,
+                abono: 50.00,
                 periodo: 0,
-                interes: 0.8,
+                interes: 0.00,
                 fecha_pago: '',
-                cuota: 0.0,
+                cuota: 50.00,
                 errorMostrarMsgPago: [],
                 errorPago: 0,
                 amortizar: false,
@@ -737,6 +739,8 @@ export default  {
                 ttcreditos: [],
                 ttdecontado: [],
                 reporteVentas: [],
+                cuota_fija: 0.0,
+                saldo_cuota2: 0.0
                 
         }
     },
@@ -956,27 +960,37 @@ export default  {
                 {  
                     me.amortizar = true
                     me.arrayData = []
-
+                    
                     let object = {}
                     let monto_cobrar = Math.round(parseFloat(me.SaldoDeuda) - parseFloat(me.abono), 3);
-                    let interesDecimal = (parseFloat(me.interes) / 100);
-                    let denominador = Math.pow((1 / (1 + parseFloat(interesDecimal))), parseFloat(me.periodo));
-                    let cuota_fija = (parseFloat(interesDecimal) * parseFloat(monto_cobrar)) / (1 - parseFloat(denominador));
+                    if (me.interes >0.0) {
+                        let interesDecimal = (parseFloat(me.interes) / 100);
+                        let denominador = Math.pow((1 / (1 + parseFloat(interesDecimal))), parseFloat(me.periodo));
+                        this.cuota_fija = (parseFloat(interesDecimal) * parseFloat(monto_cobrar)) / (1 - parseFloat(denominador));
+                       
+                    }else{
+                          this.cuota_fija =    me.cuota;
+                    }
+                    
+
                     let intereses = 0.0
                     let amortizacion = 0.0
                     let saldo_final = 0.0
-                    this.cuota_fija2 = parseFloat(cuota_fija.toFixed(2))
+                    this.cuota_fija2 = parseFloat(this.cuota_fija).toFixed(2)
                     
                     for (var i = 1; i <= me.periodo; i++) 
                     {      
                         intereses = parseFloat(monto_cobrar) * parseFloat(me.interes / 100)
-                        amortizacion = parseFloat(cuota_fija) - parseFloat(intereses)
+                        amortizacion = parseFloat(this.cuota_fija) - parseFloat(intereses)
                         saldo_final = parseFloat(monto_cobrar) - parseFloat(amortizacion) 
+                        this.saldo_cuota2 = parseFloat(monto_cobrar) - parseFloat(amortizacion)
+
+
                         
                         object = {
                             id: i,
                             saldo_inicial: parseFloat(monto_cobrar.toFixed(2)),
-                            cuota: parseFloat(cuota_fija.toFixed(2)),
+                            cuota: parseFloat(this.cuota_fija).toFixed(2),
                             interes: parseFloat(intereses.toFixed(2)),
                             abono: parseFloat(amortizacion.toFixed(2)),
                             fecha_pago: me.formatDate(me.nuevaFecha(me.fecha_pago, '+'+i, 'm')),
@@ -985,6 +999,13 @@ export default  {
                         me.arrayData.push(object)
                         monto_cobrar = object.saldo_final
                         object = {}
+
+                                   
+                        if (saldo_final <= this.cuota_fija) {
+                            this.cuota_fija = saldo_final;
+                        }else{
+                             this.cuota_fija = this.cuota_fija;
+                        }
                     }
                 }
             }
@@ -1004,9 +1025,9 @@ export default  {
                 
                 {title: "Saldo final", dataKey: "saldo_final"},
             ];
-            doc.text('Amortización del cliente '+me.cliente.Nombres, 10, 18)
+            doc.text('Amortización del cliente ', 10, 18)
             doc.autoTable(columns, me.arrayData)
-            doc.save('amortizacion-'+(me.cliente.idcampana + me.cliente.cedula)+'.pdf')
+            doc.save('amortizacion.pdf')
         },
         postVenta()
         {
@@ -1034,10 +1055,15 @@ export default  {
                         
                         let monto_cobrar = parseFloat(me.SaldoDeuda) - parseFloat(me.abono);
 
-                        
-                        let interesDecimal = (parseFloat(me.interes) / 100);
-                        let denominador = Math.pow((1 / (1 + parseFloat(interesDecimal))), parseFloat(me.periodo));
-                        let cuota = (parseFloat(interesDecimal) * parseFloat(monto_cobrar)) / (1 - parseFloat(denominador));
+                        if (me.interes >0.0) {
+                            let interesDecimal = (parseFloat(me.interes) / 100);
+                            let denominador = Math.pow((1 / (1 + parseFloat(interesDecimal))), parseFloat(me.periodo));
+                            this.cuota = (parseFloat(interesDecimal) * parseFloat(monto_cobrar)) / (1 - parseFloat(denominador));
+                            }else{
+                            this.cuota=    me.cuota;
+                        }
+                    
+
                         const parametross ={
                             'cliente_id':   (this.cliente_id),
                             'contrato':     (this.form.contrato),
@@ -1045,7 +1071,7 @@ export default  {
                             'tipoventa_id': (this.tipoventa_id),
                             'periodo': me.periodo,
                             'interes': me.interes,
-                            'cuota': parseFloat(cuota.toFixed(2)),
+                            'cuota': parseFloat(this.cuota).toFixed(2),
                             'abono': me.abono,
                             'fecha_pago': me.fecha_pago,
                             'monto_cobrar' : monto_cobrar,
@@ -1268,7 +1294,7 @@ export default  {
             if(!this.abono || this.abono < 0) this.errorMostrarMsgPago.push("El abono no puede estar vacío")
             if(!this.periodo || this.periodo <= 0 || this.periodo == 'Infinity') this.errorMostrarMsgPago.push("El periodo no puede estar vacío")
             if(!this.cuota || this.cuota <= 0) this.errorMostrarMsgPago.push("Debe especificar la cuota")
-            if(!this.interes || this.interes <= 0) this.errorMostrarMsgPago.push("El interés no puede estar vacío ni ser menor o igual a 0")
+            if(!this.interes ) this.errorMostrarMsgPago.push("El interés no puede estar vacío ni ser menor o igual a 0")
             if(!this.fecha_pago) this.errorMostrarMsgPago.push("La fecha de pago no puede estar vacío")
             
             if (this.errorMostrarMsgPago.length) this.errorPago = 1

@@ -148,7 +148,7 @@ class CuotasController extends Controller
                                                                         ");
                             
             
-                return response()->json(['success' => 'Estimado usuario, el cliente '.$cliente->apellidoPaterno.' '.$cliente->nombre1.' tiene una deuda con el Producto de '.$productovalor->nombre.' con un saldo de $'.$cuota->saldodeuda.' menos el abono $'.($cuota->saldoDeuda - $cuota->abono).', los pagos los efectuará al cabo de '.$cuota->periodo.' mes(es), con una cuota de $'.round($cuota->cuota, 3).', su primer pago lo debe realizar a partir del '.date('d/m/Y', strtotime($cuota->fecha_pago."+ 1 month"))], 202);
+                return response()->json(['success' => 'Estimado usuario, el cliente '.$cliente->apellidoPaterno.' '.$cliente->nombre1.' tiene una deuda con el Producto de '.$productovalor->nombre.' con un saldo de $'.$request->montodeuda.' menos el abono $'.($request->montodeuda - $cuota->abono).', los pagos los efectuará al cabo de '.$cuota->periodo.' mes(es), con una cuota de $'.round($cuota->cuota, 3).', su primer pago lo debe realizar a partir del '.date('d/m/Y', strtotime($cuota->fecha_pago."+ 1 month"))], 202);
             }else
             {
                 $ventas = new Ventas();

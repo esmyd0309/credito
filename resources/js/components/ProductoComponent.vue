@@ -493,6 +493,7 @@ export default  {
     methods: {
         
         getIva(event){
+               console.log(event)
               if(event){
                 this.form.iva = parseFloat(this.previousPrice) *12/100
                 this.form.total = parseFloat(this.form.iva)+parseFloat(this.form.precio)
@@ -502,7 +503,7 @@ export default  {
                    this.form.total = parseFloat(this.form.precio).toFixed(2)
                    
               }
-          
+             console.log(this.form.total) 
         },
            
     
