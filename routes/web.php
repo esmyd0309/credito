@@ -187,7 +187,9 @@ Route::group(['middleware' => ['cors']], function () {
 
 Route::get('password/reset', 'Auth\ForgotPasswordController@SendsPasswordResetEmails')->name('password.request');
 
-Route::resource('proevedor', 'Proceso\ProevedoresController');
+
+Route::group(['middleware' => ['cors']], function () {
+    Route::resource('proevedor', 'Proceso\ProevedoresController');
 
 Route::resource('categorias', 'Proceso\CategoriaController');
 
@@ -214,7 +216,7 @@ Route::get('getventasid/{id}', 'Proceso\ApiController@getventasid');
 
 Route::get('amortizaciondetalle/{id}', 'Proceso\ApiController@amortizaciondetalle');
 Route::get('cuotaid/{id}', 'Proceso\ApiController@cuotaid');
-
+Route::get('getproducto/{id}', 'Proceso\ApiController@getproducto');
 
 Route::get('getProductosVentasPrecio/{id}', 'Proceso\ApiController@getProductosVentasPrecio');
 
@@ -226,6 +228,9 @@ Route::resource('cuotas', 'Proceso\CuotasController');
 Route::resource('pagos', 'Proceso\PagosController');
 Route::get('getPagos', 'Proceso\PagosController@getPagos');
 Route::get('getProductosCliente/{id}', 'Proceso\PagosController@getProductosCliente');
+
+Route::get('pagosdetalle/{idv}', 'Proceso\PagosController@pagosdetalle');
+
 
 Route::get('getBancos', 'Proceso\ApiController@getBancos');
 Route::get('getBancosdestino', 'Proceso\ApiController@getBancosdestino');
@@ -240,6 +245,8 @@ Route::get('reporteVentas', 'Proceso\ApiController@reporteVentas');
 Route::get('getPagoschart', 'Proceso\ApiController@getPagoschart');
 Route::get('getFormaspagochart', 'Proceso\ApiController@getFormaspagochart');
 Route::get('getVentaschart', 'Proceso\ApiController@getVentaschart');
-Route::get('getpagosTT', 'Proceso\ApiController@getpagosTT');
+   Route::get('getpagosTT', 'Proceso\ApiController@getpagosTT');
+   Route::get('getCliente/{cedula}', 'Proceso\ApiController@getCliente');
+});
 
-Route::get('getCliente/{cedula}', 'Proceso\ApiController@getCliente');
+

@@ -207,7 +207,7 @@ export default {
             bodyTextVariant: 'dark',
             footerBgVariant: 'warning',
             footerTextVariant: 'dark',
-            enlace: 'http://23.236.49.200/',
+            enlace: 'http://localhost/credito/public/',
             enter: false,
             proevedores: []
 

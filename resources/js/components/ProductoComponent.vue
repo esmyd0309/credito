@@ -117,6 +117,17 @@
                 <b-row>
                     <b-col md="6">
                         
+                        <b-input-group prepend="Precio Comprado" class="mb-2 mr-sm-2 mb-sm-0">
+                            <input type="text" class="form-control" v-model="form.preciocomprado" @keyup="validardePreciocompradoNumerico()">
+                        </b-input-group>
+                    </b-col>
+                
+                    
+                </b-row>
+                <br>
+                <b-row>
+                    <b-col md="6">
+                        
                         <b-input-group prepend="Precio" class="mb-2 mr-sm-2 mb-sm-0">
                             <input type="text" class="form-control" v-model="form.precio" @keyup="validardePrecioNumerico()">
                         </b-input-group>
@@ -303,14 +314,23 @@
                         <strong>Id: </strong> # {{item.id}} <br/>
                         <strong>Producto: </strong> {{item.nombre}}<br/>
                         <strong>Descripcion:</strong> {{item.descripcion}}<br/>
-                        <strong>Valor: </strong> $ {{item.precio}}<br/>
-                        <strong>Iva: </strong> $ {{item.iva}}<br/>
-                        <strong>Ice: </strong> $ {{item.ice}}<br/>
+                        
                         <strong>Marca: </strong> {{item.marca}}<br/>
                         <strong>Modelo: </strong> {{item.modelo}}<br/>
                         <strong>Color: </strong>   <b-badge v-bind:style="{ color: activeColor }" variant="light">{{ activeColor }} <span class="sr-only"></span></b-badge><br/>
                         <strong>Peso: </strong> {{item.peso}} kg.<br/>
                         <strong>Tamaño: </strong> {{item.tamano}} cm.<br/>
+                        <strong>En Almacen: </strong> $ {{item.restante}}<br/>
+                        <hr>
+                        <strong>Valor Compra: </strong> $ {{item.preciocomprado}}<br/>
+                        <strong>Precio Unitario: </strong> $ {{item.precio}}<br/>
+                        <strong>Iva: </strong> $ {{item.iva}}<br/>
+                        <strong>Ice: </strong> $ {{item.ice}}<br/>
+                        <strong>Precio Total: </strong> $ {{item.total}}<br/>
+                        <strong>Cantidad: </strong> {{item.cantidad}}<br/>
+                        
+                        <strong>inversion: </strong> $ {{item.valorInvertido}}<br/>
+                        <strong>Recuperado: </strong> $ {{item.recuperado}}<br/>
                         <strong>Nota: </strong> {{item.nota}}<br/>
                         <strong>Registrado: </strong> {{item.usuario}}<br/>
                         <strong>Fecha de Registrado: </strong> {{item.created_at}}<br/>
@@ -373,11 +393,13 @@ export default  {
                 modelo: '',
                 color: '#ff7674',
                 peso: '',
+                preciocomprado: '',
                 tamano: 0.0,
                 cantidad: 0.0,
                 nota: '',
                 proveedor_id: '',
-                categoria_id: ''
+                categoria_id: '',
+                inversion:'',
                 
                 
             },
@@ -392,7 +414,7 @@ export default  {
             bodyTextVariant: 'dark',
             footerBgVariant: 'warning',
             footerTextVariant: 'dark',
-            enlace: 'http://23.236.49.200/',
+            enlace: 'http://localhost/credito/public/',
             proevedores: [],
             categoria: [],
             previousPrice: null,
@@ -518,11 +540,12 @@ export default  {
             else
             {
 
-                        
+                        this.form.inversion = parseFloat(this.form.precio).toFixed(2)  * this.form.cantidad;
                         const parametros  = {
                                                 nombre:                 this.form.nombre,
                                                 descripcion:            this.form.descripcion,
                                                 precio:                 this.form.precio,
+                                                preciocomprado:         this.form.preciocomprado,
                                                 iva:                    this.form.iva,                                      
                                                 total:                  this.form.total,
                                                 marca:                  this.form.marca,
@@ -530,7 +553,7 @@ export default  {
                                                 color:                  this.form.color,
                                                 peso:                   this.form.peso,
                                                 cantidad:               this.form.cantidad,
-                                                
+                                                inversion:              parseFloat(this.form.inversion).toFixed(2),
                                                 nota:                   this.form.nota,
                                                 tamano:                 this.form.tamano,
                                                 proveedor_id:           this.form.proeevedor,
@@ -538,10 +561,11 @@ export default  {
                                                 
                                                 
                                             }
-                    
+                    console.log(parametros)
                                             this.form.nombre = '';
                                             this.form.descripcion = '';
                                             this.form.precio = '';
+                                            this.form.preciocomprado = '';
                                             this.form.iva = '';                                      
                                             this.form.total = '';
                                             this.form.marca = '';
@@ -628,6 +652,18 @@ export default  {
                 out += this.form.cantidad.charAt(i)
             this.form.cantidad = out
         },
+        validardePreciocompradoNumerico()
+        {
+            let out = ''
+            let filtro = '1234567890.'
+            
+            for (let i=0; i < this.form.preciocomprado.length; i++)
+            if (filtro.indexOf(this.form.preciocomprado.charAt(i)) != -1) 
+                out += this.form.preciocomprado.charAt(i)
+            this.form.preciocomprado = out
+
+            
+        },
         validardePrecioNumerico()
         {
             let out = ''
@@ -667,7 +703,7 @@ export default  {
                
             });
             if(selectedRowsString!='null'){
-                this.showarchivo = "http://23.236.49.200/"+selectedRowsString
+                this.showarchivo = "http://localhost/credito/public/"+selectedRowsString
             }
             this.showDocumento = selectedRows
             if (selectedRows.length > maxToShow) {

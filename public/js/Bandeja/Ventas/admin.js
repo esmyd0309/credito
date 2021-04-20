@@ -6,7 +6,7 @@ $(document).ready(function(){
     var grupo = $("#grupo");
 
 
-    var route = "http://192.168.1.105/ventasgrupo";
+    var route = "http://localhost/credito/public/ventasgrupo";
     $.get(route, function(res){
        
         $(res).each(function (index,value){

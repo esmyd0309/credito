@@ -261,7 +261,7 @@
                
                 cliente: [],
                 pagos: [],
-                url: 'http://23.236.49.200/',
+                url: 'http://localhost/credito/public/',
                 abono: parseFloat((this.saldodeuda/2).toFixed(2)),
                 periodo: 0,
                 interes: 0.8,

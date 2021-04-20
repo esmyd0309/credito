@@ -8,22 +8,33 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2" v-for="(item, index) in reporteVentas" :key="index">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1" >
-                                    Recuperado (ventas)
+                                    Recuperado (ventas*)
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800" > 
+                                <div class="h5 mb-0 font-weight-bold text-gray-800" v-if="item.recuperado"> 
                                    <i class="fas fa-landmark"></i>  
                                    $ {{ parseFloat(item.recuperado).toFixed(2) }}
                             
-                                  <small class="text-success"> {{ (parseFloat(item.recuperado).toFixed(2)  / parseFloat(item.deuda ).toFixed(2)*100).toFixed() }}% <i class="fas fa-caret-up"></i></small>
+                                  <small class="text-success" > {{ (parseFloat(item.recuperado).toFixed(2)  / parseFloat(item.deuda ).toFixed(2)*100).toFixed() }}% <i class="fas fa-caret-up"></i></small>
+                                </div>
+                                 <div class="h5 mb-0 font-weight-bold text-gray-800" v-else> 
+                                   <i class="fas fa-landmark"></i>  
+                                   $ 0
+                            
+                                  <small class="text-success" > 0% <i class="fas fa-caret-down"></i></small>
                                 </div>
                                 <hr>
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     Por Recuperar (ventas)
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800" > 
+                                <div class="h5 mb-0 font-weight-bold text-gray-800" v-if="item.saldo"> 
                                      <i class="fas fa-file-invoice-dollar"></i> $ {{ parseFloat(item.saldo).toFixed(2) }}
 
                                       <small class="text-danger">  {{ (parseFloat(item.saldo).toFixed(2)  / parseFloat(item.deuda ).toFixed(2)*100).toFixed() }}% <i class="fas fa-caret-down"></i></small>
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800" v-else> 
+                                     <i class="fas fa-file-invoice-dollar"></i> $ 0
+
+                                      <small class="text-danger">  0% <i class="fas fa-caret-down"></i></small>
                                 </div>
                             </div>
                             
@@ -44,7 +55,13 @@
                                 <div class="h5 mb-0 font-weight-bold text-gray-800" v-for="(item, index) in ttcreditos" :key="index"> 
                                     <i class="fas fa-credit-card"></i> {{ item.cantidad}} 
                                     <hr/> 
-                                    <i class="fas fa-dollar-sign"></i> {{ parseFloat(item.deuda).toFixed(2) }}
+                                    <div v-if="item.deuda">
+                                         <i class="fas fa-dollar-sign" ></i> {{ parseFloat(item.deuda).toFixed(2) }}
+                                    </div>
+                                    <div v-else>
+                                        <i class="fas fa-dollar-sign" ></i> 0
+                                    </div>
+                                   
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -90,7 +107,13 @@
                                 <div class="h5 mb-0 font-weight-bold text-gray-800" v-for="(item, index) in reporteVentas" :key="index"> 
                                     <i class="fas fa-cart-arrow-down"></i> {{ item.cantidad}} 
                                     <hr/> 
-                                    <i class="fas fa-dollar-sign"></i>  {{ parseFloat(item.deuda).toFixed(2)}}
+                                  
+                                    <div v-if="item.deuda">
+                                         <i class="fas fa-dollar-sign" ></i>  {{ parseFloat(item.deuda).toFixed(2)}}
+                                    </div>
+                                    <div v-else>
+                                        <i class="fas fa-dollar-sign" ></i> 0
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -136,7 +159,10 @@
                                 
                                     <strong>Modelo:</strong> <samp>${{ props.option.modelo }}</samp>
                                 
-                                    <strong>Precio:</strong> <samp>${{ props.option.total }}</samp>
+                                    <strong>Precio:</strong> <samp>${{ props.option.total }}</samp> <br>  
+                                    <strong>en stock:</strong> <samp> <code>{{ props.option.restante }}</code> </samp> <br>
+                                    <h3><strong v-if=" props.option.restante < 1"> <code>NO HAY EN stock este producto</code> </strong></h3>
+                                    <h3><strong v-if=" cantidadproducto >1 && props.option.restante < cantidadproducto"> <code>NO HAY EN stock ESA CANTIDAD</code> </strong></h3>
                                 </span>
                             </template>
 
@@ -170,6 +196,14 @@
                     <b-col md="6">
                         <b-input-group prepend="Contrato" class="mb-2 mr-sm-2 mb-sm-0">
                             <input type="text" class="form-control" v-model="form.contrato" required="required" placeholder="# de contrato">
+                        </b-input-group>
+                    </b-col>
+                </b-row>
+                <br>
+                 <b-row>
+                <b-col md="6">
+                        <b-input-group prepend="% Incremento Producto" class="mb-2 mr-sm-2 mb-sm-0">
+                            <input type="text" class="form-control" @keyup="validarPorcentajeNumerico()" v-model="form.porcentajeVenta" required="required" placeholder="Ingrese un porcentaje de invremento">
                         </b-input-group>
                     </b-col>
                 </b-row>
@@ -263,7 +297,7 @@
                                         <td class="text-center">$ {{abono}}</td>
                                         <td class="text-center">{{calcularPeriodo}}</td>
                                         <td class="text-center">{{interes}} %</td>
-                                        <td class="text-center">$ {{cuota_fija2}}</td>
+                                        <td class="text-center">$ {{cuota_fija2}} </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -572,9 +606,10 @@
                             </div>
                         </div>
                     </b-tab>
-                     <b-tab title="Cuotas" v-if="amortizaciondetalle">
+                    <b-tab title="Cuotas" v-if="amortizaciondetalle">
                         <div class="table-responsive">
                             <b-alert show variant="secondary"><center><i class="fas fa-chart-pie"></i> <strong>Tabla de  Amortización</strong> </center> </b-alert>
+                            <button type="button" @click="donwloadPdf2" class="btn btn-sm btn-danger" style="float: right;"><i class="nav-icon far fa-file-pdf"></i> Descargar</button>
                             <table class="table table-bordered table-hover table-striped ">
                                     <thead>
                                         <tr>
@@ -612,10 +647,42 @@
                                     </tbody>         
                             </table>
                         </div>
-
-                        
                     </b-tab>
-                    <b-tab title="Pagos" ><p>I'm a disabled tab!</p></b-tab>
+                    <b-tab title="Pagos" >
+                        <div class="table-responsive">
+                            <b-alert show variant="secondary"><center><i class="fas fa-chart-pie"></i> <strong>Recaudaciones</strong> </center> </b-alert>
+                            <table class="table table-bordered table-hover table-striped ">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">Fecha</th>
+                                            <th class="text-center">Documento</th>
+                                            <th class="text-center">Forma P.</th>
+                                            <th class="text-center">Fecha P.</th>
+                                            <th class="text-center">Saldo Anterior</th>     
+                                            <th class="text-center">Valor P.</th>    
+                                            <th class="text-center">Origen</th>  
+                                            <th class="text-center">Destino</th>         
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(data, index) in pagosdetalles" :key="index">
+                                            <td class="text-center">{{ data.id }}</td>
+                                            <td>{{ data.fecha }}</td>  
+                                            <td class="text-center"> {{ data.documento }}</td>
+                                            <td class="text-center"> {{ data.formapago }}</td>
+                                            <td class="text-center"> {{ data.fechapago }}</td>
+                                            <td class="text-center"> {{ data.saldo_anterior }}</td>
+                                            <td class="text-center"> {{ data.valor }}</td>
+                                            <td class="text-center"> {{ data.origen }}</td>
+                                            <td class="text-center"> {{ data.destino }}</td>
+                                                            
+                                                            
+                                        </tr>
+                                    </tbody>         
+                            </table>
+                        </div>
+                    </b-tab>
                 </b-tabs>
             </div>
             
@@ -647,6 +714,7 @@ import swal from 'sweetalert2'
 import Multiselect from 'vue-multiselect'
 
 
+
 const pluginOptions = {
   /* see config reference */
   globalOptions: { currency: 'USD' }
@@ -676,6 +744,7 @@ export default  {
                 producto: '',
                 tipoventa: 1,
                 contrato: '',  
+                porcentajeVenta: 0, 
                 
             },
             cliente_id: '',
@@ -694,7 +763,7 @@ export default  {
           
             show: false,
             showarchivo: null,
-            enlace: 'http://23.236.49.200/',
+            enlace: 'http://localhost/credito/public/',
             success: '',
             clientes: [],
             productos: [],
@@ -740,7 +809,9 @@ export default  {
                 ttdecontado: [],
                 reporteVentas: [],
                 cuota_fija: 0.0,
-                saldo_cuota2: 0.0
+                saldo_cuota2: 0.0,
+                getproducto: [],
+                pagosdetalles: null
                 
         }
     },
@@ -752,6 +823,7 @@ export default  {
         
         calcularPeriodo() 
             {
+                this.SaldoDeuda = this.SaldoDeuda + (this.SaldoDeuda * this.form.porcentajeVenta)/100
                 if (this.producto_id) {
                     axios.get(this.enlace+'getProductosVentasPrecio/'+this.producto_id)
                     .then(res => {
@@ -774,6 +846,7 @@ export default  {
                     let me = this     
                     me.periodo = Math.round((parseFloat(me.SaldoDeuda) - parseFloat(me.abono)) / parseFloat(me.cuota))
                     return Math.round(me.periodo)
+                    
                 }
                 
             },
@@ -800,6 +873,7 @@ export default  {
             axios.get(this.enlace+'getProductosVentas')
                 .then(res => {
                 this.productos = res.data;
+                
             });
 
             axios.get(this.enlace+'gettipoventa')
@@ -856,6 +930,11 @@ export default  {
         },
         productoinput(value){
             this.producto_id = value.id
+            axios.get(this.enlace+'getproducto/'+this.producto_id )
+                    .then(res => {
+                    this.getproducto = res.data;
+                    
+            });
                
         },
         tipoventainput(value){
@@ -967,7 +1046,7 @@ export default  {
                         let interesDecimal = (parseFloat(me.interes) / 100);
                         let denominador = Math.pow((1 / (1 + parseFloat(interesDecimal))), parseFloat(me.periodo));
                         this.cuota_fija = (parseFloat(interesDecimal) * parseFloat(monto_cobrar)) / (1 - parseFloat(denominador));
-                       
+                      
                     }else{
                           this.cuota_fija =    me.cuota;
                     }
@@ -1012,6 +1091,7 @@ export default  {
         },  
         donwloadPdf()
         {
+            console.log('descargarpdf');
             let me = this
             let doc = new jsPDF('p', 'pt');
         
@@ -1027,6 +1107,28 @@ export default  {
             ];
             doc.text('Amortización del cliente ', 10, 18)
             doc.autoTable(columns, me.arrayData)
+            doc.save('amortizacion.pdf')
+        },
+        donwloadPdf2()
+        {
+            console.log('descargarpdf');
+            let me = this
+            let doc = new jsPDF('p', 'pt', 'A4');
+        
+        
+            let columns = [
+                {title: "# Periodos", dataKey: "id"},
+                {title: "Fecha de pago", dataKey: "fecha_pago"},
+                {title: "Saldo inicial", dataKey: "saldo_inicial"},
+                {title: "Interés", dataKey: "interes"},
+                {title: "Cuota fija", dataKey: "cuota"},
+                {title: "Abono Capital", dataKey: "cuota"},
+                {title: "Saldo final", dataKey: "saldo_final"},
+                {title: "saldo_cuota", dataKey: "saldo_cuota"},
+               
+            ];
+            doc.text('Tabla de Amortización  cliente ', 10, 18)
+            doc.autoTable(columns, me.cuotasdetalles)
             doc.save('amortizacion.pdf')
         },
         postVenta()
@@ -1069,6 +1171,7 @@ export default  {
                             'contrato':     (this.form.contrato),
                             'producto_id':  (this.producto_id),
                             'tipoventa_id': (this.tipoventa_id),
+                            'porcentajeVenta': (this.form.porcentajeVenta),
                             'periodo': me.periodo,
                             'interes': me.interes,
                             'cuota': parseFloat(this.cuota).toFixed(2),
@@ -1126,7 +1229,9 @@ export default  {
                             'contrato':     (this.form.contrato),
                             'producto_id':  (this.producto_id),
                             'tipoventa_id': (this.tipoventa_id),
-                            'saldoDeuda': this.SaldoDeuda
+                            'saldoDeuda': this.SaldoDeuda,
+                            'porcentajeVenta': (this.form.porcentajeVenta),
+                            'cantidadproducto': (this.cantidadproducto)
                             
                         }
 
@@ -1211,6 +1316,16 @@ export default  {
                 out += this.adicional.charAt(i)
             this.adicional = out
         },
+        validarPorcentajeNumerico()
+        {
+            let out = ''
+            let filtro = '1234567890.'
+            
+            for (let i=0; i < this.form.porcentajeVenta.length; i++)
+            if (filtro.indexOf(this.form.porcentajeVenta.charAt(i)) != -1) 
+                out += this.form.porcentajeVenta.charAt(i)
+            this.form.porcentajeVenta = out
+        },
         validardescuentoNumerico()
         {
             let out = ''
@@ -1291,6 +1406,7 @@ export default  {
             
             this.errorPago = 0
             this.errorMostrarMsgPago = []
+            if(!this.cantidadproducto > 0) this.errorMostrarMsgPago.push("El abono no puede estar vacío")
             if(!this.abono || this.abono < 0) this.errorMostrarMsgPago.push("El abono no puede estar vacío")
             if(!this.periodo || this.periodo <= 0 || this.periodo == 'Infinity') this.errorMostrarMsgPago.push("El periodo no puede estar vacío")
             if(!this.cuota || this.cuota <= 0) this.errorMostrarMsgPago.push("Debe especificar la cuota")
@@ -1321,7 +1437,7 @@ export default  {
                
             });
             if(selectedRowsString!='null'){
-                this.archivo = "http://23.236.49.200/"+selectedRowsString
+                this.archivo = "http://localhost/credito/public/"+selectedRowsString
             }
             
             if (selectedRows.length > maxToShow) {
@@ -1354,7 +1470,14 @@ export default  {
                         this.cuotasdetalles = res.data;
                     });
                 }
-                
+                /**
+                 * PAGOS
+                 */
+                console.log(this.idv);
+                axios.get(this.enlace+'pagosdetalle/'+this.idv)
+                        .then(res => {
+                        this.pagosdetalles = res.data;
+                    });
 
             this.show=true
         },

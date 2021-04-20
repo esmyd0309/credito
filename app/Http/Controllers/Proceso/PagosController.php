@@ -51,6 +51,23 @@ class PagosController extends Controller
     
 
     }
+
+    public function pagosdetalle($idv)
+    {
+    
+               
+        $pagos = DB::connection('mysql')->select
+        ("SELECT a.*,b.nombre AS origen,c.nombre AS destino FROM _pagos AS a,bancos AS b,bancosdestino AS c
+
+            WHERE ventas_id=1
+            and a.origen_id=b.id
+            AND a.destino_id=c.id
+        ");
+
+            return response()->json($pagos);
+    
+
+    }
     /**
      * Display a listing of the resource.
      *

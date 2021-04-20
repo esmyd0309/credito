@@ -429,7 +429,7 @@ export default  {
             showarchivo: null,
             dismissSecs: 10,
             dismissCountDown: 0,
-            enlace: 'http://23.236.49.200/',
+            enlace: 'http://localhost/credito/public/',
             file: [],
             success: '',
             image: '',
@@ -560,8 +560,11 @@ export default  {
     methods: {
         
         clienteinput(value){
+            this.clientes_id = '';
+            console.log(value);
             this.clientes_id = value.id
-            axios.get(this.enlace+'getProductosCliente/'+this.clientes_id)
+            if (this.clientes_id ) {
+                axios.get(this.enlace+'getProductosCliente/'+this.clientes_id)
                     .then(res => {
                     this.productos = res.data;
                   
@@ -575,6 +578,8 @@ export default  {
                             'error'
                         )
                     });
+            }
+            
            
         },
         productoinput(value){
@@ -737,7 +742,7 @@ export default  {
 
             });
             if(selectedRowsString!='null'){
-                this.showarchivo = "http://23.236.49.200/"+selectedRowsString
+                this.showarchivo = "http://localhost/credito/public/"+selectedRowsString
             }
             this.showDocumento = selectedRows
             

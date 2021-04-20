@@ -586,7 +586,7 @@ export default  {
             showarchivo: null,
             dismissSecs: 10,
             dismissCountDown: 0,
-            enlace: 'http://23.236.49.200/',
+            enlace: 'http://localhost/credito/public/',
             file: '',
             success: '',
             image: '',
@@ -865,7 +865,7 @@ export default  {
                
             });
             if(selectedRowsString!='null'){
-                this.showarchivo = "http://23.236.49.200/"+selectedRowsString
+                this.showarchivo = "http://localhost/credito/public/"+selectedRowsString
             }
             this.showDocumento = selectedRows
             if (selectedRows.length > maxToShow) {
