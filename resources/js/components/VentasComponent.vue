@@ -677,7 +677,7 @@
                                             <td class="text-center"> {{ data.origen }}</td>
                                             <td class="text-center"> {{ data.destino }}</td>
                                                             
-                                                            
+                                             <td> <b-button class="mt-3" variant="outline-danger" block @click="recibo(data)">Recibo</b-button></td>               
                                         </tr>
                                     </tbody>         
                             </table>
@@ -1128,7 +1128,9 @@ export default  {
                
             ];
             doc.text('Tabla de Amortización  cliente ', 10, 18)
+          
             doc.autoTable(columns, me.cuotasdetalles)
+
             doc.save('amortizacion.pdf')
         },
         postVenta()
@@ -1501,6 +1503,12 @@ export default  {
                     this.reporteVentas = res.data;
             });
              
+        },
+        recibo(data){
+            console.log(data.id);
+
+             fetch(this.enlace+'recibodescargar/'+data.id);
+                   
         }
         
     }

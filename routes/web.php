@@ -230,6 +230,7 @@ Route::get('getPagos', 'Proceso\PagosController@getPagos');
 Route::get('getProductosCliente/{id}', 'Proceso\PagosController@getProductosCliente');
 
 Route::get('pagosdetalle/{idv}', 'Proceso\PagosController@pagosdetalle');
+Route::get('recibodescargar/{id}', 'Proceso\PagosController@recibodescargar');
 
 
 Route::get('getBancos', 'Proceso\ApiController@getBancos');

@@ -59,12 +59,36 @@ class PagosController extends Controller
         $pagos = DB::connection('mysql')->select
         ("SELECT a.*,b.nombre AS origen,c.nombre AS destino FROM _pagos AS a,bancos AS b,bancosdestino AS c
 
-            WHERE ventas_id=1
+            WHERE ventas_id='$idv'
             and a.origen_id=b.id
             AND a.destino_id=c.id
         ");
 
             return response()->json($pagos);
+    
+
+    }
+
+    public function recibodescargar($id)
+    {
+    
+               
+        /*$pago =  DB::connection('mysql')->select
+        ("SELECT a.*,b.nombre AS origen,c.nombre AS destino FROM _pagos AS a,bancos AS b,bancosdestino AS c
+
+            WHERE a.id='$id'
+            and a.origen_id=b.id
+            AND a.destino_id=c.id
+        ");*/
+
+            $pago = Pagos::where('id',$id)->first();
+            $pdf = \PDF::loadView('proceso.pagos.recibo',compact('pago'));
+                    
+      
+
+            return $pdf->download("recibo.pdf");
+
+            return response()->json($pago);
     
 
     }
