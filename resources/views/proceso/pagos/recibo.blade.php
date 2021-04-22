@@ -56,6 +56,12 @@
         font-size: 8px;
         padding: 5px;
         }
+        .datosadicionales {
+        text-align: left;
+        font-family: sans-serif;
+        font-size: 8px;
+        padding: 5px;
+        }
         #ticket td, #ticket #total {
         text-align: right;
         }
@@ -137,6 +143,30 @@
       </tbody>
       
     </table>
+    <div class="datosadicionales">
+        @if (!empty($pago->formapago )) 
+            <small>Forma de Pago: </small>
+            <small>{{ strtoupper($pago->formapago) }} </small><br>
+        @endif 
+        @if (!empty($pago->documento )) 
+            <small>Documento: </small>
+            <small>{{ strtoupper($pago->documento) }} </small><br>
+        @endif 
+        @if (!empty($pago->fechapago )) 
+            <small>Fecha del pago: </small>
+            <small>{{ strtoupper($pago->fechapago) }} </small><br>
+        @endif 
+        @if (!empty($pago->tipo )) 
+            <small>Tipo de pago: </small>
+            @if ($pago->tipo=1) 
+            <small> ABONO</small><br>
+            @else
+            <small> CUOTAS</small>  <br>
+        
+            @endif 
+        @endif 
+    </div>
+   
   </div>
   
 </div>
