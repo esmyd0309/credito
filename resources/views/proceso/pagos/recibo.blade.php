@@ -8,135 +8,137 @@
         <link href="{{ asset('css/bootstrap.min.css') }}"  rel="stylesheet"  >
     <style>
         * {
-            font-size: 12px;
-            font-family: 'DejaVu Sans', serif;
-        }
-
-        h1 {
             font-size: 18px;
-        }
-
-        .ticket {
-            margin: 2px;
-        }
-
-        td,
-        th,
-        tr,
-        table {
-            border-top: 1px solid black;
-            border-collapse: collapse;
-            margin: 0 auto;
-        }
-
-        td.precio {
-            text-align: right;
-            font-size: 11px;
-        }
-
-        td.cantidad {
-            font-size: 11px;
-        }
-
-        td.producto {
-            text-align: center;
-        }
-
-        th {
-            text-align: center;
-        }
-
-
-        .centrado {
-            text-align: center;
-            align-content: center;
-        }
-
-        .ticket {
-            width: 180px;
-            max-width: 180px;
-        }
-
-        img {
-            max-width: inherit;
-            width: inherit;
-        }
-
-        * {
+            font-family: 'DejaVu Sans', serif;
             margin: 0;
             padding: 0;
         }
 
-        .ticket {
-            margin: 0;
-            padding: 0;
-        }
-
+       
         body {
-            text-align: center;
+            background: #EEE;
+            font-family: sans-serif;
+            
+            margin: 3em;
+            padding: 0;
+        }
+        #register {
+        width: 20em;
+        margin: auto;
+        }
+        #ticket {
+        background: white;
+        text-align: center;
+    
+        box-shadow: 0 0 5px rgba(0,0,0,.25);
+        margin: 0;
+        padding: 0;
+        }
+        #ticket h1 {
+        text-align: center;
+        }
+        #ticket table {
+        font-family: monospace;
+        width: 100%;
+        border-collapse: collapse;
+        }
+        #ticket td, #ticket th {
+        padding: 5px;
+        }
+        #ticket th {
+     
+        font-size: 9px;
+        }
+       
+        .datoscliente {
+        text-align: left;
+        font-family: sans-serif;
+        font-size: 8px;
+        padding: 5px;
+        }
+        #ticket td, #ticket #total {
+        text-align: right;
+        }
+        #ticket tfoot th {
+        border-top: 1px solid black;
+        }
+
+        #entry {
+        background: #333;
+        padding: 12px;
+        border-radius: 10px;
+        box-shadow: 0 0 5px rgba(0,0,0,.25);
+        }
+        #entry input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid black;
+        text-align: right;
+        font-family: sans-serif;
+        font-size: 20px;
+        box-shadow: inset 0 0 3px rgba(0,0,0,.5);
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
         }
     </style>
 </head>
 
 <body>
-    <div class="ticket centrado">
-        <h3>EMC</h3>
-        <h3>Tecnologies</h3>
-        <h4>Ticket # {{ $pago->id }}</h4>
-        <h4>2020-02-05 00:12:22</h4>
-        <?php
-        # Recuerda que este arreglo puede venir de cualquier lugar; aquí lo defino manualmente para simplificar
-        # Puedes obtenerlo de una base de datos, por ejemplo: https://parzibyte.me/blog/2019/07/17/php-bases-de-datos-ejemplos-tutoriales-conexion/
-
-        $productos = [
-            [
-                "cantidad" => 31,
-                "descripcion" => "Cheetos verdes 80 g",
-                "precio" => 123,
-            ],
-            [
-                "cantidad" => 12,
-                "descripcion" => "Teclado HyperX",
-                "precio" => 1233,
-            ],
-            [
-                "cantidad" => 12,
-                "descripcion" => "Mouse Logitech ASD123",
-                "precio" => 841,
-            ],
-            [
-                "cantidad" => 15,
-                "descripcion" => "Monitor Samsung 123",
-                "precio" => 3546,
-            ],
-        ];
-        ?>
-
-        <table>
-            <thead>
-                <tr class="centrado">
-                    <th class="cantidad">CANT</th>
-                    <th class="producto">PRODUCTO</th>
-                    <th class="precio">$$</th>
-                </tr>
-            </thead>
-            <tbody>
-               
-            </tbody>
-            <tr>
-                <td class="cantidad"></td>
-                <td class="producto">
-                    <strong>TOTAL</strong>
-                </td>
-                <td class="precio">
-                   
-                </td>
-            </tr>
-        </table>
-        <p class="centrado">¡GRACIAS POR SU COMPRA!
-            <br>parzibyte.me</p>
+<div id="register">
+  <div id="ticket">
+    <small>ECM</small><br>
+    <small>Tecnologies</small><br>
+    <small>Fortín Bloque 2 Mz. 1614 Guayaquil-Ecuador</small><br>
+    <small>Telefonos: 042237750 / 0997189836</small>
+    <hr>
+    <div class="datoscliente">
+    <small>Cliente: </small>
+        @if (!empty($cliente->apellidoPaterno ))
+            <small>{{ strtoupper($cliente->apellidoPaterno) }} </small>
+        @endif  
+        @if (!empty($cliente->apellidoMaterno )) 
+            <small>{{ strtoupper($cliente->apellidoMaterno) }}</small>
+        @endif  
+        @if (!empty($cliente->nombre1 )) 
+            <small>{{ strtoupper($cliente->nombre1) }} </small>
+        @endif  
+        @if (!empty($cliente->nombre2 )) 
+            <small>{{ strtoupper($cliente->nombre2) }}</small>
+        @endif  <br>
+        @if (!empty($cliente->nombre2 )) 
+        <small>Cedula: </small>
+        <small>{{ strtoupper($cliente->cedula) }} </small><br>
+        @endif 
+        @if (!empty($pago->fecha )) 
+        <small>Fecha: </small>
+        <small>{{ strtoupper($pago->fecha) }} </small><br>
+        @endif 
     </div>
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-</body>
+   
+    <table class="table">
+      <thead>
+        <tr>
+            <th>Deuda</th>
+            <th>Saldo Anterior</th>
+            <th>Abono</th>
+            <th>Saldo Actual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <th>${{$venta->totalPagar}}</th>
+            <th>${{$pago->saldo_anterior}}</th>
+            <th>${{$pago->valor}}</th>
+            <th>${{$venta->saldoDeuda}}</th>
+        </tr>
+  
+        
+      </tbody>
+      
+    </table>
+  </div>
+  
+</div>
 
 </html>

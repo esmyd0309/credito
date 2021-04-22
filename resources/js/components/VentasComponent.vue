@@ -677,7 +677,7 @@
                                             <td class="text-center"> {{ data.origen }}</td>
                                             <td class="text-center"> {{ data.destino }}</td>
                                                             
-                                             <td> <b-button class="mt-3" variant="outline-danger" block @click="recibo(data)">Recibo</b-button></td>               
+                                             <td> <b-button class="mt-3" variant="outline-danger" :href="enlacerecibo+data.id+'/'+data.clientes_id+'/'+data.ventas_id" block >Recibo</b-button></td>               
                                         </tr>
                                     </tbody>         
                             </table>
@@ -764,6 +764,7 @@ export default  {
             show: false,
             showarchivo: null,
             enlace: 'http://localhost/credito/public/',
+            enlacerecibo: 'http://localhost/credito/public/recibodescargar/',
             success: '',
             clientes: [],
             productos: [],
@@ -1503,13 +1504,8 @@ export default  {
                     this.reporteVentas = res.data;
             });
              
-        },
-        recibo(data){
-            console.log(data.id);
-
-             fetch(this.enlace+'recibodescargar/'+data.id);
-                   
         }
+       
         
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Proceso\Ventas;
 use App\Models\Proceso\Productos;
 use App\Models\Proceso\Pagos;
+use App\Models\Proceso\Clientes;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -69,7 +70,7 @@ class PagosController extends Controller
 
     }
 
-    public function recibodescargar($id)
+    public function recibodescargar($id,$clientes_id,$ventas_id)
     {
     
                
@@ -80,15 +81,19 @@ class PagosController extends Controller
             and a.origen_id=b.id
             AND a.destino_id=c.id
         ");*/
-
+        
             $pago = Pagos::where('id',$id)->first();
-            $pdf = \PDF::loadView('proceso.pagos.recibo',compact('pago'));
+            $cliente = Clientes::where('id',$clientes_id)->first();
+            $venta = Ventas::where('id',$ventas_id)->first();
+           
+            //dd($cliente );
+            $pdf = \PDF::loadView('proceso.pagos.recibo',compact('pago','cliente','venta'));
                     
       
 
             return $pdf->download("recibo.pdf");
 
-            return response()->json($pago);
+            //return response()->json($pago);
     
 
     }
