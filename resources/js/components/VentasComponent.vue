@@ -138,7 +138,7 @@
             :footer-bg-variant="footerBgVariant"
             :footer-text-variant="footerTextVariant"            
         >
-        
+            <loading :active.sync="isLoading"/>
             <form  v-on:submit.prevent="checkForm" >
                  <br>
                 <b-row>
@@ -703,8 +703,8 @@
 import axios from 'axios'
 import Vue from "vue";
 import 'whatwg-fetch';
-    import jsPDF from 'jspdf';
-    import autoTable from 'jspdf-autotable';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import MagicVueInput from 'magic-vue-input'
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
@@ -713,7 +713,11 @@ import { AllCommunityModules } from "@ag-grid-community/all-modules";
 import swal from 'sweetalert2'
 import Multiselect from 'vue-multiselect'
 
+import Loading from 'vue-loading-overlay';
 
+import 'vue-loading-overlay/dist/vue-loading.css';
+
+Vue.use(Loading);
 
 const pluginOptions = {
   /* see config reference */
@@ -726,7 +730,11 @@ const options = {
 
 export default  {
     name: 'ventas',
-    
+      /*
+      Defines the data used by the component
+    */components:{
+            Loading
+        },
     data() {
          const now = new Date()
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
@@ -739,6 +747,8 @@ export default  {
         maxDate.setMonth(maxDate.getMonth() + 1)
         maxDate.setDate(15)
         return {
+            isLoading: false,
+            isSuccess: false,
             form: {
                 cliente: '',
                 producto: '',
@@ -1136,6 +1146,8 @@ export default  {
         },
         postVenta()
         {
+        this.isLoading = true;
+        this.isSuccess = false;
             if (this.tipoventa_id==1) {
             
                 if(this.validate())
@@ -1207,7 +1219,8 @@ export default  {
                             this.descuento = 0.0
                             this.abono = 0.0
                             cuota = 0.0
-                        }).catch(err => {
+                        }).finally(()=> this.isLoading= false)
+                        .catch(err => {
                             console.log(err.response.data)
                             me.amortizar = false
                             monto_cobrar = 0.0
@@ -1222,7 +1235,7 @@ export default  {
                                 err.response.data,
                                 'error'
                             )
-                        })
+                        }).finally(()=> this.isLoading= false);
                     }
                 }    
             }else{
@@ -1258,7 +1271,7 @@ export default  {
                             this.resetError()
                             
                             this.reset()
-                        }).catch(err => {
+                        }).finally(()=> this.isLoading= false).catch(err => {
                             console.log(err.response.data)
                             
                             swal(
@@ -1266,7 +1279,7 @@ export default  {
                                 err.response.data,
                                 'error'
                             )
-                        })
+                        }).finally(()=> this.isLoading= false);
             }
         },
         deletePago(id)

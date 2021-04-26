@@ -29,6 +29,8 @@
         #ticket {
         background: white;
         text-align: center;
+        line-height : 13px;
+        font-size: 5px;
     
         box-shadow: 0 0 5px rgba(0,0,0,.25);
         margin: 0;
@@ -53,14 +55,26 @@
         .datoscliente {
         text-align: left;
         font-family: sans-serif;
-        font-size: 8px;
+        font-size: 5px;
         padding: 5px;
+        line-height : 13px;
         }
         .datosadicionales {
         text-align: left;
         font-family: sans-serif;
-        font-size: 8px;
+        font-size: 4px;
         padding: 5px;
+        line-height : 13px;
+        }
+        #footer {
+        background: white;
+        text-align: center;
+        line-height : 13px;
+        font-size: 4px;
+        font-size: x-small;
+       
+        margin: 0;
+        padding: 8px;
         }
         #ticket td, #ticket #total {
         text-align: right;
@@ -93,8 +107,10 @@
 <body>
 <div id="register">
   <div id="ticket">
-    <small>ECM</small><br>
-    <small>Tecnologies</small><br>
+  <br>
+  <br>
+    <small>ELECTRO MARKET</small><br>
+    <small>Créditos a tu Medida</small><br>
     <small>Fortín Bloque 2 Mz. 1614 Guayaquil-Ecuador</small><br>
     <small>Telefonos: 042237750 / 0997189836</small>
     <hr>
@@ -121,7 +137,7 @@
         <small>{{ strtoupper($pago->fecha) }} </small><br>
         @endif 
     </div>
-   
+    <br>
     <table class="table">
       <thead>
         <tr>
@@ -136,7 +152,7 @@
             <th>${{$venta->totalPagar}}</th>
             <th>${{$pago->saldo_anterior}}</th>
             <th>${{$pago->valor}}</th>
-            <th>${{$venta->saldoDeuda}}</th>
+            <th>${{$pago->saldo_actual}}</th>
         </tr>
   
         
@@ -165,6 +181,27 @@
         
             @endif 
         @endif 
+        @if (!empty($venta->contrato )) 
+            <small>Contrato: </small>
+            <small> #{{$venta->contrato}}  </small><br>
+        @endif 
+       
+        @if (!empty($pago->id )) 
+            <small>Recibo Id: </small>
+            <small> <STRong>#{{$pago->id}}</STRong>   </small><br>
+        @endif
+        @if (!empty($pago->agente )) 
+            <small>Recaudador: </small>
+            <small> {{$pago->agente}}  </small><br>
+        @endif 
+        
+    </div>
+    <hr>
+    <div id="footer">
+        <small> NOTA:  Sea puntual en sus pagos, pagar a tiempo le hace bien asi podrá tener más crédito. Controle sus recibo al saldo que queda.</small>
+        <small>Este recibo es el unico comprobante para cualquier reclamo.</small>
+        <br>
+        <br>
     </div>
    
   </div>

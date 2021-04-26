@@ -10,7 +10,7 @@ class Pagos extends Model
        
 
         protected $table = "_pagos";
-        protected $fillable = ['ventas_id','clientes_id', 'fecha','agente','origen','destino','formapago','fechapago','valor','valor','archivo'];
+        protected $fillable = ['ventas_id','clientes_id', 'fecha','agente','origen','destino','formapago','fechapago','valor','valor','archivo','saldo_actual'];
         protected $primaryKey = 'id';
 
        

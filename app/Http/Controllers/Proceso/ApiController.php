@@ -168,6 +168,7 @@ class ApiController extends Controller
                                                             a.cliente_id=b.id 
                                                     AND a.producto_id=c.id 
                                                     AND a.tipoVenta_id=d.id
+                                                    ORDER BY a.id desc 
                                                 ");
         return response()->json($ventas, 200);
     }
@@ -215,6 +216,7 @@ class ApiController extends Controller
                                                         AND a.producto_id=c.id 
                                                         AND a.tipoVenta_id=d.id
                                                         AND a.id=$id
+                                                        
 
                                                 ");
         return response()->json($ventasid, 200);
@@ -223,9 +225,8 @@ class ApiController extends Controller
 
     public function amortizaciondetalle($id)
     {
-        $amortizaciondetalle = DB::connection('mysql')->select("SELECT * FROM _cuotas WHERE venta_id=$id
-
-                                                ");
+       
+        $amortizaciondetalle = DB::connection('mysql')->select("SELECT * FROM _cuotas WHERE venta_id=$id");
         return response()->json($amortizaciondetalle, 200);
     }
 

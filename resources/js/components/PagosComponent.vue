@@ -135,8 +135,8 @@
                 <br>
                 <b-row v-if="form.producto ">
 
-                    <b-col md="12" v-for="(item, index) in productos" :key="index" >
-                        <div class="table-responsive" v-if="item.tipoVenta_id==1">
+                    <b-col md="12"  >
+                        <div class="table-responsive" >
                             <b-alert show variant="secondary"><center><i class="fas fa-chart-pie"></i> <strong>Tabla de Amortización</strong> </center> </b-alert>
 
                                 <table class="table table-bordered table-hover table-striped ">
@@ -584,11 +584,13 @@ export default  {
         },
         productoinput(value){
             if (value) {
+                this.cuotas = null;
                 this.venta_id = value.id
                 if (this.venta_id) {
                         axios.get(this.enlace+'amortizaciondetalle/'+this.venta_id)
                             .then(res => {
                             this.cuotas = res.data;
+                            console.log(this.cuotas );
                          });
                          
                 }

@@ -188,6 +188,7 @@ class PagosController extends Controller
                     $pagos->origen_id =$request->origen_id;
                     $pagos->destino_id =$request->destino_id;
                     $pagos->saldo_anterior =$saldo_anterior;
+                    $pagos->saldo_actual =$saldo_anterior-$valorPago;
                     $pagos->valor =$valorPago;
                     $pagos->fechapago =$request->fechapago;
                     $pagos->comentario =$request->comentario;
@@ -285,6 +286,7 @@ class PagosController extends Controller
                 $pagos->origen_id =$request->origen_id;
                 $pagos->destino_id =$request->destino_id;
                 $pagos->saldo_anterior =$saldo_anterior;
+                $pagos->saldo_actual =$saldo_anterior-$request->valor;
                 $pagos->valor =$request->valor;
                 $pagos->fechapago =$request->fechapago;
                 $pagos->comentario =$request->comentario;
@@ -398,6 +400,7 @@ class PagosController extends Controller
             $pagos->origen_id =$request->origen_id;
             $pagos->destino_id =$request->destino_id;
             $pagos->saldo_anterior =$saldo_anterior;
+            $pagos->saldo_actual =$saldo_anterior-$valorPago;
             $pagos->valor =$valorPago;
             $pagos->fechapago =$request->fechapago;
             $pagos->comentario =$request->comentario;
