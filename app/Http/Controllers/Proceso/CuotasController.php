@@ -65,7 +65,7 @@ class CuotasController extends Controller
                 $ventas->producto_id = $request->producto_id;
                 $ventas->tipoVenta_id = $request->tipoventa_id;
                 $ventas->interes = $request->interes;
-
+                $ventas->letras = $request->periodo;
                 $ventas->valorDeuda = $request->montodeuda;
                 $ventas->abono = $request->abono;
                 $ventas->saldo_abono = $request->abono;

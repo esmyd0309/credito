@@ -430,15 +430,12 @@ CREATE TABLE IF NOT EXISTS `_cuotas` (
   PRIMARY KEY (`id`),
   KEY `pagos_user_id_foreign` (`user_id`),
   KEY `venta_id` (`venta_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla credito_._cuotas: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla credito_._cuotas: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `_cuotas` DISABLE KEYS */;
 INSERT INTO `_cuotas` (`id`, `cliente_id`, `venta_id`, `saldodeuda`, `periodo`, `interes`, `cuota`, `abono`, `saldo_abono`, `estado_abono`, `fecha_pago`, `user_id`, `fecha_registro`, `estado`, `created_at`, `updated_at`) VALUES
-	(6, 6, 1, 45.32, 7, 0.8, 51.91, 50, 0, 0, '2021-04-30', 3328, '2021-04-19 21:55:00', _binary 0x31, '2021-04-19 21:55:21', '2021-04-25 22:02:40'),
-	(7, 6, 2, 362.96, 7, 0.8, 51.91, 50, 0, 0, '2021-04-29', 3328, '2021-04-24 16:41:00', _binary 0x31, '2021-04-24 16:41:16', '2021-04-25 22:03:48'),
-	(8, 6, 3, 362.96, 7, 0.8, 51.91, 50, 50, 1, '2021-04-29', 3328, '2021-04-24 16:41:00', _binary 0x31, '2021-04-24 16:41:16', '2021-04-24 16:41:16'),
-	(9, 6, 4, 362.96, 7, 0.8, 51.91, 50, 50, 1, '2021-04-29', 3328, '2021-04-24 16:41:00', _binary 0x31, '2021-04-24 16:41:18', '2021-04-24 16:41:18');
+	(1, 6, 1, 252.52, 7, 0.1, 93.23, 50, 0, 0, '2021-05-30', 3328, '2021-05-01 14:22:00', _binary 0x31, '2021-05-01 14:22:36', '2021-05-01 15:12:50');
 /*!40000 ALTER TABLE `_cuotas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla credito_._cuotasdetalle
@@ -461,39 +458,18 @@ CREATE TABLE IF NOT EXISTS `_cuotasdetalle` (
   `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK__cuotasdetalle__cuotas` (`cuota_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._cuotasdetalle: ~28 rows (aproximadamente)
+-- Volcando datos para la tabla credito_._cuotasdetalle: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `_cuotasdetalle` DISABLE KEYS */;
 INSERT INTO `_cuotasdetalle` (`id`, `cuota_id`, `venta_id`, `periodo`, `saldo_inicial`, `interes`, `cuota`, `abono`, `saldo_cuota`, `estado`, `fecha_pago`, `saldo_final`, `asesor`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-	(1, 6, 1, 1, 352.00, 2.82, 51.91, 49.09, 0.00, 'CANCELADA', '2021-05-30', 302.91, 'gosorio', '2021-04-19 21:55', '2021-04-19 21:55:22', '2021-04-19 21:59:26'),
-	(2, 6, 1, 2, 302.91, 2.42, 51.91, 49.48, 0.00, 'CANCELADA', '2021-06-30', 253.43, 'gosorio', '2021-04-19 21:55', '2021-04-19 21:55:22', '2021-04-19 21:59:26'),
-	(3, 6, 1, 3, 253.43, 2.03, 51.91, 49.88, 0.00, 'CANCELADA', '2021-07-30', 203.55, 'gosorio', '2021-04-19 21:55', '2021-04-19 21:55:22', '2021-04-19 22:01:06'),
-	(4, 6, 1, 4, 203.55, 1.63, 51.91, 50.28, 0.00, 'CANCELADA', '2021-08-30', 153.27, 'gosorio', '2021-04-19 21:55', '2021-04-19 21:55:22', '2021-04-19 22:02:20'),
-	(5, 6, 1, 5, 153.27, 1.23, 51.91, 50.68, 0.00, 'CANCELADA', '2021-09-30', 102.59, 'gosorio', '2021-04-19 21:55', '2021-04-19 21:55:22', '2021-04-25 22:02:40'),
-	(6, 6, 1, 6, 102.59, 0.82, 51.91, 51.09, 0.00, 'CANCELADA', '2021-10-30', 51.50, 'gosorio', '2021-04-19 21:55', '2021-04-19 21:55:22', '2021-04-25 22:02:41'),
-	(7, 6, 1, 7, 51.50, 0.41, 51.50, 51.09, 45.32, 'PENDIENTE', '2021-11-30', 0.41, 'gosorio', '2021-04-19 21:55', '2021-04-19 21:55:22', '2021-04-25 22:02:41'),
-	(8, 8, 3, 1, 352.00, 2.82, 51.91, 49.09, 51.91, 'PENDIENTE', '2021-05-29', 302.91, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(9, 7, 2, 1, 352.00, 2.82, 51.91, 49.09, 1.91, 'PENDIENTE', '2021-05-29', 302.91, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-25 22:03:48'),
-	(10, 8, 3, 2, 302.91, 2.42, 51.91, 49.48, 51.91, 'PENDIENTE', '2021-06-29', 253.43, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(11, 7, 2, 2, 302.91, 2.42, 51.91, 49.48, 51.91, 'PENDIENTE', '2021-06-29', 253.43, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(12, 8, 3, 3, 253.43, 2.03, 51.91, 49.88, 51.91, 'PENDIENTE', '2021-07-29', 203.55, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(13, 7, 2, 3, 253.43, 2.03, 51.91, 49.88, 51.91, 'PENDIENTE', '2021-07-29', 203.55, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(14, 8, 3, 4, 203.55, 1.63, 51.91, 50.28, 51.91, 'PENDIENTE', '2021-08-29', 153.27, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(15, 7, 2, 4, 203.55, 1.63, 51.91, 50.28, 51.91, 'PENDIENTE', '2021-08-29', 153.27, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(16, 8, 3, 5, 153.27, 1.23, 51.91, 50.68, 51.91, 'PENDIENTE', '2021-09-29', 102.59, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(17, 7, 2, 5, 153.27, 1.23, 51.91, 50.68, 51.91, 'PENDIENTE', '2021-09-29', 102.59, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(18, 8, 3, 6, 102.59, 0.82, 51.91, 51.09, 51.91, 'PENDIENTE', '2021-10-29', 51.50, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(19, 7, 2, 6, 102.59, 0.82, 51.91, 51.09, 51.91, 'PENDIENTE', '2021-10-29', 51.50, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(20, 8, 3, 7, 51.50, 0.41, 51.50, 51.09, 51.50, 'PENDIENTE', '2021-11-29', 0.41, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(21, 7, 2, 7, 51.50, 0.41, 51.50, 51.09, 51.50, 'PENDIENTE', '2021-11-29', 0.41, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:17', '2021-04-24 16:41:17'),
-	(22, 9, 4, 1, 352.00, 2.82, 51.91, 49.09, 51.91, 'PENDIENTE', '2021-05-29', 302.91, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:18', '2021-04-24 16:41:18'),
-	(23, 9, 4, 2, 302.91, 2.42, 51.91, 49.48, 51.91, 'PENDIENTE', '2021-06-29', 253.43, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:18', '2021-04-24 16:41:18'),
-	(24, 9, 4, 3, 253.43, 2.03, 51.91, 49.88, 51.91, 'PENDIENTE', '2021-07-29', 203.55, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:18', '2021-04-24 16:41:18'),
-	(25, 9, 4, 4, 203.55, 1.63, 51.91, 50.28, 51.91, 'PENDIENTE', '2021-08-29', 153.27, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:18', '2021-04-24 16:41:18'),
-	(26, 9, 4, 5, 153.27, 1.23, 51.91, 50.68, 51.91, 'PENDIENTE', '2021-09-29', 102.59, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:18', '2021-04-24 16:41:18'),
-	(27, 9, 4, 6, 102.59, 0.82, 51.91, 51.09, 51.91, 'PENDIENTE', '2021-10-29', 51.50, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:18', '2021-04-24 16:41:18'),
-	(28, 9, 4, 7, 51.50, 0.41, 51.50, 51.09, 51.50, 'PENDIENTE', '2021-11-29', 0.41, 'gosorio', '2021-04-24 16:41', '2021-04-24 16:41:18', '2021-04-24 16:41:18');
+	(1, 1, 1, 1, 650.00, 0.65, 93.23, 92.58, 0.00, 'CANCELADA', '2021-06-30', 557.42, 'gosorio', '2021-05-01 14:22', '2021-05-01 14:22:36', '2021-05-01 14:26:53'),
+	(2, 1, 1, 2, 557.42, 0.56, 93.23, 92.67, 0.00, 'CANCELADA', '2021-07-30', 464.75, 'gosorio', '2021-05-01 14:22', '2021-05-01 14:22:36', '2021-05-01 14:29:24'),
+	(3, 1, 1, 3, 464.75, 0.46, 93.23, 92.76, 0.00, 'CANCELADA', '2021-08-30', 371.99, 'gosorio', '2021-05-01 14:22', '2021-05-01 14:22:36', '2021-05-01 14:32:07'),
+	(4, 1, 1, 4, 371.99, 0.37, 93.23, 92.86, 0.00, 'CANCELADA', '2021-09-30', 279.13, 'gosorio', '2021-05-01 14:22', '2021-05-01 14:22:36', '2021-05-01 15:12:50'),
+	(5, 1, 1, 5, 279.13, 0.28, 93.23, 92.95, 66.15, 'PENDIENTE', '2021-10-30', 186.18, 'gosorio', '2021-05-01 14:22', '2021-05-01 14:22:36', '2021-05-01 15:12:50'),
+	(6, 1, 1, 6, 186.18, 0.19, 93.23, 93.04, 93.23, 'PENDIENTE', '2021-11-30', 93.14, 'gosorio', '2021-05-01 14:22', '2021-05-01 14:22:36', '2021-05-01 14:22:36'),
+	(7, 1, 1, 7, 93.14, 0.09, 93.14, 93.04, 93.14, 'PENDIENTE', '2021-12-30', 0.10, 'gosorio', '2021-05-01 14:22', '2021-05-01 14:22:36', '2021-05-01 14:22:36');
 /*!40000 ALTER TABLE `_cuotasdetalle` ENABLE KEYS */;
 
 -- Volcando estructura para tabla credito_._estadoventa
@@ -538,9 +514,11 @@ CREATE TABLE IF NOT EXISTS `_pagos` (
   `origen_id` varchar(255) DEFAULT NULL,
   `destino_id` varchar(255) DEFAULT NULL,
   `formapago` varchar(255) DEFAULT NULL,
+  `Columna 16` float(18,2) DEFAULT NULL,
   `fechapago` date DEFAULT NULL,
   `tipopago` varchar(50) DEFAULT NULL,
   `saldo_anterior` float(18,2) DEFAULT NULL,
+  `letra` int(11) DEFAULT NULL,
   `valor` float(18,2) DEFAULT NULL,
   `saldo_actual` float(18,2) DEFAULT NULL,
   `archivo` varchar(255) DEFAULT NULL,
@@ -551,23 +529,16 @@ CREATE TABLE IF NOT EXISTS `_pagos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._pagos: ~9 rows (aproximadamente)
+-- Volcando datos para la tabla credito_._pagos: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `_pagos` DISABLE KEYS */;
-INSERT INTO `_pagos` (`id`, `ventas_id`, `clientes_id`, `documento`, `fecha`, `agente`, `origen_id`, `destino_id`, `formapago`, `fechapago`, `tipopago`, `saldo_anterior`, `valor`, `saldo_actual`, `archivo`, `nombreArchivo`, `comentario`, `agenteRecibo`, `fechaRecibo`, `created_at`, `updated_at`) VALUES
-	(1, 3, '5', '12146', '2021-04-19 21:11:00', 'gosorio', '3', '3', 'DEPOSITO', '2021-04-19', '1', 400.00, 50.00, NULL, 'recibos/clientes/2021/04/19/12146_2021-04-19_3.png', '12146_2021-04-19_3.png', 'pruebas', NULL, NULL, '2021-04-19 21:11:07', '2021-04-19 21:11:07'),
-	(2, 11, '6', '235546', '2021-04-19 21:22:00', 'gosorio', '3', '3', 'DEPOSITO', '2021-04-06', '1', 565.60, 50.00, NULL, 'recibos/clientes/2021/04/19/235546_2021-04-06_11.jpg', '235546_2021-04-06_11.jpg', 'DEPOSITO DE ADELANTO', NULL, NULL, '2021-04-19 21:22:22', '2021-04-19 21:22:22'),
-	(3, 11, '6', '56565', '2021-04-19 21:24:00', 'gosorio', '7', '3', 'DEPOSITO', '2021-04-19', '2', 565.60, 100.00, NULL, 'recibos/clientes/2021/04/19/56565_2021-04-19_11.jpg', '56565_2021-04-19_11.jpg', 'LHLLJKL HYYHUHY JKHIHUHOL IOHUIOO', NULL, NULL, '2021-04-19 21:24:09', '2021-04-19 21:24:09'),
-	(4, 11, '6', '56544', '2021-04-19 21:26:00', 'gosorio', '6', '7', 'TRANSFERENCIA', '2021-04-19', '2', 465.60, 250.00, NULL, 'recibos/clientes/2021/04/19/56544_2021-04-19_11.jpg', '56544_2021-04-19_11.jpg', 'YUUIO N UGHUIGYI IGH IUYI9UH', NULL, NULL, '2021-04-19 21:26:46', '2021-04-19 21:26:46'),
-	(5, 11, '6', '555', '2021-04-19 21:29:00', 'gosorio', '6', '7', 'DEPOSITO', '2021-04-19', '2', 215.60, 160.00, NULL, 'recibos/clientes/2021/04/19/555_2021-04-19_11.jpg', '555_2021-04-19_11.jpg', 'JHHJ G GY GG  HBGHK GH', NULL, NULL, '2021-04-19 21:29:49', '2021-04-19 21:29:49'),
-	(6, 1, '6', '564564', '2021-04-19 21:57:00', 'gosorio', '3', '3', 'OFICINA', '2021-04-19', '1', 412.96, 100.00, NULL, 'recibos/clientes/2021/04/19/564564_2021-04-19_1.jpg', '564564_2021-04-19_1.jpg', 'iuhyi', NULL, NULL, '2021-04-19 21:57:23', '2021-04-19 21:57:23'),
-	(7, 1, '6', '256', '2021-04-19 21:59:00', 'gosorio', '2', '3', 'TRANSFERENCIA', '2021-04-19', '2', 362.96, 100.00, NULL, 'recibos/clientes/2021/04/19/256_2021-04-19_1.jpg', '256_2021-04-19_1.jpg', 'hjoohohjo', NULL, NULL, '2021-04-19 21:59:25', '2021-04-19 21:59:25'),
-	(8, 1, '6', '21151515', '2021-04-19 22:01:00', 'gosorio', '3', '7', 'OFICINA', '2021-04-19', '2', 262.96, 5.73, NULL, 'recibos/clientes/2021/04/19/21151515_2021-04-19_1.jpg', '21151515_2021-04-19_1.jpg', 'cancelar la 3ra cuota con 5.73', NULL, NULL, '2021-04-19 22:01:06', '2021-04-19 22:01:06'),
-	(9, 1, '6', '4464646', '2021-04-19 22:02:00', 'gosorio', '6', '4', 'TERRENO', '2021-04-19', '2', 257.23, 51.91, NULL, 'recibos/clientes/2021/04/19/4464646_2021-04-19_1.jpg', '4464646_2021-04-19_1.jpg', 'cancelar 4ta cuota 51.91', NULL, NULL, '2021-04-19 22:02:20', '2021-04-19 22:02:20'),
-	(10, 1, '6', '5456484', '2021-04-25 21:59:00', 'gosorio', '4', '4', 'TRANSFERENCIA', '2021-04-25', '2', 205.32, 10.00, 195.32, 'recibos/clientes/2021/04/25/5456484_2021-04-25_1.jpeg', '5456484_2021-04-25_1.jpeg', 'dsdsd', NULL, NULL, '2021-04-25 21:59:04', '2021-04-25 21:59:04'),
-	(11, 1, '6', '23232', '2021-04-25 22:02:00', 'gosorio', '4', '7', 'DEPOSITO', '2021-04-25', '2', 195.32, 100.00, 95.32, NULL, NULL, NULL, NULL, NULL, '2021-04-25 22:02:40', '2021-04-25 22:02:40'),
-	(12, 2, '6', '65656', '2021-04-25 22:03:00', 'gosorio', '5', '7', 'DEPOSITO', '2021-04-25', '1', 412.96, 100.00, 312.96, NULL, NULL, NULL, NULL, NULL, '2021-04-25 22:03:48', '2021-04-25 22:03:48');
+INSERT INTO `_pagos` (`id`, `ventas_id`, `clientes_id`, `documento`, `fecha`, `agente`, `origen_id`, `destino_id`, `formapago`, `Columna 16`, `fechapago`, `tipopago`, `saldo_anterior`, `letra`, `valor`, `saldo_actual`, `archivo`, `nombreArchivo`, `comentario`, `agenteRecibo`, `fechaRecibo`, `created_at`, `updated_at`) VALUES
+	(1, 1, '6', '569865', '2021-05-01 14:25:00', 'gosorio', '3', '3', 'DEPOSITO', NULL, '2021-05-01', '1', 702.52, 0, 50.00, 652.52, NULL, NULL, 'erere erer eere abono', NULL, NULL, '2021-05-01 14:25:25', '2021-05-01 14:29:25'),
+	(2, 1, '6', '24254401', '2021-05-01 14:26:00', 'gosorio', '3', '3', 'TRANSFERENCIA', NULL, '2021-05-01', '2', 702.52, 1, 100.00, 602.52, NULL, NULL, 'primera cuota', NULL, NULL, '2021-05-01 14:26:52', '2021-05-01 14:26:52'),
+	(3, 1, '6', '25565464', '2021-05-01 14:29:00', 'gosorio', '3', '3', 'TRANSFERENCIA', NULL, '2021-05-01', '2', 602.52, 2, 100.00, 502.52, NULL, NULL, 'notassss', NULL, NULL, '2021-05-01 14:29:24', '2021-05-01 14:29:24'),
+	(4, 1, '6', '55645', '2021-05-01 14:32:00', 'gosorio', '3', '3', 'TRANSFERENCIA', NULL, '2021-05-01', NULL, 502.52, 3, 100.00, 402.52, NULL, NULL, 'notas', NULL, NULL, '2021-05-01 14:32:07', '2021-05-01 14:32:08'),
+	(5, 1, '6', '265656', '2021-05-01 15:12:00', 'gosorio', '3', '3', 'DEPOSITO', NULL, '2021-05-01', '2', 402.52, 4, 100.00, 302.52, NULL, NULL, 'otras cuotas', NULL, NULL, '2021-05-01 15:12:50', '2021-05-01 15:12:50');
 /*!40000 ALTER TABLE `_pagos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla credito_._productos
@@ -603,13 +574,14 @@ CREATE TABLE IF NOT EXISTS `_productos` (
   PRIMARY KEY (`id`),
   KEY `FK_productos_proveedor` (`categoria_id`),
   KEY `FK__productos__proveedor` (`proveedor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._productos: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla credito_._productos: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `_productos` DISABLE KEYS */;
 INSERT INTO `_productos` (`id`, `proveedor_id`, `categoria_id`, `nombre`, `descripcion`, `precio`, `preciocomprado`, `iva`, `ice`, `total`, `inversion`, `recuperado`, `marca`, `modelo`, `color`, `peso`, `tamano`, `cantidad`, `restante`, `imagen`, `nota`, `usuario`, `archivo`, `nombreArchivo`, `agenteArchivo`, `fechaArchivo`, `created_at`, `updated_at`) VALUES
 	(13, 1, 1, 'Samsung Galaxy A11', 'es un movil del año 2020 con un peso de 177 gramos y un tamaño de 161.4 x 76.3 x 8 mm.. Tiene una pantalla de 6.4 pulgadas, cámara de 13 MP y memoria de 32GB 2GB RAM, 32GB 3GB RAM. Su procesador es Octa-core 1.8 GHz', 350.00, NULL, 42.00, 0.00, 392.00, NULL, NULL, 'Samsung', 'Galaxy A11', NULL, 1.00, 6.40, 1.00, 0.00, NULL, 'Para conocer las especificaciones completas del smartphone consulte las caracteristicas y especificaciones, la revisión de videos, las opiniones y las comparaciones.', 'gosorio', 'imagenes/productos/2020/05/14/1589513901_descarga.jpg', '1589513901_descarga.jpg', 'gosorio', '2020-05-14 22:38:00', '2020-05-14 22:36:35', '2021-04-25 20:58:26'),
-	(18, 1, 1, 'pruebas', 'sdsdsd', 300.00, 300.00, 36.00, 0.00, 336.00, 600.00, NULL, 'gregorio', '0962398350', '#00ff00', 3.00, 2.00, 2.00, 1.00, NULL, 'sdasfdgfhjkl', 'gosorio', NULL, NULL, NULL, NULL, '2020-05-19 20:18:50', '2021-04-25 21:13:29');
+	(18, 1, 1, 'pruebas', 'sdsdsd', 300.00, 300.00, 36.00, 0.00, 336.00, 600.00, NULL, 'gregorio', '0962398350', '#00ff00', 3.00, 2.00, 2.00, 1.00, NULL, 'sdasfdgfhjkl', 'gosorio', NULL, NULL, NULL, NULL, '2020-05-19 20:18:50', '2021-04-25 21:13:29'),
+	(19, 1, 2, 'juego de casa', 'cómoda, cama, mesa, cilindro, ventiladores', 700.00, 500.00, 0.00, 0.00, 700.00, 700.00, NULL, 'rratan', 'marron', '#683c3b', 12.00, 0.00, 1.00, 0.00, NULL, 'Varidad de productos', 'gosorio', NULL, NULL, NULL, NULL, '2021-05-01 13:15:12', '2021-05-01 14:22:37');
 /*!40000 ALTER TABLE `_productos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla credito_._proveedor
@@ -712,6 +684,8 @@ CREATE TABLE IF NOT EXISTS `_ventas` (
   `intereses` float(18,2) DEFAULT '0.00',
   `monto_cobrar` float(18,2) DEFAULT NULL,
   `saldoDeuda` float(18,2) DEFAULT NULL,
+  `letras` int(11) DEFAULT NULL,
+  `letrasCanceladas` int(11) DEFAULT NULL,
   `totalPagar` float(18,2) DEFAULT NULL,
   `devolucion` float(18,2) DEFAULT '0.00',
   `contrato` varchar(255) DEFAULT '',
@@ -724,19 +698,12 @@ CREATE TABLE IF NOT EXISTS `_ventas` (
   KEY `FK__ventas__productos` (`producto_id`),
   KEY `FK__ventas__cuotas` (`cuota_id`),
   KEY `FK__ventas__estadoventa` (`estadoVenta_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._ventas: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla credito_._ventas: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `_ventas` DISABLE KEYS */;
-INSERT INTO `_ventas` (`id`, `cliente_id`, `producto_id`, `tipoVenta_id`, `cuota_id`, `cantidadproducto`, `interes`, `valorDeuda`, `porcentajeVenta`, `adicional`, `abono`, `saldo_abono`, `estado_abono`, `descuento`, `intereses`, `monto_cobrar`, `saldoDeuda`, `totalPagar`, `devolucion`, `contrato`, `users_id`, `estadoVenta_id`, `created_at`, `updated_at`) VALUES
-	(1, 6, 13, 1, 6, 1, 0.8, 402.00, 0.00, 10.00, 50.00, 0.00, 1, 0.00, 11.36, 352.00, 45.32, 362.96, 0.00, '21545', 'gosorio', 2, '2021-04-19 21:55:21', '2021-04-25 22:02:40'),
-	(2, 6, 13, 1, 7, 1, 0.8, 402.00, 0.00, 10.00, 50.00, 0.00, 1, 0.00, 11.36, 352.00, 312.96, 362.96, 0.00, '9766RR', 'gosorio', 2, '2021-04-24 16:41:16', '2021-04-25 22:03:48'),
-	(3, 6, 13, 1, 8, 1, 0.8, 402.00, 0.00, 10.00, 50.00, 50.00, 1, 0.00, 11.36, 352.00, 362.96, 362.96, 0.00, '9766RR', 'gosorio', 3, '2021-04-24 16:41:16', '2021-04-24 16:41:17'),
-	(4, 6, 13, 1, 9, 1, 0.8, 402.00, 0.00, 10.00, 50.00, 50.00, 1, 0.00, 11.36, 352.00, 362.96, 362.96, 0.00, '9766RR', 'gosorio', 3, '2021-04-24 16:41:18', '2021-04-24 16:41:18'),
-	(5, 6, 18, 2, NULL, 1, 0, 336.00, 0.00, 0.00, 0.00, 0.00, 1, 0.00, 0.00, 336.00, 336.00, 336.00, 0.00, '5545', 'gosorio', 3, '2021-04-25 20:25:06', '2021-04-25 20:25:06'),
-	(6, 6, 13, 2, NULL, 1, 0, 392.00, 0.00, 0.00, 0.00, 0.00, 1, 0.00, 0.00, 392.00, 392.00, 392.00, 0.00, '554', 'gosorio', 3, '2021-04-25 20:56:37', '2021-04-25 20:56:37'),
-	(7, 6, 13, 2, NULL, 1, 0, 392.00, 0.00, 0.00, 0.00, 0.00, 1, 0.00, 0.00, 392.00, 392.00, 392.00, 0.00, '5448', 'gosorio', 3, '2021-04-25 20:58:26', '2021-04-25 20:58:26'),
-	(8, 6, 18, 2, NULL, 1, 0, 336.00, 0.00, 0.00, 0.00, 0.00, 1, 0.00, 0.00, 336.00, 336.00, 336.00, 0.00, '5448', 'gosorio', 3, '2021-04-25 21:13:29', '2021-04-25 21:13:29');
+INSERT INTO `_ventas` (`id`, `cliente_id`, `producto_id`, `tipoVenta_id`, `cuota_id`, `cantidadproducto`, `interes`, `valorDeuda`, `porcentajeVenta`, `adicional`, `abono`, `saldo_abono`, `estado_abono`, `descuento`, `intereses`, `monto_cobrar`, `saldoDeuda`, `letras`, `letrasCanceladas`, `totalPagar`, `devolucion`, `contrato`, `users_id`, `estadoVenta_id`, `created_at`, `updated_at`) VALUES
+	(1, 6, 19, 1, 1, 1, 0.1, 700.00, 0.00, 0.00, 50.00, 0.00, 1, 0.00, 2.60, 650.00, 252.52, 7, 4, 652.52, 0.00, '4545445', 'gosorio', 2, '2021-05-01 14:22:35', '2021-05-01 15:12:50');
 /*!40000 ALTER TABLE `_ventas` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

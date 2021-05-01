@@ -63,6 +63,7 @@ class PagosController extends Controller
             WHERE ventas_id='$idv'
             and a.origen_id=b.id
             AND a.destino_id=c.id
+            ORDER BY id desc 
         ");
 
             return response()->json($pagos);
@@ -73,27 +74,18 @@ class PagosController extends Controller
     public function recibodescargar($id,$clientes_id,$ventas_id)
     {
     
-               
-        /*$pago =  DB::connection('mysql')->select
-        ("SELECT a.*,b.nombre AS origen,c.nombre AS destino FROM _pagos AS a,bancos AS b,bancosdestino AS c
-
-            WHERE a.id='$id'
-            and a.origen_id=b.id
-            AND a.destino_id=c.id
-        ");*/
-        
             $pago = Pagos::where('id',$id)->first();
             $cliente = Clientes::where('id',$clientes_id)->first();
             $venta = Ventas::where('id',$ventas_id)->first();
            
-            //dd($cliente );
+          
             $pdf = \PDF::loadView('proceso.pagos.recibo',compact('pago','cliente','venta'));
                     
       
 
             return $pdf->download("recibo.pdf");
 
-            //return response()->json($pago);
+           
     
 
     }
@@ -188,6 +180,7 @@ class PagosController extends Controller
                     $pagos->origen_id =$request->origen_id;
                     $pagos->destino_id =$request->destino_id;
                     $pagos->saldo_anterior =$saldo_anterior;
+                    //$pagos->letra =$request->letra; SE ESTA CALCULANDO
                     $pagos->saldo_actual =$saldo_anterior-$valorPago;
                     $pagos->valor =$valorPago;
                     $pagos->fechapago =$request->fechapago;
@@ -195,7 +188,7 @@ class PagosController extends Controller
                     $pagos->tipopago =$request->tipopago;
                     if ($request->file) {
                         $pagos->archivo ='recibos/clientes/'.$ano.'/'.$mes.'/'.$dia.'/'.$nombre;
-                    $pagos->nombreArchivo =$nombre;
+                        $pagos->nombreArchivo =$nombre;
                     }
                     $pagos->save();
 
@@ -259,6 +252,11 @@ class PagosController extends Controller
 
                     }
 
+                    $letrasCANCELADAS = Cuotasdetalle::where('venta_id', $venta_id)->where('estado','=','CANCELADA')->count();
+                    Ventas::where('id',$venta_id)->update(['letrasCanceladas' =>  $letrasCANCELADAS]);
+                    Pagos::where('id', $pagos->id)->update(['letra' =>  $letrasCANCELADAS]);
+                    
+
                     return response()->json(['success' => 'Pago Registrado con un Abono'], 200);
             }else
             {
@@ -286,6 +284,7 @@ class PagosController extends Controller
                 $pagos->origen_id =$request->origen_id;
                 $pagos->destino_id =$request->destino_id;
                 $pagos->saldo_anterior =$saldo_anterior;
+                //$pagos->letra =$request->letra; SE ESTA CALCULANDO
                 $pagos->saldo_actual =$saldo_anterior-$request->valor;
                 $pagos->valor =$request->valor;
                 $pagos->fechapago =$request->fechapago;
@@ -352,6 +351,9 @@ class PagosController extends Controller
                     }
                     
                 endwhile;
+                $letrasCANCELADAS = Cuotasdetalle::where('venta_id', $venta_id)->where('estado','=','CANCELADA')->count();
+                    Ventas::where('id',$venta_id)->update(['letrasCanceladas' =>  $letrasCANCELADAS]);
+                    Pagos::where('id',$venta_id)->update(['letra' =>  $letrasCANCELADAS]);
 
                 return response()->json(['success' => 'Pago Registrado Correctamente'], 200);
             }
@@ -372,13 +374,13 @@ class PagosController extends Controller
                 }
                
                
-            if ($datos->saldo_abono <1) {
+            if ($datos->saldo_abono <1) {///actualizar el estado del abono
                 Ventas::where('id',$venta_id)->update(['estado_abono' => 0]);
             }
                
             
 
-            if ($request->file) 
+            if ($request->file) //gurdar archivo
             {
                 $nombrear = $request->file->getClientOriginalName();//obtengo el nombre del archivo
                 $filename = pathinfo($nombrear, PATHINFO_FILENAME);//obtengo el nombre sin la extension
@@ -400,6 +402,7 @@ class PagosController extends Controller
             $pagos->origen_id =$request->origen_id;
             $pagos->destino_id =$request->destino_id;
             $pagos->saldo_anterior =$saldo_anterior;
+            //$pagos->letra =$request->letra; SE ESTA CALCULANDO
             $pagos->saldo_actual =$saldo_anterior-$valorPago;
             $pagos->valor =$valorPago;
             $pagos->fechapago =$request->fechapago;

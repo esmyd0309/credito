@@ -199,6 +199,13 @@
                             <input type="text" class="form-control" @keyup="validardePagosNumerico()" v-model="form.valor"   required="required" placeholder="Ingrese un valor a pagar">
                         </b-input-group>
                     </b-col>
+                    <!--
+                    <b-col md="6">
+                        <b-input-group prepend=" Letra #" class="mb-2 mr-sm-2 mb-sm-0">
+                            <input type="text" class="form-control" @keyup="validardePagosNumerico()" v-model="form.letra"   required="required" placeholder="Ingrese el numero de letra hasta ahora">
+                        </b-input-group>
+                    </b-col>
+                    -->
                 </b-row> 
                 
                 <br>
@@ -417,6 +424,7 @@ export default  {
                 comentario: '',
                 origen_id: '',
                 destino_id: '',
+                //letra: '',
             },
             columnDefs: null,
             rowData: null,
@@ -643,6 +651,7 @@ export default  {
                     formData.append('venta_id',         this.venta_id);
                     formData.append('documento',        this.form.documento);
                     formData.append('valor',            this.form.valor);
+                    //formData.append('letra',            this.form.letra);
                     formData.append('origen_id',        this.form.origen_id);
                     formData.append('destino_id',       this.form.destino_id);
                     formData.append('tipopago',         this.form.tipopago);
@@ -711,6 +720,7 @@ export default  {
         this.venta_id='';
         this.form.documento='';
         this.form.valor='';
+        //this.form.letra='';
         this.form.origen_id='';
         this.form.destino_id='';
         this.form.tipopago='';

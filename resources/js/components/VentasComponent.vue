@@ -661,6 +661,8 @@
                                             <th class="text-center">Fecha P.</th>
                                             <th class="text-center">Saldo Anterior</th>     
                                             <th class="text-center">Valor P.</th>    
+                                            <th class="text-center">Saldo Actual</th>    
+                                            <th class="text-center">Letra</th>  
                                             <th class="text-center">Origen</th>  
                                             <th class="text-center">Destino</th>         
                                         </tr>
@@ -674,6 +676,8 @@
                                             <td class="text-center"> {{ data.fechapago }}</td>
                                             <td class="text-center"> {{ data.saldo_anterior }}</td>
                                             <td class="text-center"> {{ data.valor }}</td>
+                                            <td class="text-center"> {{ data.saldo_actual }}</td>
+                                            <td class="text-center"> {{ data.letra }}</td>
                                             <td class="text-center"> {{ data.origen }}</td>
                                             <td class="text-center"> {{ data.destino }}</td>
                                                             
@@ -1102,7 +1106,7 @@ export default  {
         },  
         donwloadPdf()
         {
-            console.log('descargarpdf');
+            
             let me = this
             let doc = new jsPDF('p', 'pt');
         
@@ -1122,7 +1126,7 @@ export default  {
         },
         donwloadPdf2()
         {
-            console.log('descargarpdf');
+            
             let me = this
             let doc = new jsPDF('p', 'pt', 'A4');
         
@@ -1139,7 +1143,7 @@ export default  {
                
             ];
             doc.text('Tabla de Amortización  cliente ', 10, 18)
-          
+         
             doc.autoTable(columns, me.cuotasdetalles)
 
             doc.save('amortizacion.pdf')
@@ -1489,7 +1493,7 @@ export default  {
                 /**
                  * PAGOS
                  */
-                console.log(this.idv);
+               
                 axios.get(this.enlace+'pagosdetalle/'+this.idv)
                         .then(res => {
                         this.pagosdetalles = res.data;

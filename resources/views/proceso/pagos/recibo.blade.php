@@ -19,12 +19,12 @@
             background: #EEE;
             font-family: sans-serif;
             
-            margin: 3em;
-            padding: 0;
+            margin: 0px;
+            padding: 0;/*manipular margenes*/ 
         }
-        #register {
-        width: 20em;
-        margin: auto;
+        #register {/*manipular margenes*/ 
+        width: 18em;
+        margin: 0px;
         }
         #ticket {
         background: white;
@@ -43,6 +43,7 @@
         font-family: monospace;
         width: 100%;
         border-collapse: collapse;
+        padding: 3px;
         }
         #ticket td, #ticket th {
         padding: 5px;
@@ -138,27 +139,35 @@
         @endif 
     </div>
     <br>
-    <table class="table">
+    @if ($pago->letra==0)
+       <p><s>Abono Cancelado : ${{$pago->valor}}</s> </p>
+    @endif 
+        <table class="table">
       <thead>
         <tr>
             <th>Deuda</th>
             <th>Saldo Anterior</th>
             <th>Abono</th>
             <th>Saldo Actual</th>
+            <th>Cuotas</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-            <th>${{$venta->totalPagar}}</th>
+            <th>${{ $venta->totalPagar+$venta->abono }}</th>
             <th>${{$pago->saldo_anterior}}</th>
             <th>${{$pago->valor}}</th>
             <th>${{$pago->saldo_actual}}</th>
+            <th>{{$pago->letra}}  /  {{$venta->letras}}</th>
         </tr>
   
         
       </tbody>
       
     </table>
+    
+    
+    
     <div class="datosadicionales">
         @if (!empty($pago->formapago )) 
             <small>Forma de Pago: </small>
