@@ -9,7 +9,7 @@ var terreno = $("#terreno");
 
 
 $.ajax({
-  url: "http://localhost/credito/public/getFormaspagochart",
+  url: "http://app2.datamarketingplus.ec/getFormaspagochart",
   method: "GET",
   success: function(data){
       

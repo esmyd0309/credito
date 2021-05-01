@@ -6,7 +6,7 @@ $(document).ready(function(){
     var grupo = $("#grupo");
 
 
-    var route = "http://localhost/credito/public/ventasgrupo";
+    var route = "http://app2.datamarketingplus.ec/ventasgrupo";
     $.get(route, function(res){
        
         $(res).each(function (index,value){

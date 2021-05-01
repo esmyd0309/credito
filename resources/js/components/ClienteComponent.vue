@@ -586,7 +586,7 @@ export default  {
             showarchivo: null,
             dismissSecs: 10,
             dismissCountDown: 0,
-            enlace: 'http://localhost/credito/public/',
+            enlace: 'http://app2.datamarketingplus.ec/',
             file: '',
             success: '',
             image: '',
@@ -865,7 +865,7 @@ export default  {
                
             });
             if(selectedRowsString!='null'){
-                this.showarchivo = "http://localhost/credito/public/"+selectedRowsString
+                this.showarchivo = "http://app2.datamarketingplus.ec/"+selectedRowsString
             }
             this.showDocumento = selectedRows
             if (selectedRows.length > maxToShow) {

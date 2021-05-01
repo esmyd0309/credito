@@ -414,7 +414,7 @@ export default  {
             bodyTextVariant: 'dark',
             footerBgVariant: 'warning',
             footerTextVariant: 'dark',
-            enlace: 'http://localhost/credito/public/',
+            enlace: 'http://app2.datamarketingplus.ec/',
             proevedores: [],
             categoria: [],
             previousPrice: null,
@@ -703,7 +703,7 @@ export default  {
                
             });
             if(selectedRowsString!='null'){
-                this.showarchivo = "http://localhost/credito/public/"+selectedRowsString
+                this.showarchivo = "http://app2.datamarketingplus.ec/"+selectedRowsString
             }
             this.showDocumento = selectedRows
             if (selectedRows.length > maxToShow) {

@@ -777,8 +777,8 @@ export default  {
           
             show: false,
             showarchivo: null,
-            enlace: 'http://localhost/credito/public/',
-            enlacerecibo: 'http://localhost/credito/public/recibodescargar/',
+            enlace: 'http://app2.datamarketingplus.ec/',
+            enlacerecibo: 'http://app2.datamarketingplus.ec/recibodescargar/',
             success: '',
             clientes: [],
             productos: [],
@@ -1457,7 +1457,7 @@ export default  {
                
             });
             if(selectedRowsString!='null'){
-                this.archivo = "http://localhost/credito/public/"+selectedRowsString
+                this.archivo = "http://app2.datamarketingplus.ec/"+selectedRowsString
             }
             
             if (selectedRows.length > maxToShow) {
