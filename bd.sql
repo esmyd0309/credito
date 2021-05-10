@@ -13,11 +13,11 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Volcando estructura de base de datos para credito_
-CREATE DATABASE IF NOT EXISTS `credito_` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `credito_`;
+-- Volcando estructura de base de datos para datamodx_app2
+CREATE DATABASE IF NOT EXISTS `datamodx_app2` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `datamodx_app2`;
 
--- Volcando estructura para tabla credito_.bancos
+
 CREATE TABLE IF NOT EXISTS `bancos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) NOT NULL,
@@ -26,8 +26,6 @@ CREATE TABLE IF NOT EXISTS `bancos` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_.bancos: ~40 rows (aproximadamente)
-/*!40000 ALTER TABLE `bancos` DISABLE KEYS */;
 INSERT INTO `bancos` (`id`, `nombre`, `banco`) VALUES
 	(32, 'Asociación de Bancos Privados del Ecuador', 'Asociación de Bancos Privados del Ecuador'),
 	(5, 'Banco Amazonas', 'Banco Amazonas'),
@@ -69,9 +67,7 @@ INSERT INTO `bancos` (`id`, `nombre`, `banco`) VALUES
 	(29, 'Junta de Regulación Monetaria y Financiera', ''),
 	(37, 'Milcambios S.A.', ''),
 	(33, 'Wells Fargo Bank N. A.', '');
-/*!40000 ALTER TABLE `bancos` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_.bancosdestino
 CREATE TABLE IF NOT EXISTS `bancosdestino` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) NOT NULL,
@@ -80,17 +76,14 @@ CREATE TABLE IF NOT EXISTS `bancosdestino` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
--- Volcando datos para la tabla credito_.bancosdestino: ~5 rows (aproximadamente)
-/*!40000 ALTER TABLE `bancosdestino` DISABLE KEYS */;
+
 INSERT INTO `bancosdestino` (`id`, `nombre`, `banco`) VALUES
 	(7, 'Banco de Guayaquil', ''),
 	(9, 'Banco del Pacífico', ''),
 	(4, 'Banco Internacional', ''),
 	(3, 'Banco Pichincha', ''),
 	(2, 'Banco Produbanco', '');
-/*!40000 ALTER TABLE `bancosdestino` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_.enviomasivo
 CREATE TABLE IF NOT EXISTS `enviomasivo` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `numero` varchar(50) DEFAULT NULL,
@@ -99,11 +92,7 @@ CREATE TABLE IF NOT EXISTS `enviomasivo` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_.enviomasivo: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `enviomasivo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enviomasivo` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_.permissions
 CREATE TABLE IF NOT EXISTS `permissions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -115,8 +104,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   UNIQUE KEY `permissions_slug_unique` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla credito_.permissions: ~44 rows (aproximadamente)
-/*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
+
 INSERT INTO `permissions` (`id`, `name`, `slug`, `description`, `created_at`, `updated_at`) VALUES
 	(1, 'Mostrar usuarios', 'users.index', NULL, '2019-08-12 18:06:25', '2019-08-12 18:06:25'),
 	(2, 'Crear un usuario', 'users.create', NULL, '2019-08-12 18:06:39', '2019-08-12 18:06:39'),
@@ -162,9 +150,76 @@ INSERT INTO `permissions` (`id`, `name`, `slug`, `description`, `created_at`, `u
 	(42, 'Whatsapp Masivos', 'whatsappmasivo.index', 'permite ingresar los whatsapp de envio masivos y descargar para el envio tambien', '2020-02-06 10:23:25', '2020-02-06 10:23:25'),
 	(43, 'reportes dinamicos', 'reporte.index', 'reportes dinamicos', '2020-02-29 14:07:32', '2020-02-29 14:07:32'),
 	(44, 'reportesdetablas', 'reportesdetablas.index', 'modulo de reporteria suministrada por el mosulo de reportes dinamicos', '2020-03-01 17:57:04', '2020-03-01 17:57:04');
-/*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_.permission_role
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cedula` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre1` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre2` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `apellido_paterno` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `apellido_materno` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `direccion` text COLLATE utf8mb4_unicode_ci,
+  `celular` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono` varchar(12) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado_civil` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `foto` text COLLATE utf8mb4_unicode_ci,
+  `fecha_nacimiento` date NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `discapacidad` tinyint(1) NOT NULL DEFAULT '0',
+  `comentario` text COLLATE utf8mb4_unicode_ci,
+  `extension` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `perfil_actualizado` tinyint(1) NOT NULL,
+  `usuario` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `genero_id` int(10) unsigned NOT NULL,
+  `area` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `grupo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_usuario_unique` (`usuario`),
+  KEY `users_genero_id_foreign` (`genero_id`),
+  KEY `users_password_unique` (`password`)
+) ENGINE=InnoDB AUTO_INCREMENT=3329 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+INSERT INTO `users` (`id`, `cedula`, `nombre1`, `nombre2`, `apellido_paterno`, `apellido_materno`, `direccion`, `celular`, `telefono`, `estado_civil`, `foto`, `fecha_nacimiento`, `email`, `discapacidad`, `comentario`, `extension`, `enabled`, `perfil_actualizado`, `usuario`, `password`, `genero_id`, `area`, `grupo`, `remember_token`, `created_at`, `updated_at`) VALUES
+	(3328, '1200828463', 'GREGORIO', 'ENRIQUE', 'OSORIO', 'ANDRADES', 'GARZOTA', '0999218183', '04000000', 'Soltero', 'fotocarnet.png', '2019-08-26', 'gregorioenrique14@gmail.com', 0, NULL, '136', 1, 1, 'gosorio', '$2y$12$ii7vQtOv3QxDytzt6inNWu.PI.d0UtOOF/IP4VDG7Pg7QdNZUtw2K', 1, 'COBRANZA', 'LIDERES', NULL, '2019-08-26 10:29:10', '2019-08-31 11:09:42');
+
+
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `special` enum('all-access','no-access') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `roles_name_unique` (`name`),
+  UNIQUE KEY `roles_slug_unique` (`slug`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+INSERT INTO `roles` (`id`, `name`, `slug`, `description`, `created_at`, `updated_at`, `special`) VALUES
+	(1, 'Admin', 'admin.admin', 'Usuario administrador', NULL, '2019-08-12 18:07:19', 'all-access'),
+	(2, 'Agente Cobranza', 'agente', NULL, '2019-08-12 18:06:55', '2019-11-20 13:06:25', NULL),
+	(3, 'LIDERES', 'LIDERES', NULL, '2019-08-23 12:35:47', '2019-08-23 12:35:47', NULL),
+	(4, 'LIDER_COBRANZA', 'LIDER', NULL, '2019-08-30 18:07:18', '2019-08-30 18:07:18', NULL),
+	(5, 'Procesos', 'Procesos', NULL, '2019-08-31 09:27:58', '2019-08-31 09:27:58', NULL),
+	(6, 'Agente ventas', 'agente ventas', NULL, '2019-08-12 18:06:55', '2019-08-12 18:06:55', NULL),
+	(7, 'usuarios', 'users.index', NULL, '2019-09-19 11:24:37', '2019-09-19 11:24:37', NULL),
+	(8, 'lirder de ventas', 'lider ventas', NULL, '2019-10-05 14:11:01', '2019-10-05 14:11:01', NULL),
+	(9, 'Operaciones', 'operaciones', NULL, '2019-11-28 14:21:21', '2019-11-28 14:21:21', NULL),
+	(10, 'Rechazos Operaciones', 'rechazos.index', NULL, '2019-11-28 14:46:15', '2019-11-28 14:46:15', NULL),
+	(11, 'SEGMENTACIÓN', 'contactos', NULL, '2020-01-10 16:03:00', '2020-01-10 16:03:00', NULL),
+	(12, 'SAC', 'bandejasac.index', NULL, '2020-02-01 13:43:01', '2020-02-03 18:03:43', NULL),
+	(13, 'GERENCIA', 'GERENCIA', NULL, '2020-03-05 09:14:37', '2020-03-05 09:14:37', NULL);
+
+
 CREATE TABLE IF NOT EXISTS `permission_role` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `permission_id` int(10) unsigned NOT NULL,
@@ -178,8 +233,7 @@ CREATE TABLE IF NOT EXISTS `permission_role` (
   CONSTRAINT `permission_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla credito_.permission_role: ~53 rows (aproximadamente)
-/*!40000 ALTER TABLE `permission_role` DISABLE KEYS */;
+
 INSERT INTO `permission_role` (`id`, `permission_id`, `role_id`, `created_at`, `updated_at`) VALUES
 	(2, 28, 3, '2019-08-23 12:35:47', '2019-08-23 12:35:47'),
 	(3, 28, 4, '2019-08-30 18:07:19', '2019-08-30 18:07:19'),
@@ -234,9 +288,7 @@ INSERT INTO `permission_role` (`id`, `permission_id`, `role_id`, `created_at`, `
 	(57, 42, 13, '2020-03-05 09:14:38', '2020-03-05 09:14:38'),
 	(58, 43, 13, '2020-03-05 09:14:38', '2020-03-05 09:14:38'),
 	(59, 44, 13, '2020-03-05 09:14:38', '2020-03-05 09:14:38');
-/*!40000 ALTER TABLE `permission_role` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_.permission_user
 CREATE TABLE IF NOT EXISTS `permission_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `permission_id` int(10) unsigned NOT NULL,
@@ -250,43 +302,7 @@ CREATE TABLE IF NOT EXISTS `permission_user` (
   CONSTRAINT `permission_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla credito_.permission_user: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `permission_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `permission_user` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_.roles
-CREATE TABLE IF NOT EXISTS `roles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `special` enum('all-access','no-access') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `roles_name_unique` (`name`),
-  UNIQUE KEY `roles_slug_unique` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Volcando datos para la tabla credito_.roles: ~13 rows (aproximadamente)
-/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` (`id`, `name`, `slug`, `description`, `created_at`, `updated_at`, `special`) VALUES
-	(1, 'Admin', 'admin.admin', 'Usuario administrador', NULL, '2019-08-12 18:07:19', 'all-access'),
-	(2, 'Agente Cobranza', 'agente', NULL, '2019-08-12 18:06:55', '2019-11-20 13:06:25', NULL),
-	(3, 'LIDERES', 'LIDERES', NULL, '2019-08-23 12:35:47', '2019-08-23 12:35:47', NULL),
-	(4, 'LIDER_COBRANZA', 'LIDER', NULL, '2019-08-30 18:07:18', '2019-08-30 18:07:18', NULL),
-	(5, 'Procesos', 'Procesos', NULL, '2019-08-31 09:27:58', '2019-08-31 09:27:58', NULL),
-	(6, 'Agente ventas', 'agente ventas', NULL, '2019-08-12 18:06:55', '2019-08-12 18:06:55', NULL),
-	(7, 'usuarios', 'users.index', NULL, '2019-09-19 11:24:37', '2019-09-19 11:24:37', NULL),
-	(8, 'lirder de ventas', 'lider ventas', NULL, '2019-10-05 14:11:01', '2019-10-05 14:11:01', NULL),
-	(9, 'Operaciones', 'operaciones', NULL, '2019-11-28 14:21:21', '2019-11-28 14:21:21', NULL),
-	(10, 'Rechazos Operaciones', 'rechazos.index', NULL, '2019-11-28 14:46:15', '2019-11-28 14:46:15', NULL),
-	(11, 'SEGMENTACIÓN', 'contactos', NULL, '2020-01-10 16:03:00', '2020-01-10 16:03:00', NULL),
-	(12, 'SAC', 'bandejasac.index', NULL, '2020-02-01 13:43:01', '2020-02-03 18:03:43', NULL),
-	(13, 'GERENCIA', 'GERENCIA', NULL, '2020-03-05 09:14:37', '2020-03-05 09:14:37', NULL);
-/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
-
--- Volcando estructura para tabla credito_.role_user
 CREATE TABLE IF NOT EXISTS `role_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `role_id` int(10) unsigned NOT NULL,
@@ -300,53 +316,10 @@ CREATE TABLE IF NOT EXISTS `role_user` (
   CONSTRAINT `role_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla credito_.role_user: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `role_user` DISABLE KEYS */;
+
 INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`) VALUES
 	(15, 1, 3328, '2019-08-26 10:29:29', '2019-08-26 10:29:29');
-/*!40000 ALTER TABLE `role_user` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_.users
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cedula` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nombre1` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nombre2` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `apellido_paterno` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `apellido_materno` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `direccion` text COLLATE utf8mb4_unicode_ci,
-  `celular` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono` varchar(12) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `estado_civil` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `foto` text COLLATE utf8mb4_unicode_ci,
-  `fecha_nacimiento` date NOT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `discapacidad` tinyint(1) NOT NULL DEFAULT '0',
-  `comentario` text COLLATE utf8mb4_unicode_ci,
-  `extension` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `enabled` tinyint(1) NOT NULL,
-  `perfil_actualizado` tinyint(1) NOT NULL,
-  `usuario` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `genero_id` int(10) unsigned NOT NULL,
-  `area` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `grupo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_usuario_unique` (`usuario`),
-  KEY `users_genero_id_foreign` (`genero_id`),
-  KEY `users_password_unique` (`password`)
-) ENGINE=InnoDB AUTO_INCREMENT=3329 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Volcando datos para la tabla credito_.users: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `cedula`, `nombre1`, `nombre2`, `apellido_paterno`, `apellido_materno`, `direccion`, `celular`, `telefono`, `estado_civil`, `foto`, `fecha_nacimiento`, `email`, `discapacidad`, `comentario`, `extension`, `enabled`, `perfil_actualizado`, `usuario`, `password`, `genero_id`, `area`, `grupo`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(3328, '1200828463', 'GREGORIO', 'ENRIQUE', 'OSORIO', 'ANDRADES', 'GARZOTA', '0999218183', '04000000', 'Soltero', 'fotocarnet.png', '2019-08-26', 'gregorioenrique14@gmail.com', 0, NULL, '136', 1, 1, 'gosorio', '$2y$12$ii7vQtOv3QxDytzt6inNWu.PI.d0UtOOF/IP4VDG7Pg7QdNZUtw2K', 1, 'COBRANZA', 'LIDERES', NULL, '2019-08-26 10:29:10', '2019-08-31 11:09:42');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-
--- Volcando estructura para tabla credito_._categoria
 CREATE TABLE IF NOT EXISTS `_categoria` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `estado` varchar(20) DEFAULT 'of',
@@ -358,17 +331,14 @@ CREATE TABLE IF NOT EXISTS `_categoria` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._categoria: ~5 rows (aproximadamente)
-/*!40000 ALTER TABLE `_categoria` DISABLE KEYS */;
+
 INSERT INTO `_categoria` (`id`, `estado`, `nombre`, `descripcion`, `nota`, `created_at`, `updated_at`) VALUES
 	(1, 'on', 'SMARTPHONE', 'TELEFONOS', 'gvvhvmgh', NULL, NULL),
 	(2, 'on', 'LINEA MARRON', 'MUEBLES', 'ddsdsd', NULL, NULL),
 	(3, 'of', 'LINEA BLANCA', 'ELECTRODOMESTICOS', 'mmmmmmm mmmm', NULL, NULL),
 	(5, 'of', 'customControlValidation1', 'customControlValidation1', 'customControlValidation1 mControlValidation1', NULL, NULL),
 	(11, 'on', 'pruebas', 'pruebas', 'notas de pruebas', NULL, NULL);
-/*!40000 ALTER TABLE `_categoria` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_._clientes
 CREATE TABLE IF NOT EXISTS `_clientes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cedula` varchar(11) NOT NULL DEFAULT '',
@@ -403,13 +373,10 @@ CREATE TABLE IF NOT EXISTS `_clientes` (
   UNIQUE KEY `cedula` (`cedula`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._clientes: ~1 rows (aproximadamente)
-/*!40000 ALTER TABLE `_clientes` DISABLE KEYS */;
+
 INSERT INTO `_clientes` (`id`, `cedula`, `nombre1`, `nombre2`, `apellidoPaterno`, `apellidoMaterno`, `fechaNacimiento`, `email`, `prefijo`, `numero`, `telefonoConvencional`, `prefijotrabajo`, `telefonoTrabajo`, `extension`, `direccionDomicilio`, `ciudad_id`, `provincia_id`, `municipio_id`, `direccionTrabajo`, `nombreEmpresa`, `salario`, `cargo`, `documento`, `nombreDocumento`, `agenteDocumetno`, `fechadocumento`, `usuario`, `created_at`, `updated_at`) VALUES
 	(6, '0962398350', 'GREGORIO', 'ENRIQUE', 'OSORIO', 'ANDRADES', '2021-04-19', 'GRE@GMAIL.COM', 9, '0999921818', NULL, 2, '022545564', '5454', 'PRUEBAS DE DIRECCIONES CLIENTE', NULL, NULL, NULL, 'PRUEBAS DE DIRECCION LABORAL', 'DATA', '400', 'PROGRAMADOR', NULL, NULL, NULL, NULL, 'gosorio', '2021-04-19 21:17:07', '2021-04-19 21:17:07');
-/*!40000 ALTER TABLE `_clientes` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_._cuotas
 CREATE TABLE IF NOT EXISTS `_cuotas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cliente_id` int(11) NOT NULL DEFAULT '0',
@@ -432,13 +399,10 @@ CREATE TABLE IF NOT EXISTS `_cuotas` (
   KEY `venta_id` (`venta_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla credito_._cuotas: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `_cuotas` DISABLE KEYS */;
+
 INSERT INTO `_cuotas` (`id`, `cliente_id`, `venta_id`, `saldodeuda`, `periodo`, `interes`, `cuota`, `abono`, `saldo_abono`, `estado_abono`, `fecha_pago`, `user_id`, `fecha_registro`, `estado`, `created_at`, `updated_at`) VALUES
 	(1, 6, 1, 252.52, 7, 0.1, 93.23, 50, 0, 0, '2021-05-30', 3328, '2021-05-01 14:22:00', _binary 0x31, '2021-05-01 14:22:36', '2021-05-01 15:12:50');
-/*!40000 ALTER TABLE `_cuotas` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_._cuotasdetalle
 CREATE TABLE IF NOT EXISTS `_cuotasdetalle` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cuota_id` int(11) NOT NULL,
@@ -460,8 +424,7 @@ CREATE TABLE IF NOT EXISTS `_cuotasdetalle` (
   KEY `FK__cuotasdetalle__cuotas` (`cuota_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._cuotasdetalle: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `_cuotasdetalle` DISABLE KEYS */;
+
 INSERT INTO `_cuotasdetalle` (`id`, `cuota_id`, `venta_id`, `periodo`, `saldo_inicial`, `interes`, `cuota`, `abono`, `saldo_cuota`, `estado`, `fecha_pago`, `saldo_final`, `asesor`, `fecha_registro`, `created_at`, `updated_at`) VALUES
 	(1, 1, 1, 1, 650.00, 0.65, 93.23, 92.58, 0.00, 'CANCELADA', '2021-06-30', 557.42, 'gosorio', '2021-05-01 14:22', '2021-05-01 14:22:36', '2021-05-01 14:26:53'),
 	(2, 1, 1, 2, 557.42, 0.56, 93.23, 92.67, 0.00, 'CANCELADA', '2021-07-30', 464.75, 'gosorio', '2021-05-01 14:22', '2021-05-01 14:22:36', '2021-05-01 14:29:24'),
@@ -470,9 +433,7 @@ INSERT INTO `_cuotasdetalle` (`id`, `cuota_id`, `venta_id`, `periodo`, `saldo_in
 	(5, 1, 1, 5, 279.13, 0.28, 93.23, 92.95, 66.15, 'PENDIENTE', '2021-10-30', 186.18, 'gosorio', '2021-05-01 14:22', '2021-05-01 14:22:36', '2021-05-01 15:12:50'),
 	(6, 1, 1, 6, 186.18, 0.19, 93.23, 93.04, 93.23, 'PENDIENTE', '2021-11-30', 93.14, 'gosorio', '2021-05-01 14:22', '2021-05-01 14:22:36', '2021-05-01 14:22:36'),
 	(7, 1, 1, 7, 93.14, 0.09, 93.14, 93.04, 93.14, 'PENDIENTE', '2021-12-30', 0.10, 'gosorio', '2021-05-01 14:22', '2021-05-01 14:22:36', '2021-05-01 14:22:36');
-/*!40000 ALTER TABLE `_cuotasdetalle` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_._estadoventa
 CREATE TABLE IF NOT EXISTS `_estadoventa` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
@@ -481,8 +442,7 @@ CREATE TABLE IF NOT EXISTS `_estadoventa` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._estadoventa: ~6 rows (aproximadamente)
-/*!40000 ALTER TABLE `_estadoventa` DISABLE KEYS */;
+
 INSERT INTO `_estadoventa` (`id`, `nombre`, `descripcion`, `estado`) VALUES
 	(1, 'CANCELADA', 'DEUDA PAGADA', b'1'),
 	(2, 'PENDIENTE', 'DEUNDA CON VALORES PENDIENTE', b'1'),
@@ -490,20 +450,14 @@ INSERT INTO `_estadoventa` (`id`, `nombre`, `descripcion`, `estado`) VALUES
 	(4, 'ANULADA', 'DEUDA ANULADA', b'1'),
 	(5, 'AJUSTE', 'ADJUSTAR DEUDA', b'1'),
 	(6, 'LIQUIDADA', 'LIQUIDACION DEUDA', b'1');
-/*!40000 ALTER TABLE `_estadoventa` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_._formapago
 CREATE TABLE IF NOT EXISTS `_formapago` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._formapago: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `_formapago` DISABLE KEYS */;
-/*!40000 ALTER TABLE `_formapago` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_._pagos
 CREATE TABLE IF NOT EXISTS `_pagos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ventas_id` int(11) NOT NULL,
@@ -531,17 +485,14 @@ CREATE TABLE IF NOT EXISTS `_pagos` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._pagos: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `_pagos` DISABLE KEYS */;
+
 INSERT INTO `_pagos` (`id`, `ventas_id`, `clientes_id`, `documento`, `fecha`, `agente`, `origen_id`, `destino_id`, `formapago`, `Columna 16`, `fechapago`, `tipopago`, `saldo_anterior`, `letra`, `valor`, `saldo_actual`, `archivo`, `nombreArchivo`, `comentario`, `agenteRecibo`, `fechaRecibo`, `created_at`, `updated_at`) VALUES
 	(1, 1, '6', '569865', '2021-05-01 14:25:00', 'gosorio', '3', '3', 'DEPOSITO', NULL, '2021-05-01', '1', 702.52, 0, 50.00, 652.52, NULL, NULL, 'erere erer eere abono', NULL, NULL, '2021-05-01 14:25:25', '2021-05-01 14:29:25'),
 	(2, 1, '6', '24254401', '2021-05-01 14:26:00', 'gosorio', '3', '3', 'TRANSFERENCIA', NULL, '2021-05-01', '2', 702.52, 1, 100.00, 602.52, NULL, NULL, 'primera cuota', NULL, NULL, '2021-05-01 14:26:52', '2021-05-01 14:26:52'),
 	(3, 1, '6', '25565464', '2021-05-01 14:29:00', 'gosorio', '3', '3', 'TRANSFERENCIA', NULL, '2021-05-01', '2', 602.52, 2, 100.00, 502.52, NULL, NULL, 'notassss', NULL, NULL, '2021-05-01 14:29:24', '2021-05-01 14:29:24'),
 	(4, 1, '6', '55645', '2021-05-01 14:32:00', 'gosorio', '3', '3', 'TRANSFERENCIA', NULL, '2021-05-01', NULL, 502.52, 3, 100.00, 402.52, NULL, NULL, 'notas', NULL, NULL, '2021-05-01 14:32:07', '2021-05-01 14:32:08'),
 	(5, 1, '6', '265656', '2021-05-01 15:12:00', 'gosorio', '3', '3', 'DEPOSITO', NULL, '2021-05-01', '2', 402.52, 4, 100.00, 302.52, NULL, NULL, 'otras cuotas', NULL, NULL, '2021-05-01 15:12:50', '2021-05-01 15:12:50');
-/*!40000 ALTER TABLE `_pagos` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_._productos
 CREATE TABLE IF NOT EXISTS `_productos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `proveedor_id` int(11) DEFAULT NULL,
@@ -576,15 +527,12 @@ CREATE TABLE IF NOT EXISTS `_productos` (
   KEY `FK__productos__proveedor` (`proveedor_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._productos: ~3 rows (aproximadamente)
-/*!40000 ALTER TABLE `_productos` DISABLE KEYS */;
+
 INSERT INTO `_productos` (`id`, `proveedor_id`, `categoria_id`, `nombre`, `descripcion`, `precio`, `preciocomprado`, `iva`, `ice`, `total`, `inversion`, `recuperado`, `marca`, `modelo`, `color`, `peso`, `tamano`, `cantidad`, `restante`, `imagen`, `nota`, `usuario`, `archivo`, `nombreArchivo`, `agenteArchivo`, `fechaArchivo`, `created_at`, `updated_at`) VALUES
 	(13, 1, 1, 'Samsung Galaxy A11', 'es un movil del año 2020 con un peso de 177 gramos y un tamaño de 161.4 x 76.3 x 8 mm.. Tiene una pantalla de 6.4 pulgadas, cámara de 13 MP y memoria de 32GB 2GB RAM, 32GB 3GB RAM. Su procesador es Octa-core 1.8 GHz', 350.00, NULL, 42.00, 0.00, 392.00, NULL, NULL, 'Samsung', 'Galaxy A11', NULL, 1.00, 6.40, 1.00, 0.00, NULL, 'Para conocer las especificaciones completas del smartphone consulte las caracteristicas y especificaciones, la revisión de videos, las opiniones y las comparaciones.', 'gosorio', 'imagenes/productos/2020/05/14/1589513901_descarga.jpg', '1589513901_descarga.jpg', 'gosorio', '2020-05-14 22:38:00', '2020-05-14 22:36:35', '2021-04-25 20:58:26'),
 	(18, 1, 1, 'pruebas', 'sdsdsd', 300.00, 300.00, 36.00, 0.00, 336.00, 600.00, NULL, 'gregorio', '0962398350', '#00ff00', 3.00, 2.00, 2.00, 1.00, NULL, 'sdasfdgfhjkl', 'gosorio', NULL, NULL, NULL, NULL, '2020-05-19 20:18:50', '2021-04-25 21:13:29'),
 	(19, 1, 2, 'juego de casa', 'cómoda, cama, mesa, cilindro, ventiladores', 700.00, 500.00, 0.00, 0.00, 700.00, 700.00, NULL, 'rratan', 'marron', '#683c3b', 12.00, 0.00, 1.00, 0.00, NULL, 'Varidad de productos', 'gosorio', NULL, NULL, NULL, NULL, '2021-05-01 13:15:12', '2021-05-01 14:22:37');
-/*!40000 ALTER TABLE `_productos` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_._proveedor
 CREATE TABLE IF NOT EXISTS `_proveedor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
@@ -598,15 +546,12 @@ CREATE TABLE IF NOT EXISTS `_proveedor` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._proveedor: ~3 rows (aproximadamente)
-/*!40000 ALTER TABLE `_proveedor` DISABLE KEYS */;
+
 INSERT INTO `_proveedor` (`id`, `nombre`, `tipo`, `descripcion`, `direccion`, `telefono`, `comentario`, `created_at`, `updated_at`) VALUES
 	(1, 'TECNOLOGING', 'Distribuidor', 'EMPRESA DE TECNOLOGIA VENTA DE TELEFONOS', 'GUYAQUIL', '0999218183', 'GUYAQUIL', '0000-00-00 00:00:00', '2020-04-27 12:20:26'),
 	(3, 'LGcc', 'Fabricantes', 'lggg', 'MIAMI', '0999218186s', 'MIAMI', '2020-04-26 23:39:56', '2020-04-27 13:11:50'),
 	(6, 'gregorio osorio', 'Fabricantes', 'ventas de software', 'urdenor2', '0999218183', 'pruebas de sistema', '2020-04-27 12:21:14', '2020-04-27 12:21:14');
-/*!40000 ALTER TABLE `_proveedor` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_._recaudaciones
 CREATE TABLE IF NOT EXISTS `_recaudaciones` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ventas_id` int(11) NOT NULL,
@@ -629,25 +574,17 @@ CREATE TABLE IF NOT EXISTS `_recaudaciones` (
   KEY `FK__recaudaciones__clientes` (`cliente_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._recaudaciones: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `_recaudaciones` DISABLE KEYS */;
-/*!40000 ALTER TABLE `_recaudaciones` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_._tipopago
 CREATE TABLE IF NOT EXISTS `_tipopago` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._tipopago: ~2 rows (aproximadamente)
-/*!40000 ALTER TABLE `_tipopago` DISABLE KEYS */;
 INSERT INTO `_tipopago` (`id`, `nombre`) VALUES
 	(1, 'ABONO'),
 	(2, 'CUOTAS');
-/*!40000 ALTER TABLE `_tipopago` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_._tipoventa
 CREATE TABLE IF NOT EXISTS `_tipoventa` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
@@ -658,14 +595,11 @@ CREATE TABLE IF NOT EXISTS `_tipoventa` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._tipoventa: ~2 rows (aproximadamente)
-/*!40000 ALTER TABLE `_tipoventa` DISABLE KEYS */;
+
 INSERT INTO `_tipoventa` (`id`, `nombre`, `descripcion`, `porcentaje`, `created_at`, `updated_at`) VALUES
 	(1, 'CREDITO', 'VENTA DE PRODUCTO POR CREDICTO DIRECTO', 30.00, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 	(2, 'DECONTADO', 'VENTA DIRECTA', 0.00, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-/*!40000 ALTER TABLE `_tipoventa` ENABLE KEYS */;
 
--- Volcando estructura para tabla credito_._ventas
 CREATE TABLE IF NOT EXISTS `_ventas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cliente_id` int(11) NOT NULL,
@@ -700,13 +634,5 @@ CREATE TABLE IF NOT EXISTS `_ventas` (
   KEY `FK__ventas__estadoventa` (`estadoVenta_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla credito_._ventas: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `_ventas` DISABLE KEYS */;
 INSERT INTO `_ventas` (`id`, `cliente_id`, `producto_id`, `tipoVenta_id`, `cuota_id`, `cantidadproducto`, `interes`, `valorDeuda`, `porcentajeVenta`, `adicional`, `abono`, `saldo_abono`, `estado_abono`, `descuento`, `intereses`, `monto_cobrar`, `saldoDeuda`, `letras`, `letrasCanceladas`, `totalPagar`, `devolucion`, `contrato`, `users_id`, `estadoVenta_id`, `created_at`, `updated_at`) VALUES
 	(1, 6, 19, 1, 1, 1, 0.1, 700.00, 0.00, 0.00, 50.00, 0.00, 1, 0.00, 2.60, 650.00, 252.52, 7, 4, 652.52, 0.00, '4545445', 'gosorio', 2, '2021-05-01 14:22:35', '2021-05-01 15:12:50');
-/*!40000 ALTER TABLE `_ventas` ENABLE KEYS */;
-
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

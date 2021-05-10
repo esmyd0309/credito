@@ -380,11 +380,12 @@
                         <strong>Valor: </strong> {{item.valor}}<br/>
                         <strong>Banco Origen: </strong> {{item.origen}}<br/>
                         <strong>Banco Destino: </strong> {{item.destino}}<br/>
-                    <strong>Comentario: </strong> {{item.comentario}}<br/>
+                        <strong>Comentario: </strong> {{item.comentario}}<br/>
                         <strong>Nombre Archivo: </strong> {{item.nombreArchivo}}<br/>
-
+                        <button type="button" @click="deletePago(item.id)" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>
+                    
                     </b-card-text>
-                    </b-card-body>
+                     </b-card-body>
                 </b-col>
                 </b-row>
             </b-card>
@@ -848,6 +849,48 @@ export default  {
                             'error'
                         )
                     });
+        },
+         deletePago(value){
+           
+          swal({
+                    title: '¿Seguro que quieres eliminar el Pago?',
+                    text: "No podrás revertir esta acción luego",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonText: 'Si, borrarlo!'
+                }).then((result) => {
+                    if (result.value) 
+                    {
+                        let me = this
+                        axios.delete(this.enlace+'deletepago/'+value)
+                        .then( res => {
+                            this.show=false
+                            this.getrow()
+                            swal(
+                            'Borrarlo!',
+                            'Pago eliminado.',
+                            'success'
+                            )
+                        })
+                        .catch( err => {
+                            console.log(err)
+                            let error = err.response.data
+                            if (err.response.data == 'Unauthorized.') 
+                            {
+                                error = 'Pago con rol no autorizado'
+                            }
+                            swal(
+                                'Error',
+                                error,
+                                'error'
+                            )
+                        })
+                    }
+                })
+                
         }
     }
 }

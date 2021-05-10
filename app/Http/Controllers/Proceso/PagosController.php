@@ -453,12 +453,58 @@ class PagosController extends Controller
         
             return response()->json(['success' => 'Recibo Cargado Correctamente'], 200);
 
+    }
 
-      
-     
-
+    public function destroy($id)
+    {
+        $pago = Pagos::where('id',$id)->first();
        
-         
+        /**
+         * traemos los datos del pago a anular
+         */
+        $saldo_anterior = $pago->saldo_anterior;
+        $ventas_id = $pago->ventas_id;
+        $clientes_id = $pago->clientes_id;
+        $valor = $pago->valor;
+
+        $usuario =\Auth::user()->usuario;
+        /**
+         * buscamos el ultima cuota cancelada para sumarle el valor anular 
+         */
+        $ultimacancelada = Cuotasdetalle::where('venta_id', $ventas_id)->where('estado','=','CANCELADA')->get();
+        
+        if(!empty($ultimacancelada)) {//sin cuotas canceladas
+            
+       
+            $id_pagoRecargo = $ultimacancelada->last()->id;// obtener el id de la ultima cuota cancelada
+            $saldoActual_cuota = $ultimacancelada->last()->saldo_cuota;// traer la el saldo de la cuota
+            $saldoActual_cuotaAsignar = $saldoActual_cuota+$valor;// sumar valores de la cuotas
+        
+
+            /***
+             * actualizamos los valores
+             */
+
+            Ventas::where('id',$ventas_id)->update(['saldoDeuda' =>  $saldo_anterior]);
+            Cuotas::where('venta_id',$ventas_id)->update(['saldodeuda' =>  $saldo_anterior]);
+            Cuotasdetalle::where('id',$id_pagoRecargo)->update(['saldo_cuota' =>  $saldoActual_cuotaAsignar]);
+            Cuotasdetalle::where('id',$id_pagoRecargo)->update(['estado' =>  'PENDIENTE']);
+            Pagos::where('id',$id)->update(['anulado' =>  1]);
+            Pagos::where('id',$id)->update(['agenteAnula' =>  $usuario]);
+            
+            return response()->json(['success' => 'Se ha anulado el Pago!! INCREMENTO LA CUOTA']);
+
+        }else{//sumar al abono
+            $venta = Ventas::where('id', $ventas_id)->first();
+            $saldo_abono = $venta->saldo_abono+$valor;
+            Ventas::where('id',$ventas_id)->update(['saldo_abono' =>  $saldo_abono]);
+
+            Pagos::where('id',$id)->update(['anulado' =>  1]);
+            Pagos::where('id',$id)->update(['agenteAnula' =>  $usuario]);
+            
+            return response()->json(['success' => 'Se ha anulado el Pago!! INCREMENTO EL ABONO']);
+        }
+
        
     }
 }

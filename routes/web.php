@@ -228,6 +228,7 @@ Route::resource('cuotas', 'Proceso\CuotasController');
 Route::resource('pagos', 'Proceso\PagosController');
 Route::get('getPagos', 'Proceso\PagosController@getPagos');
 Route::get('getProductosCliente/{id}', 'Proceso\PagosController@getProductosCliente');
+Route::delete('/deletepago/{id}', 'Proceso\PagosController@destroy');
 
 Route::get('pagosdetalle/{idv}', 'Proceso\PagosController@pagosdetalle');
 Route::get('recibodescargar/{id}/{idcliente}/{ventas_id}', 'Proceso\PagosController@recibodescargar');
