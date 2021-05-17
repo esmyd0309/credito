@@ -222,6 +222,8 @@ Route::get('getProductosVentasPrecio/{id}', 'Proceso\ApiController@getProductosV
 
 Route::resource('ventas', 'Proceso\VentasController');
 Route::get('getVentastt', 'Proceso\ApiController@getVentastt');
+Route::delete('/deleteventa/{id}', 'Proceso\ApiController@deleteventa');
+
 
 Route::resource('cuotas', 'Proceso\CuotasController');
 

@@ -197,7 +197,8 @@
        
         @if (!empty($pago->id )) 
             <small>Recibo Id: </small>
-            <small> <STRong>#{{$pago->id}}</STRong>   </small><br>
+
+            <small> <STRong>#{{ $pago->reciboNumero }}</STRong>   </small><br>
         @endif
         @if (!empty($pago->agente )) 
             <small>Recaudador: </small>

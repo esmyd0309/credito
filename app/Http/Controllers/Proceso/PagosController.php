@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use App\Models\Proceso\Cuotas;
+use App\Models\Proceso\Facturacion;
 use App\Models\Proceso\Cuotasdetalle;
 
 use Carbon\Carbon;
@@ -75,6 +76,7 @@ class PagosController extends Controller
     {
     
             $pago = Pagos::where('id',$id)->first();
+           
             $cliente = Clientes::where('id',$clientes_id)->first();
             $venta = Ventas::where('id',$ventas_id)->first();
            
@@ -96,7 +98,7 @@ class PagosController extends Controller
      */
     public function index(Request $request)
     {
-       
+        
         return view('proceso.pagos.index');
     }
 
@@ -124,6 +126,10 @@ class PagosController extends Controller
         $ano= $date->format('Y');
         $mes= $date->format('m');
         $dia= $date->format('d');
+
+        $datos =  Facturacion::first();
+        $reciboNumero = $datos->numero+1;
+        
 
         $clientes_id = $request->clientes_id;
         $venta_id = $request->venta_id;
@@ -180,7 +186,7 @@ class PagosController extends Controller
                     $pagos->origen_id =$request->origen_id;
                     $pagos->destino_id =$request->destino_id;
                     $pagos->saldo_anterior =$saldo_anterior;
-                    //$pagos->letra =$request->letra; SE ESTA CALCULANDO
+                    $pagos->reciboNumero =$reciboNumero;
                     $pagos->saldo_actual =$saldo_anterior-$valorPago;
                     $pagos->valor =$valorPago;
                     $pagos->fechapago =$request->fechapago;
@@ -255,7 +261,8 @@ class PagosController extends Controller
                     $letrasCANCELADAS = Cuotasdetalle::where('venta_id', $venta_id)->where('estado','=','CANCELADA')->count();
                     Ventas::where('id',$venta_id)->update(['letrasCanceladas' =>  $letrasCANCELADAS]);
                     Pagos::where('id', $pagos->id)->update(['letra' =>  $letrasCANCELADAS]);
-                    
+
+                    Facturacion::where('id', 1)->update(['numero' => $reciboNumero]);
 
                     return response()->json(['success' => 'Pago Registrado con un Abono'], 200);
             }else
@@ -284,7 +291,7 @@ class PagosController extends Controller
                 $pagos->origen_id =$request->origen_id;
                 $pagos->destino_id =$request->destino_id;
                 $pagos->saldo_anterior =$saldo_anterior;
-                //$pagos->letra =$request->letra; SE ESTA CALCULANDO
+                $pagos->reciboNumero =$reciboNumero;
                 $pagos->saldo_actual =$saldo_anterior-$request->valor;
                 $pagos->valor =$request->valor;
                 $pagos->fechapago =$request->fechapago;
@@ -355,6 +362,8 @@ class PagosController extends Controller
                     Ventas::where('id',$venta_id)->update(['letrasCanceladas' =>  $letrasCANCELADAS]);
                     Pagos::where('id',$venta_id)->update(['letra' =>  $letrasCANCELADAS]);
 
+                    Facturacion::where('id', 1)->update(['numero' => $reciboNumero]);
+
                 return response()->json(['success' => 'Pago Registrado Correctamente'], 200);
             }
   
@@ -402,7 +411,7 @@ class PagosController extends Controller
             $pagos->origen_id =$request->origen_id;
             $pagos->destino_id =$request->destino_id;
             $pagos->saldo_anterior =$saldo_anterior;
-            //$pagos->letra =$request->letra; SE ESTA CALCULANDO
+            //$pagos->reciboNumero =$pagos->id;
             $pagos->saldo_actual =$saldo_anterior-$valorPago;
             $pagos->valor =$valorPago;
             $pagos->fechapago =$request->fechapago;
@@ -413,6 +422,8 @@ class PagosController extends Controller
             $pagos->nombreArchivo =$nombre;
             }
             $pagos->save();
+
+            Pagos::where('id',$pagos->id)->update(['reciboNumero' => $pagos->id]);
 
             return response()->json(['success' => 'Se registro el Pago con Exito.'], 200);
         }

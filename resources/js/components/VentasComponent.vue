@@ -266,7 +266,7 @@
                 </b-row>
                 <template v-if="calcularPeriodo != null && calcularPeriodo > 0">
                     <div class="form-group" v-if="cuota">
-                          <b-alert show variant="primary"><a class="alert-link"> <center> Pago realizados a un plazo de {{ calcularPeriodo }} mes(es)</center></a></b-alert>
+                          <b-alert show variant="primary" v-if="tipoventa_id=='1'"><a class="alert-link"> <center> Pago realizados a un plazo de {{ calcularPeriodo }} mes(es)</center></a></b-alert>
                     </div>
                 </template>
                 <div class="card-footer">
@@ -415,6 +415,7 @@
         >
             <b-row>
                 <b-col md="6">
+                     
                     <b-card
                         header="Producto"
                         
@@ -425,7 +426,8 @@
                                <strong>Cantidad: </strong> <small>{{ item.cantidadproducto }}</small> 
                                <strong>Modelo: </strong> <small>{{ item.modelo }}</small><br> 
                                <strong>Precio c/u: </strong> <small>{{ item.total }}</small>
-                               <b-badge v-bind:style="{ color: item.color }" variant="light"> {color}<span class="sr-only"></span></b-badge>
+                               <b-badge v-bind:style="{ color: item.color }" variant="light"> {color}<span class="sr-only"></span></b-badge> <br/>
+                                <button type="button" @click="deleteVenta(item.venta_id)" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>
                         </b-card-footer>
                      
                     </b-card>
@@ -1521,6 +1523,48 @@ export default  {
                     this.reporteVentas = res.data;
             });
              
+        },
+        deleteVenta(value){
+           console.log(value);
+          swal({
+                    title: '¿Seguro que quieres eliminar la Venta?',
+                    text: "No podrás revertir esta acción luego",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonText: 'Si, borrarlo!'
+                }).then((result) => {
+                    if (result.value) 
+                    {
+                       
+                        axios.delete(this.enlace+'deleteventa/'+value)
+                        .then( res => {
+                            this.show=false
+                            this.getdatosventa()
+                            swal(
+                            'Borrado!',
+                            'Venta eliminada.',
+                            'success'
+                            )
+                        })
+                        .catch( err => {
+                            console.log(err)
+                            let error = err.response.data
+                            if (err.response.data == 'Unauthorized.') 
+                            {
+                                error = 'Venta con rol no autorizado'
+                            }
+                            swal(
+                                'Error',
+                                error,
+                                'error'
+                            )
+                        })
+                    }
+                })
+                
         }
        
         

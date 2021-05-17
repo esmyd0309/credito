@@ -10,6 +10,7 @@ use App\Models\Proceso\Productos;
 use App\Models\Proceso\Clientes;
 use App\Models\Proceso\TipoVenta;
 use App\Models\Proceso\Bancos;
+use App\Models\Proceso\Ventas;
 use App\Models\Proceso\BancosDestino;
 use DB;
 use DataTables;
@@ -344,6 +345,14 @@ class ApiController extends Controller
         return response()->json($getCliente, 200);
     }
 
+    public function deleteventa($id){
+        //dd($id);
+        Ventas::find($id)->delete();
+     
+        DB::connection('mysql')->statement("DELETE FROM _cuotasdetalle WHERE venta_id='$id'");
+        DB::connection('mysql')->statement("DELETE FROM _cuotas WHERE venta_id='$id'");
+        return response()->json(['success'=>'Registro Borrado.']);
+    }
 
     
 

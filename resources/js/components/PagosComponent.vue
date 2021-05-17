@@ -447,7 +447,7 @@ export default  {
             productos: [],
             errorPago: 0,
             errorMostrarMsgPago: [],
-
+            credito: true,
             ///
             showgestion: false,
             variants: ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark'],
@@ -570,7 +570,7 @@ export default  {
         
         clienteinput(value){
             this.clientes_id = '';
-            console.log(value);
+            //console.log(value);
             this.clientes_id = value.id
             if (this.clientes_id ) {
                 axios.get(this.enlace+'getProductosCliente/'+this.clientes_id)
@@ -599,11 +599,13 @@ export default  {
                         axios.get(this.enlace+'amortizaciondetalle/'+this.venta_id)
                             .then(res => {
                             this.cuotas = res.data;
-                            console.log(this.cuotas );
+                           
                          });
                          
                 }
-            
+                
+   
+              
               
             }
                
@@ -622,14 +624,14 @@ export default  {
         getbancodestino(value){
             if (value) {
                 this.form.destino_id = value.id
-                console.log(this.form.destino_id)
+               // console.log(this.form.destino_id)
             }
         },
 
         getbancoorigen(value){
             if (value) {
                 this.form.origen_id = value.id
-                console.log(this.form.origen_id)
+                //console.log(this.form.origen_id)
             }
         },
         postPagos()
