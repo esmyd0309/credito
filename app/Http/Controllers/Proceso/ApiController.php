@@ -365,6 +365,19 @@ class ApiController extends Controller
                                                     ");
         return response()->json($incumplidos, 200);
     }
+    public function detalleincumplido($fecha){
+        $detalleincumplido = DB::connection('mysql')->select("SELECT COUNT(a.saldo_cuota) AS cantidad, SUM(a.saldo_cuota) AS valorpendiente, c.cedula,c.numero
+        FROM _cuotasdetalle  AS a, _ventas AS b, _clientes AS c
+        
+        WHERE 
+                estado='PENDIENTE' 
+        AND 	fecha_pago='$fecha'
+        AND	a.venta_id=b.id
+        AND 	b.cliente_id=c.id
+        GROUP BY c.cedula,c.numero
+        ORDER BY c.cedula DESC ");
+        return response()->json($detalleincumplido, 200);
+    }
 
     
 
