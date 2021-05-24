@@ -27,7 +27,7 @@ class VentasController extends Controller
 
     public function reportes()
     {
-       dd('dd');
+      
         return view('proceso.ventas.reportes');
     }
 

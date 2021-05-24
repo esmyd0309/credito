@@ -255,7 +255,7 @@ Route::get('getVentaschart', 'Proceso\ApiController@getVentaschart');
 
    Route::get('reporte', 'Proceso\VentasController@reportes')->name('ventas.reportes');
 
-   Route::get('ventas/reporte/incumplidos', 'Proceso\ApiController@incumplidos');
+   Route::get('reporte/incumplidos', 'Proceso\ApiController@incumplidos');
 });
 
 

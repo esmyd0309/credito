@@ -1,6 +1,25 @@
 <template>
     <div>
-        pppp
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">Cantidad</th>
+                        <th class="text-center">Valor</th>
+                        <th class="text-center">Fecha</th>
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(data, index) in incumplidos" :key="index">
+                        <td class="text-center"> {{data.CANTIDAD}}</td>
+                        <td class="text-center">$ {{data.PENDIENTE}}</td>
+                        <td class="text-center">{{data.fecha_pago}}</td>
+                      
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -21,12 +40,15 @@
         
         data() {
             return {
-
+                incumplidos: null
             }
         },
         created(){
      
-           
+            axios.get('reporte/incumplidos')
+                        .then(res => {
+                        this.incumplidos = res.data;
+                    });
         
         },
          methods: {
