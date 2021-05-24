@@ -682,8 +682,14 @@
                                             <td class="text-center"> {{ data.letra }}</td>
                                             <td class="text-center"> {{ data.origen }}</td>
                                             <td class="text-center"> {{ data.destino }}</td>
-                                                            
-                                             <td> <b-button class="mt-3" variant="outline-danger" :href="enlacerecibo+data.id+'/'+data.clientes_id+'/'+data.ventas_id" block >Recibo</b-button></td>               
+                                            <td>
+                                                <input type="text" class="form-control"  v-model="data.reciboNumero"   required="required" placeholder="Ingrese el numero de recibo de pago">
+                                                <b-col >
+                                                    <b-button @click="descargarrecibo(data)" class="mt-3" variant="outline-success" block >Actualizar</b-button>
+                                                </b-col>
+                                                
+                                            </td>                
+                                             <td v-if="botonRecibo"> <b-button class="mt-3" variant="outline-danger" :href="enlacerecibo+data.id+'/'+data.clientes_id+'/'+data.ventas_id" block >Recibo</b-button></td>               
                                         </tr>
                                     </tbody>         
                             </table>
@@ -828,7 +834,8 @@ export default  {
                 cuota_fija: 0.0,
                 saldo_cuota2: 0.0,
                 getproducto: [],
-                pagosdetalles: null
+                pagosdetalles: null,
+                botonRecibo: false
                 
         }
     },
@@ -906,6 +913,7 @@ export default  {
             {headerName: 'Producto', field: 'producto'},
             {headerName: 'Valor Deuda', field: 'valorDeuda'},
             {headerName: 'Saldo Deuda', field: 'saldoDeuda'},
+            {headerName: 'Fecha', field: 'fecha'},
             {headerName: 'Fecha', field: 'fecha'}
         ];
         this.defaultColDef = {
@@ -1474,7 +1482,12 @@ export default  {
                 this.id_clientes = element.id_clientes;
                 this.nombrearchivo = element.producto;
                 this.valorDeudaarchivo = element.valorDeuda;
-              
+                console.log(element);
+                    if(element.reciboNumero){
+                        this.botonRecibo = true;
+                    }else{
+                        this.botonRecibo = false;
+                    }
             });
                
                 axios.get(this.enlace+'getventasid/'+this.idv)
@@ -1565,7 +1578,36 @@ export default  {
                     }
                 })
                 
-        }
+        },
+        descargarrecibo(values) {
+            
+        const parametros  = {
+                        reciboNumero:            values.reciboNumero,
+                        pago_id:                 values.id,
+                        }
+            axios.post(this.enlace+'numerorecibo',parametros)
+                .then(res => {
+                   
+                    swal(
+                            'Recibo Actualzado con Exito,',
+                            res.data.success,
+                            'success'
+                        )
+                })
+                .catch(err => {
+                        console.log(err.response.data)
+                        swal(
+                            'Error',
+                            err.response.data,
+                            'error'
+                        )
+                });
+
+            this.botonRecibo = true;
+                
+            
+        },
+
        
         
     }

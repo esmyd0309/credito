@@ -25,6 +25,12 @@ class VentasController extends Controller
         return view('proceso.ventas.index');
     }
 
+    public function reportes()
+    {
+       dd('dd');
+        return view('proceso.ventas.reportes');
+    }
+
 
     /**
      * Show the form for creating a new resource.

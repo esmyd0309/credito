@@ -39,7 +39,7 @@
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Utilidades</h6>
         <a class="collapse-item" href="{{ route('ventas.index') }}">Listado</a>
-        <a class="collapse-item" href="#">Reportes</a>
+        <a class="collapse-item" href="{{ route('ventas.reportes') }}">Reportes</a>
       </div>
     </div>
   </li>

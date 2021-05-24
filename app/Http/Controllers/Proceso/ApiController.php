@@ -354,6 +354,18 @@ class ApiController extends Controller
         return response()->json(['success'=>'Registro Borrado.']);
     }
 
+    public function incumplidos(){
+        $incumplidos = DB::connection('mysql')->select("SELECT COUNT(ID) AS CANTIDAD,SUM(saldo_cuota) AS PENDIENTE, fecha_pago 
+                                                        FROM _cuotasdetalle 
+                                                        WHERE 
+                                                                estado='PENDIENTE' 
+                                                        AND 	fecha_pago<  CURDATE()
+                                                        GROUP BY fecha_pago
+                                                        ORDER BY fecha_pago DESC 
+                                                    ");
+        return response()->json($incumplidos, 200);
+    }
+
     
 
 

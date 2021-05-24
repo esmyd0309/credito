@@ -54,6 +54,7 @@ Vue.component('producto-component', require('./components/ProductoComponent.vue'
 Vue.component('ventas-component', require('./components/VentasComponent.vue').default);
 Vue.component('simulador-component', require('./components/SimuladorComponent.vue').default);
 Vue.component('pagos-component', require('./components/PagosComponent.vue').default);
+Vue.component('vreportes-component', require('./components/Reportes/IncumplidosComponent.vue').default);
 
 
 

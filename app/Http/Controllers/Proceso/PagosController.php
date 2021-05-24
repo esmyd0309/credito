@@ -33,7 +33,8 @@ class PagosController extends Controller
      
               ->join('bancos','_pagos.origen_id','bancos.id')
               ->join('bancosdestino','_pagos.destino_id','bancosdestino.id')
-              ->select ('_pagos.*','bancos.nombre as origen','bancosdestino.nombre as destino')
+              ->join('_clientes','_pagos.clientes_id','_clientes.id')
+              ->select ('_pagos.*','bancos.nombre as origen','bancosdestino.nombre as destino','_clientes.cedula')
             
               ->get();
       
@@ -101,7 +102,12 @@ class PagosController extends Controller
         
         return view('proceso.pagos.index');
     }
-
+    public function numerorecibo(Request $request)
+    {
+       
+        $pagos = Pagos::where('id', $request->pago_id)->update(['reciboNumero' =>  $request->reciboNumero]);
+        return response()->json($pagos);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -112,6 +118,8 @@ class PagosController extends Controller
     {
         //
     }
+
+
 
     /**
      * Store a newly created resource in storage.

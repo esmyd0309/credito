@@ -231,6 +231,7 @@ Route::resource('pagos', 'Proceso\PagosController');
 Route::get('getPagos', 'Proceso\PagosController@getPagos');
 Route::get('getProductosCliente/{id}', 'Proceso\PagosController@getProductosCliente');
 Route::delete('/deletepago/{id}', 'Proceso\PagosController@destroy');
+Route::post('numerorecibo', 'Proceso\PagosController@numerorecibo');
 
 Route::get('pagosdetalle/{idv}', 'Proceso\PagosController@pagosdetalle');
 Route::get('recibodescargar/{id}/{idcliente}/{ventas_id}', 'Proceso\PagosController@recibodescargar');
@@ -251,6 +252,10 @@ Route::get('getFormaspagochart', 'Proceso\ApiController@getFormaspagochart');
 Route::get('getVentaschart', 'Proceso\ApiController@getVentaschart');
    Route::get('getpagosTT', 'Proceso\ApiController@getpagosTT');
    Route::get('getCliente/{cedula}', 'Proceso\ApiController@getCliente');
+
+   Route::get('reporte', 'Proceso\VentasController@reportes')->name('ventas.reportes');
+
+   Route::get('ventas/reporte/incumplidos', 'Proceso\ApiController@incumplidos');
 });
 
 

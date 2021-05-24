@@ -374,6 +374,7 @@
                 <b-col md="4">
                     <b-card-body title="Detalle de la Recaudación">
                     <b-card-text v-for="(item, index) in showDocumento" :key="index"><br/>
+                        <strong>Cliente: </strong> {{item.cedula}} <br/>
                         <strong>Documento: </strong> {{item.documento}} <br/>
                         <strong>Fecha De Pago: </strong> {{item.fechapago}}<br/>
                         <strong>Forma de Pago:</strong> {{item.formapago}}<br/>
@@ -381,10 +382,21 @@
                         <strong>Banco Origen: </strong> {{item.origen}}<br/>
                         <strong>Banco Destino: </strong> {{item.destino}}<br/>
                         <strong>Comentario: </strong> {{item.comentario}}<br/>
-                        <strong>Nombre Archivo: </strong> {{item.nombreArchivo}}<br/>
-                        <button type="button" @click="deletePago(item.id)" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>
-                    
+                         <strong>Numero de Recibo: </strong> {{item.reciboNumero}}<br/>
+                        <strong>Nombre Archivo: </strong> {{item.nombreArchivo}}<br/><br/>
+                       
+                        <input type="text" class="form-control"  v-model="item.reciboNumero"   required="required" placeholder="Ingrese el numero de recibo de pago">
+                        <b-col >
+                            <b-button @click="descargarrecibo(item)" class="mt-3" variant="outline-success" block >Actualizar</b-button>
+                        </b-col>
+                        <div v-if="botonRecibo">
+                            <b-button class="mt-3" variant="outline-danger" :href="enlacerecibo+item.id+'/'+item.clientes_id+'/'+item.ventas_id" block >Recibo</b-button>
+                        </div>
+                       
+                        <br/> <br/>
+                         <button type="button" @click="deletePago(item.id)" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button>
                     </b-card-text>
+                   
                      </b-card-body>
                 </b-col>
                 </b-row>
@@ -425,7 +437,7 @@ export default  {
                 comentario: '',
                 origen_id: '',
                 destino_id: '',
-                //letra: '',
+                numerorecibo: '',
             },
             columnDefs: null,
             rowData: null,
@@ -439,6 +451,7 @@ export default  {
             dismissSecs: 10,
             dismissCountDown: 0,
             enlace: 'http://app2.datamarketingplus.ec/',
+            enlacerecibo: 'http://app2.datamarketingplus.ec/recibodescargar/',
             file: [],
             success: '',
             image: '',
@@ -485,6 +498,7 @@ export default  {
             id_pago: '',
             getpagosTT: [],
 
+            botonRecibo: false
         }
     },
     components: {
@@ -532,11 +546,12 @@ export default  {
         this.columnDefs = [
             {headerName: 'Id', field: 'id'},
             {headerName: 'Registrado', field: 'fecha'},
-            {headerName: 'Agente', field: 'agente'},
+            {headerName: 'Cliente', field: 'cedula'},
             {headerName: 'Documento', field: 'documento'},
             {headerName: 'Forma Pago', field: 'formapago'},
             {headerName: 'Feha Pago', field: 'fechapago'},
             {headerName: 'Valor', field: 'valor'},
+            {headerName: 'Numero Rb.', field: 'reciboNumero'},
             {headerName: 'Banco Origen', field: 'origen'},
             {headerName: 'Banco Destino', field: 'destino'},
             {headerName: 'Comentario', field: 'comentario'},
@@ -544,7 +559,9 @@ export default  {
             {headerName: 'Nombre Archivo', field: 'nombreArchivo'},
             {headerName: 'Cargado Archivo', field: 'agenteRecibo'},
             {headerName: 'fecha Archivo', field: 'fechaRecibo'},
-
+            {headerName: 'Agente', field: 'agente'},
+            {headerName: 'clientes_id', field: 'clientes_id'},
+            {headerName: 'ventas_id', field: 'ventas_id'},
 
 
         ];
@@ -560,6 +577,7 @@ export default  {
         fetch(this.enlace+'getPagos')
             .then(result => result.json())
             .then(rowData => this.rowData = rowData);
+           
     },
     mounted() {
         this.gridApi = this.gridOptions.api;
@@ -760,7 +778,8 @@ export default  {
                 this.showarchivo = "http://app2.datamarketingplus.ec/"+selectedRowsString
             }
             this.showDocumento = selectedRows
-            
+            //console.log(this.showDocumento);
+
             if (selectedRows.length > maxToShow) {
                 var othersCount = selectedRows.length - maxToShow;
                 selectedRowsString +=
@@ -769,6 +788,12 @@ export default  {
             document.querySelector('#selectedRows').innerHTML = selectedRowsString;
             selectedRows.forEach(element => {
                 this.id_pago = element.id;
+                if(element.reciboNumero){
+                    this.botonRecibo = true;
+                }else{
+                    this.botonRecibo = false;
+                }
+                
 
             });
             this.show=true
@@ -812,6 +837,37 @@ export default  {
             this.dismissCountDown=false
           
         },
+      
+        descargarrecibo(values) {
+            
+        const parametros  = {
+                        reciboNumero:                 values.reciboNumero,
+                        pago_id:                 values.id,
+                        }
+            axios.post(this.enlace+'numerorecibo',parametros)
+                .then(res => {
+                   
+                    swal(
+                            'Recibo Actualzado con Exito,',
+                            res.data.success,
+                            'success'
+                        )
+                })
+                .catch(err => {
+                        console.log(err.response.data)
+                        swal(
+                            'Error',
+                            err.response.data,
+                            'error'
+                        )
+                });
+
+       this.botonRecibo = true;
+            
+          
+        },
+
+
         createImage(file) {
             if (file) {
                 let reader = new FileReader();
