@@ -48,7 +48,7 @@ class CuotasController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
+      
 
         try
         {     
@@ -66,15 +66,18 @@ class CuotasController extends Controller
                 $ventas->tipoVenta_id = $request->tipoventa_id;
                 $ventas->interes = $request->interes;
                 $ventas->letras = $request->periodo;
-                $ventas->valorDeuda = $request->montodeuda;
-                $ventas->abono = $request->abono;
-                $ventas->saldo_abono = $request->abono;
+                
+                
                 $ventas->estado_abono = 1;
                 $ventas->adicional = $request->adicional;
                 $ventas->descuento = $request->descuento;
-                $ventas->monto_cobrar = $request->monto_cobrar;
 
+                $ventas->valorDeuda = $request->montodeuda;
+                $ventas->abono = $request->abono;
+                $ventas->saldo_abono = $request->abono;
+                $ventas->monto_cobrar = $request->montodeuda;
 
+                $ventas->totalPagar = $request->montodeuda;
                 $ventas->contrato = $request->contrato;
                 $ventas->cantidadproducto = $request->cantidadproducto;
                 $ventas->users_id = \Auth::user()->usuario;
@@ -88,7 +91,7 @@ class CuotasController extends Controller
                 $cuota = new Cuotas();
                 $cuota->cliente_id = $request->cliente_id;
                 $cuota->venta_id = $ventas->id;
-                //$cuota->saldodeuda = $request->monto_cobrar;
+                $cuota->saldodeuda = $request->monto_cobrar;
                 $cuota->periodo = $request->periodo;
                 $cuota->interes = $request->interes;
                 $cuota->cuota = $request->cuota;
@@ -133,7 +136,7 @@ class CuotasController extends Controller
                                 (SELECT SUM(interes) AS intereses, SUM(cuota) AS SaldoDeuda,cuota_id
                                     FROM _cuotasdetalle 
                                     WHERE cuota_id=$cuota->id) AS T2 
-                                    SET T1.intereses=T2.intereses,T1.saldodeuda=T2.SaldoDeuda,T1.totalPagar=T2.SaldoDeuda
+                                    SET T1.intereses=T2.intereses,T1.saldodeuda=T2.SaldoDeuda-- ,T1.totalPagar=T2.SaldoDeuda
                                 WHERE 
                                         T1.cuota_id = T2.cuota_id 
                                     AND T1.id=$ventas->id 

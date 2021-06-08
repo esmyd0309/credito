@@ -144,7 +144,8 @@ class PagosController extends Controller
         $valorPago = $request->valor;
 
         $datos =  Ventas::where('id',$venta_id)->first();
-        $saldo_anterior = floatval($datos->saldoDeuda+$datos->abono);
+        
+        $saldo_anterior = floatval($datos->saldoDeuda);
        
         if ($datos->tipoVenta_id==1) { ///si es credito
           

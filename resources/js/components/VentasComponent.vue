@@ -448,7 +448,8 @@
                             <strong>Fecha Compra: </strong> <small>{{ item.fechacreado }}</small><br> 
                             <strong>Vendedor: </strong> <small>{{ item.users_id }}</small><br>  
                             <strong>Tipo de Venta: </strong> <small>{{ item.tipoventa }}</small><br>
-                            <strong>Descuento: </strong> <small>${{ item.descuento }}</small> <br> 
+                            <strong>Descuento: </strong> <small>$ {{ item.descuento }}</small> <br> 
+                            <strong>Saldo del Abono: </strong> <small>${{ item.saldo_abono }}</small> <br>
                             <strong>Saldo de la Deuda: </strong> <small>${{ item.saldoDeuda }}</small> 
                         </b-card-text>
                     </b-card>
@@ -744,7 +745,8 @@ export default  {
     name: 'ventas',
       /*
       Defines the data used by the component
-    */components:{
+    */
+   components:{
             Loading
         },
     data() {

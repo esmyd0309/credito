@@ -189,6 +189,7 @@ class ApiController extends Controller
                                                         a.adicional,
                                                         a.monto_cobrar,
                                                         a.users_id, 
+                                                        a.saldo_abono, 
                                                         a.created_at AS fechacreado,
                                                         a.contrato,
                                                         d.nombre AS tipoventa,
@@ -252,10 +253,10 @@ class ApiController extends Controller
     {
         $ttcredito = DB::connection('mysql')->select("SELECT 
                                                         COUNT(id) AS cantidad,
-                                                        SUM(totalPagar)+SUM(abono) AS deuda,
+                                                        SUM(totalPagar) AS deuda,
                                                         SUM(saldoDeuda)+SUM(saldo_abono) AS saldo,
-                                                        (SUM(totalPagar)+SUM(abono)) -(SUM(saldoDeuda)+SUM(saldo_abono))   recuperado ,
-                                                        (SUM(totalPagar)+SUM(abono)) -(SUM(saldoDeuda)+SUM(saldo_abono))   xrecuperar ,
+                                                        (SUM(totalPagar)) -(SUM(saldoDeuda)+SUM(saldo_abono))   recuperado ,
+                                                        (SUM(totalPagar)) -(SUM(saldoDeuda)+SUM(saldo_abono))   xrecuperar ,
                                                         SUM(devolucion) devoluciones
                                                         FROM _ventas
                                                         WHERE tipoVenta_id=1
@@ -282,9 +283,9 @@ class ApiController extends Controller
     {
         $reporteVentas = DB::connection('mysql')->select("SELECT 
                                                             COUNT(id) AS cantidad,
-                                                            SUM(totalPagar)+SUM(abono) AS deuda,
+                                                            SUM(totalPagar) AS deuda,
                                                             SUM(saldoDeuda)+SUM(saldo_abono) AS saldo,
-                                                            (SUM(totalPagar)+SUM(abono)) -(SUM(saldoDeuda)+SUM(saldo_abono))   recuperado ,
+                                                            SUM(totalPagar) -(SUM(saldoDeuda)+SUM(saldo_abono))   recuperado ,
                                                             SUM(devolucion) devoluciones
                                                             FROM _ventas
                                                     ");
