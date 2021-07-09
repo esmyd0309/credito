@@ -97,7 +97,7 @@
 
                 <b-row>
                      <b-col md="12">
-                        <multiselect v-model="form.cliente"  track-by="cedula" label="cedula" placeholder="Seleccione un cliente" :options="clientes" :searchable="true"  @input="clienteinput">
+                        <multiselect v-model="form.cliente"  track-by="nombres" label="nombres" placeholder="Seleccione un cliente" :options="clientes" :searchable="true"  @input="clienteinput">
                             <template slot="singleLabel" slot-scope="{ option }"><strong>{{ option.cedula }}</strong> fue seleccionado<strong>  {{ option.apellidoPaterno }} {{ option.nombre1 }}</strong></template>
                         </multiselect>
                     </b-col>
