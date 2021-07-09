@@ -289,8 +289,10 @@ class ApiController extends Controller
                                                             SUM(totalPagar) AS deuda,
                                                             SUM(saldoDeuda)+SUM(saldo_abono) AS saldo,
                                                             SUM(totalPagar) -(SUM(saldoDeuda)+SUM(saldo_abono))   recuperado ,
-                                                            SUM(devolucion) devoluciones
-                                                            FROM _ventas
+                                                            SUM(devolucion) devoluciones,
+                                                                DATE_FORMAT(updated_at, '%d  %M  %Y')  fecha
+                                                                FROM _ventas
+                                                                GROUP BY DATE_FORMAT(updated_at, '%d  %M  %Y')  
                                                     ");
         return response()->json($reporteVentas, 200);
     }
@@ -298,7 +300,7 @@ class ApiController extends Controller
     public function getPagoschart(Request $request)
     {
         $getPagoschart = DB::connection('mysql')->select("SELECT SUM(valor) AS valor,  DATE_FORMAT(created_at, '%d  %M  %Y') AS fecha FROM _pagos 
-        GROUP BY created_at
+          GROUP BY DATE_FORMAT(created_at, '%d  %M  %Y')  
                                                     ");
         return response()->json($getPagoschart, 200);
     }
