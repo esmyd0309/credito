@@ -33,4 +33,9 @@ class Clientes extends Model
                             'updated_at'
                         ];
     protected $primaryKey = 'id';
+
+    public function getTenantFullNameAttribute()
+{
+    return $this->attributes['nombre1'] .' '. $this->attributes['apellidoPaterno'];
+}
 }

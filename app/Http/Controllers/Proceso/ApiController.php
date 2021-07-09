@@ -78,9 +78,10 @@ class ApiController extends Controller
     public function getclientesVentas(Request $request)
     {
        
-            $clientes = Clientes::orderBy('id', 'asc')
-                ->get()->toArray();
-
+            // $clientes = Clientes::orderBy('id', 'asc') ->get()->toArray();
+            $clientes = DB::connection('mysql')->table('_clientes')
+            ->select('_clientes.*',DB::raw("CONCAT(_clientes.nombre1,' ', _clientes.nombre2,' ',_clientes.apellidoPaterno,' ',_clientes.apellidoMaterno) AS nombres"))
+            ->get()->toArray();
             return response()->json($clientes);
        
     }
