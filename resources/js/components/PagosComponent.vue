@@ -547,6 +547,7 @@ export default  {
             {headerName: 'Id', field: 'id'},
             {headerName: 'Registrado', field: 'fecha'},
             {headerName: 'Cliente', field: 'cedula'},
+            {headerName: 'Nombres', field: 'nombres'},
             {headerName: 'Documento', field: 'documento'},
             {headerName: 'Forma Pago', field: 'formapago'},
             {headerName: 'Feha Pago', field: 'fechapago'},

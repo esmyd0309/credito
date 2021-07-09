@@ -34,8 +34,8 @@ class PagosController extends Controller
               ->join('bancos','_pagos.origen_id','bancos.id')
               ->join('bancosdestino','_pagos.destino_id','bancosdestino.id')
               ->join('_clientes','_pagos.clientes_id','_clientes.id')
-              ->select ('_pagos.*','bancos.nombre as origen','bancosdestino.nombre as destino','_clientes.cedula')
-            
+              ->select('_pagos.*','bancos.nombre as origen','bancosdestino.nombre as destino','_clientes.cedula',DB::raw("CONCAT(_clientes.nombre1,' ', _clientes.nombre2,' ',_clientes.apellidoPaterno,' ',_clientes.apellidoMaterno) AS nombres"))
+   
               ->get();
       
        return response()->json($gestiones);

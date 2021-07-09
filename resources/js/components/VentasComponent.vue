@@ -911,11 +911,11 @@ export default  {
             {headerName: 'Id', field: 'id'},
             {headerName: '# Contrato', field: 'contrato'},
             {headerName: 'Tipo Venta', field: 'tipoventa'},
+            {headerName: 'Nombres', field: 'nombres'},
             {headerName: 'Cliente', field: 'cedula'},
             {headerName: 'Producto', field: 'producto'},
             {headerName: 'Valor Deuda', field: 'valorDeuda'},
             {headerName: 'Saldo Deuda', field: 'saldoDeuda'},
-            {headerName: 'Fecha', field: 'fecha'},
             {headerName: 'Fecha', field: 'fecha'}
         ];
         this.defaultColDef = {
@@ -941,6 +941,7 @@ export default  {
                     .then(res => {
                     this.reporteVentas = res.data;
             });
+          
         
     },
     mounted() {

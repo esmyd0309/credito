@@ -163,13 +163,15 @@ class ApiController extends Controller
                                                     a.saldoDeuda,
                                                     a.users_id, 
                                                     a.created_at AS fecha,
-                                                    c.archivo
+                                                    c.archivo,
+                                                    CONCAT(b.nombre1,' ',b.nombre2,' ', b.apellidoPaterno,' ', b.apellidoMaterno) AS nombres
+                                                    
                                                     FROM _ventas AS a, _clientes AS b, _productos AS c, _tipoventa AS d
                                                     WHERE 
-                                                            a.cliente_id=b.id 
+                                                    a.cliente_id=b.id 
                                                     AND a.producto_id=c.id 
                                                     AND a.tipoVenta_id=d.id
-                                                    ORDER BY a.id desc 
+                                                    ORDER BY a.id DESC 
                                                 ");
         return response()->json($ventas, 200);
     }
