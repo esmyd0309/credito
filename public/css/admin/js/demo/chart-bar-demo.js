@@ -30,7 +30,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 // Bar Chart Example
 
 $.ajax({
-  url: "http://app2.datamarketingplus.ec/reporteVentas",
+  url: "http://app2.datamarketingplus.ec/reporteVentasIndicador",
   method: "GET",
   success: function(data){
       

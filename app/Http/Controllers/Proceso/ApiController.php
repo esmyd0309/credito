@@ -289,6 +289,20 @@ class ApiController extends Controller
                                                             SUM(totalPagar) AS deuda,
                                                             SUM(saldoDeuda)+SUM(saldo_abono) AS saldo,
                                                             SUM(totalPagar) -(SUM(saldoDeuda)+SUM(saldo_abono))   recuperado ,
+                                                            SUM(devolucion) devoluciones
+                                                                FROM _ventas
+                                                                
+                                                    ");
+        return response()->json($reporteVentas, 200);
+    }
+
+    public function reporteVentasIndicador(Request $request)
+    {
+        $reporteVentas = DB::connection('mysql')->select("SELECT 
+                                                            COUNT(id) AS cantidad,
+                                                            SUM(totalPagar) AS deuda,
+                                                            SUM(saldoDeuda)+SUM(saldo_abono) AS saldo,
+                                                            SUM(totalPagar) -(SUM(saldoDeuda)+SUM(saldo_abono))   recuperado ,
                                                             SUM(devolucion) devoluciones,
                                                                 DATE_FORMAT(updated_at, '%d  %M  %Y')  fecha
                                                                 FROM _ventas
@@ -296,6 +310,7 @@ class ApiController extends Controller
                                                     ");
         return response()->json($reporteVentas, 200);
     }
+
 
     public function getPagoschart(Request $request)
     {

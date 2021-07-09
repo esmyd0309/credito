@@ -247,6 +247,7 @@ Route::get('ttcreditos', 'Proceso\ApiController@ttcreditos');
 Route::get('ttdecontado', 'Proceso\ApiController@ttdecontado');
 
 Route::get('reporteVentas', 'Proceso\ApiController@reporteVentas');
+Route::get('reporteVentasIndicador', 'Proceso\ApiController@reporteVentasIndicador');
 Route::get('getPagoschart', 'Proceso\ApiController@getPagoschart');
 Route::get('getFormaspagochart', 'Proceso\ApiController@getFormaspagochart');
 Route::get('getVentaschart', 'Proceso\ApiController@getVentaschart');
