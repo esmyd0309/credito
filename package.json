@@ -31,7 +31,7 @@
         "jspdf": "^1.5.3",
         "jspdf-autotable": "^3.2.3",
         "magic-vue-input": "^1.1.0",
-        "moment": "^2.24.0",
+        "moment": "^2.29.4",
         "sweetalert2": "^7.20.6",
         "v-money": "^0.8.1",
         "vue-currency-input": "^1.18.2",
